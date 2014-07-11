@@ -1,0 +1,7 @@
+I don't think I want the news feed to be indented, so I won't add one to this text file. However, it'll be cool if there was auto-word wrap. Oh, and it'll also be cool if I could decide what to _italicize_, *bold*, or even [url]link[www.google.com]. I also want the news feed to be easy to add to. Yeah, that'll be cool as well.
+
+abcdefghijklmnopqrstuvwxyz
+1234567890
+
+JsKingBoo
+10/7/2014
