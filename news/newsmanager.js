@@ -8,6 +8,7 @@ function getNews(){
   }
   
   try {
+    alert("test 0")
 	httpReq.open("GET", "newsgetter.php", true);
 	httpReq.send(null);
 	alert("test 1");
