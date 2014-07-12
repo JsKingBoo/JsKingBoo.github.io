@@ -10,12 +10,14 @@ function getNews(){
   try {
 	httpReq.open("GET", "newsgetter.php", true);
 	httpReq.send(null);
+	alert("test 1");
   } catch(e) {
     alert("ERROR: " + e);
   }  
   
   httpReq.onload = function() {
     //convert result to JSON
+	alert("test 3");
 	var result = JSON.parse(httpReq.responseText);
 	loadNews(result);
   }
@@ -23,7 +25,7 @@ function getNews(){
 }
 
 function loadNews(result){ //its an ARRAY
-  alert("test");
+  alert("test 2");
   var newsContainer = document.getElementById("news-holder");
   var html = '<hr>';
 
