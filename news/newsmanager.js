@@ -11,7 +11,7 @@ function getNews(){
 	httpReq.open("GET", "newsgetter.php", true);
 	httpReq.send(null);
   } catch(e) {
-	console.log(e);
+    alert("ERROR: " + e);
   }  
   
   httpReq.onload = function() {
