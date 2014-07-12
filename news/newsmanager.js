@@ -23,7 +23,7 @@ function getNews(){
 }
 
 function loadNews(result){ //its an ARRAY
-
+  alert("test");
   var newsContainer = document.getElementById("news-holder");
   var html = '<hr>';
 
