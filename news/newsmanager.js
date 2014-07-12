@@ -10,7 +10,6 @@ function getNews(){
   try {
 	httpReq.open("GET", "newsgetter.php", true);
 	httpReq.send(null);
-	alert("test");
   } catch(e) {
         alert("ERROR: " + e);
   }  
