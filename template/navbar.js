@@ -1,5 +1,7 @@
 function drawNavbar(active){ //"home", "teambuilder", "play", "info"
 
+	var navContainer = document.getElementById("navbar-holder");
+
 	var html = '';
 	html =  '<nav class="navbar navbar-default" role="navigation">';
 	html += '  <div class="container-fluid">';
@@ -63,6 +65,6 @@ function drawNavbar(active){ //"home", "teambuilder", "play", "info"
 	html += '  </div>       <!-- /.container-fluid -->';
 	html += '</nav>';
 
-	document.write(html);
+	navContainer.innerHTML=html;
 
 }
