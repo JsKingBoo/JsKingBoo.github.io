@@ -1,4 +1,4 @@
-function getNews(){
+function getNews(source){
   
   var httpReq;
   
@@ -8,10 +8,23 @@ function getNews(){
     httpReq=new ActiveXObject("Microsoft.XMLHTTP");
   }
   
+  var url;
+  if (source == 'home'){
+    url = "../news/messages/";
+  } else if (source == 'news'){
+    url = "messages/";
+  }
+  
+  var newsCount = 10;
+  var newsProcessed = 0;
+  
   try {
-	httpReq.open("GET", "../news/newsgetter.php", false);
-	httpReq.onreadystatechange = stateChange;
-	httpReq.send(null);
+	for (var k = 0; k < newsCount; k++) {
+	  httpReq.open("GET", url + k.toString() + ".md", false);
+	  httpReq.onreadystatechange = stateChange;
+	  httpReq.send();
+	  newsProcessed += 1;
+    }
   } catch(e) {
     alert("ERROR: " + e);
   }
@@ -20,8 +33,12 @@ function getNews(){
     //convert result to JSON
 	alert(httpReq.readyState);
 	alert(httpReq.responseText);
-	var result = JSON.parse(httpReq.responseText);
-	loadNews(result);
+	if (httpReq.readyState == 4){
+		var result = httpReq.responseText;
+		if (newsProcessed % 10 == 0){
+			loadNews(result);
+		}
+	}
   }
 
 }
