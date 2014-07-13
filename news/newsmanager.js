@@ -33,12 +33,12 @@ function getNews(source){
   
   function stateChange() {
     //convert result to JSON
-	alert(httpReq.readyState);
-	alert(httpReq.responseText);
-	alert(newsProcessed.toString());
+	//alert(httpReq.readyState);
+	//alert(httpReq.responseText);
+	//alert(newsProcessed.toString());
 	if (httpReq.readyState == 4){
 		result[newsProcessed - 1] = httpReq.responseText;
-		if (newsProcessed % 10 == 9){
+		if (newsProcessed % 10 == 8){
 			loadNews(result);
 		}
 	}
