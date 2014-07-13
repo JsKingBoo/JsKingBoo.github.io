@@ -37,7 +37,7 @@ function getNews(source){
 	//alert(httpReq.responseText);
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
-		//alert(httpReq.responseText);
+		alert(httpReq.responseText);
 		loadNews(httpReq.responseText);
 	}
   }
@@ -50,16 +50,13 @@ function loadNews(text){
   var newsContainer = document.getElementById("news-holder");
   html += text;
   html += '<hr>';
+  alert(html);
   newsContainer.innerHTML=html;
   /*var html = '<hr>';
-
   for(var i = 0; i < result.length; i++) {
-  
 	html += result[i];
 	html += '<hr>';
-
   }
-  
   newsContainer.innerHTML=html;
 */
 }
