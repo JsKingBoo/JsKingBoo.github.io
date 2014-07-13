@@ -38,7 +38,7 @@ function getNews(source){
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
 		//alert(httpReq.responseText);
-		loadNews(httpReq.responseText);
+		loadNews.call(httpReq.responseText);
 	}
   }
 }
