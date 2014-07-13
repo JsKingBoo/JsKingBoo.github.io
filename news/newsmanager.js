@@ -35,7 +35,7 @@ function getNews(source){
     //convert result to JSON
 	alert(httpReq.readyState);
 	alert(httpReq.responseText);
-	alert(newsProcessed);
+	alert(newsProcessed.toString());
 	if (httpReq.readyState == 4){
 		result[newsProcessed - 1] = httpReq.responseText;
 		if (newsProcessed % 10 == 0){
