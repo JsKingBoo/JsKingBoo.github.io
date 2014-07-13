@@ -40,7 +40,7 @@ function getNews(source){
 	if (httpReq.readyState == 4){
 		html += httpReq.responseText;
 		html += '<hr>';
-		alert(html);
+		//alert(html);
 		newsContainer.innerHTML=html;
 	}
   }
