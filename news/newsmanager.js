@@ -16,13 +16,15 @@ function getNews(){
     alert("ERROR: " + e);
   }  
   
-  httpReq.onload = function() {
+  httpReq.onreadystatechange = function() {
+    alert(httpReq.readyState + " " + httpReq.status);
+    if (httpReq.readyState == 4 && httpReq.status == 200){
+		alert("test 3");
     //convert result to JSON
-	alert("test 3");
-	var result = JSON.parse(httpReq.responseText);
-	loadNews(result);
+		var result = JSON.parse(httpReq.responseText);
+		loadNews(result);	
+	}
   }
-
 }
 
 function loadNews(result){ //its an ARRAY

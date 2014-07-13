@@ -14,7 +14,7 @@
 		if(strlen($file) < 3 || substr($file, -4) != '.md')
 			continue;
 			
-        $result[] = $dir . "/" . $file;		
+        $result[] = $dir . "/" . $file;	
 	}
 
     //convert array to JSON
