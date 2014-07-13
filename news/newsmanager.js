@@ -7,20 +7,18 @@ function getNews(){
   } else {
     httpReq=new ActiveXObject("Microsoft.XMLHTTP");
   }
-
-  alert("test 4");
   
   try {
     alert("test 5");
 	httpReq.open("GET", "../news/newsgetter.php", false);
-	httpReq.send(null);
-	alert(httpReq.readyState);
+	httpReq.onreadystatechange = stateChange;
+	httpReq.send();
 	alert("test 1");
   } catch(e) {
     alert("ERROR: " + e);
   }
   
-  httpReq.onreadystatechange = function() {
+  function stateChange() {
     //convert result to JSON
 	alert("test 3");
 	alert(httpReq.readyState);
