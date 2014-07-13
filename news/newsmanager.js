@@ -12,7 +12,7 @@ function getNews(){
   
   try {
     alert("test 5");
-	httpReq.open("GET", "newsgetter.php", true);
+	httpReq.open("GET", "../news/newsgetter.php", true);
 	httpReq.send(null);
 	alert(httpReq.readyState);
 	alert("test 1");
@@ -23,6 +23,7 @@ function getNews(){
   httpReq.onreadystatechange = function() {
     //convert result to JSON
 	alert("test 3");
+	alert(httpReq.readyState);
 	var result = JSON.parse(httpReq.responseText);
 	loadNews(result);
   }
