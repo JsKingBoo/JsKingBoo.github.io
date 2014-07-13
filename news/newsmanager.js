@@ -10,13 +10,14 @@ function getNews(){
   try {
     alert("test 0")
 	httpReq.open("GET", "newsgetter.php", true);
-	httpReq.send(null);
+	httpReq.onreadystatechange=stateChanged;
+	httpReq.send();
 	alert("test 1");
   } catch(e) {
     alert("ERROR: " + e);
   }  
   
-  httpReq.onreadystatechange = function() {
+  function stateChanged {
     alert(httpReq.readyState + " " + httpReq.status);
     if (httpReq.readyState == 4 && httpReq.status == 200){
 		alert("test 3");
