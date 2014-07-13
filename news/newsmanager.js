@@ -6,6 +6,7 @@ function getNews(source){
   var newsLower = 0;
   var newsLimit = 10;
   var currentNews = 0;
+  var newsContainer = document.getElementById("news-holder");
   
   if (window.XMLHttpRequest){
 	httpReq=new XMLHttpRequest();
@@ -37,25 +38,24 @@ function getNews(source){
 	//alert(httpReq.responseText);
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
-		//alert(httpReq.responseText);
-		loadNews.call(httpReq.responseText);
+		html += httpReq.responseText;
+		html += '<hr>';
+		alert(html);
+		newsContainer.innerHTML=html;
 	}
   }
 }
 
-function loadNews(text){
-  alert("test 1")
-  var newsContainer = document.getElementById("news-holder");
+/*function loadNews(text){
   html += text;
-  alert("test 2");
   html += '<hr>';
   alert(html);
   newsContainer.innerHTML=html;
-  /*var html = '<hr>';
+  var html = '<hr>';
   for(var i = 0; i < result.length; i++) {
 	html += result[i];
 	html += '<hr>';
   }
   newsContainer.innerHTML=html;
-*/
-}
+
+}*/
