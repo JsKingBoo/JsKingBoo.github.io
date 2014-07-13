@@ -14,6 +14,7 @@ function getNews(){
     alert("test 5");
 	httpReq.open("GET", "newsgetter.php", true);
 	httpReq.send(null);
+	alert(httpReq.readyState);
 	alert("test 1");
   } catch(e) {
     alert("ERROR: " + e);
