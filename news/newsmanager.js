@@ -35,6 +35,7 @@ function getNews(source){
     //convert result to JSON
 	alert(httpReq.readyState);
 	alert(httpReq.responseText);
+	alert(newsProcessed);
 	if (httpReq.readyState == 4){
 		result[newsProcessed - 1] = httpReq.responseText;
 		if (newsProcessed % 10 == 0){
@@ -46,7 +47,6 @@ function getNews(source){
 }
 
 function loadNews(result){ //its an ARRAY
-  alert("test 2");
   var newsContainer = document.getElementById("news-holder");
   var html = '<hr>';
 
