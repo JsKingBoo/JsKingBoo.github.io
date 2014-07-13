@@ -18,7 +18,6 @@
 	}
 
     //convert array to JSON
-    $resultJson = json_encode($result);
-    echo($resultJson);
+    echo(json_encode($result));
 
 ?>

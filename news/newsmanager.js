@@ -9,19 +9,17 @@ function getNews(){
   }
   
   try {
-    alert("test 5");
 	httpReq.open("GET", "../news/newsgetter.php", false);
 	httpReq.onreadystatechange = stateChange;
 	httpReq.send();
-	alert("test 1");
   } catch(e) {
     alert("ERROR: " + e);
   }
   
   function stateChange() {
     //convert result to JSON
-	alert("test 3");
 	alert(httpReq.readyState);
+	alert(httpReq.responseText);
 	var result = JSON.parse(httpReq.responseText);
 	loadNews(result);
   }
