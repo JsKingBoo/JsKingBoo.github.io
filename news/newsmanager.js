@@ -9,7 +9,7 @@ function getNews(){
   }
   
   try {
-	httpReq.open("GET", "../news/newsgetter.php", false);
+	httpReq.open("POST", "../news/newsgetter.php", true);
 	httpReq.onreadystatechange = stateChange;
 	httpReq.send(null);
   } catch(e) {
