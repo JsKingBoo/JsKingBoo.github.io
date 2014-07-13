@@ -29,12 +29,14 @@ function getNews(source){
     alert("ERROR: " + e);
   }
   
+  var result;
+  
   function stateChange() {
     //convert result to JSON
 	alert(httpReq.readyState);
 	alert(httpReq.responseText);
 	if (httpReq.readyState == 4){
-		var result[newsProcessed - 1] = httpReq.responseText;
+		result[newsProcessed - 1] = httpReq.responseText;
 		if (newsProcessed % 10 == 0){
 			loadNews(result);
 		}
