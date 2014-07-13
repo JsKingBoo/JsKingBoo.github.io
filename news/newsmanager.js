@@ -37,18 +37,17 @@ function getNews(source){
 	//alert(httpReq.responseText);
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
-		alert(httpReq.responseText);
+		//alert(httpReq.responseText);
 		loadNews(httpReq.responseText);
 	}
   }
-
 }
 
-
-
 function loadNews(text){
+  alert("test 1")
   var newsContainer = document.getElementById("news-holder");
   html += text;
+  alert("test 2");
   html += '<hr>';
   alert(html);
   newsContainer.innerHTML=html;
