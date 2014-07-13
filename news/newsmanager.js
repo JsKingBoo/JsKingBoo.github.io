@@ -11,7 +11,7 @@ function getNews(){
   try {
 	httpReq.open("GET", "../news/newsgetter.php", false);
 	httpReq.onreadystatechange = stateChange;
-	httpReq.send();
+	httpReq.send(null);
   } catch(e) {
     alert("ERROR: " + e);
   }
