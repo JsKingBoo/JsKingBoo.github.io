@@ -1,4 +1,5 @@
 function getNews(){
+  
   var httpReq;
   
   if (window.XMLHttpRequest){
@@ -6,26 +7,25 @@ function getNews(){
   } else {
     httpReq=new ActiveXObject("Microsoft.XMLHTTP");
   }
+
+  alert("test 4");
   
   try {
-    alert("test 0")
+    alert("test 5");
 	httpReq.open("GET", "newsgetter.php", true);
-	httpReq.onreadystatechange=stateChanged;
-	httpReq.send();
+	httpReq.send(null);
 	alert("test 1");
   } catch(e) {
     alert("ERROR: " + e);
-  }  
-  
-  function stateChanged {
-    alert(httpReq.readyState + " " + httpReq.status);
-    if (httpReq.readyState == 4 && httpReq.status == 200){
-		alert("test 3");
-    //convert result to JSON
-		var result = JSON.parse(httpReq.responseText);
-		loadNews(result);	
-	}
   }
+  
+  httpReq.onreadystatechange = function() {
+    //convert result to JSON
+	alert("test 3");
+	var result = JSON.parse(httpReq.responseText);
+	loadNews(result);
+  }
+
 }
 
 function loadNews(result){ //its an ARRAY
@@ -37,7 +37,7 @@ function loadNews(result){ //its an ARRAY
   
 	html += result[i];
 	html += '<hr>';
-	
+
   }
   
   newsContainer.innerHTML=html;
