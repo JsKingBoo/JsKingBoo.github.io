@@ -38,7 +38,7 @@ function getNews(source){
 	alert(newsProcessed.toString());
 	if (httpReq.readyState == 4){
 		result[newsProcessed - 1] = httpReq.responseText;
-		if (newsProcessed % 10 == 0){
+		if (newsProcessed % 10 == 9){
 			loadNews(result);
 		}
 	}
