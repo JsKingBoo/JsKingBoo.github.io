@@ -12,7 +12,7 @@ function getNews(){
   
   try {
     alert("test 5");
-	httpReq.open("GET", "../news/newsgetter.php", true);
+	httpReq.open("GET", "../news/newsgetter.php", false);
 	httpReq.send(null);
 	alert(httpReq.readyState);
 	alert("test 1");
