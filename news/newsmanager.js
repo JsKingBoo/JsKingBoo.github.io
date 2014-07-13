@@ -32,17 +32,13 @@ function getNews(source){
     alert("ERROR: " + e);
   }
   
-  var result;
-  
   function stateChange() {
-    //convert result to JSON
 	//alert(httpReq.readyState);
 	//alert(httpReq.responseText);
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
-		alert(httpReq.responseText);
-		result[currentNews - 1] = httpReq.responseText;
-		loadNews(result[currentNews - 1]);
+		//alert(httpReq.responseText);
+		loadNews(httpReq.responseText);
 	}
   }
 
