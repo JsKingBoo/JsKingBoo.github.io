@@ -1,6 +1,11 @@
 function getNews(source){
   
   var httpReq;
+  var html = '<hr>';
+  var newsUpper = 10;
+  var newsLower = 0;
+  var newsLimit = 10;
+  var currentNews = 0;
   
   if (window.XMLHttpRequest){
 	httpReq=new XMLHttpRequest();
@@ -15,15 +20,13 @@ function getNews(source){
     url = "messages/";
   }
   
-  var newsCount = 10;
-  var newsProcessed = 0;
+
   
   try {
-	for (var k = 0; k < newsCount; k++) {
-	  httpReq.open("GET", url + k.toString() + ".md", false);
+	for (var currentNews = newsLower; currentNews < newsUpper; currentNews++) {
+	  httpReq.open("GET", url + currentNews.toString() + ".md", false);
 	  httpReq.onreadystatechange = stateChange;
 	  httpReq.send();
-	  newsProcessed += 1;
     }
   } catch(e) {
     alert("ERROR: " + e);
@@ -35,21 +38,24 @@ function getNews(source){
     //convert result to JSON
 	//alert(httpReq.readyState);
 	//alert(httpReq.responseText);
-	//alert(newsProcessed.toString());
+	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
 		alert(httpReq.responseText);
-		result[newsProcessed - 1] = httpReq.responseText;
-		if (newsProcessed % 10 == 8){
-			loadNews(result);
-		}
+		result[currentNews - 1] = httpReq.responseText;
+		loadNews(result[currentNews - 1]);
 	}
   }
 
 }
 
-function loadNews(result){ //its an ARRAY
+
+
+function loadNews(text){
   var newsContainer = document.getElementById("news-holder");
-  var html = '<hr>';
+  html += text;
+  html += '<hr>';
+  newsContainer.innerHTML=html;
+  /*var html = '<hr>';
 
   for(var i = 0; i < result.length; i++) {
   
@@ -59,5 +65,5 @@ function loadNews(result){ //its an ARRAY
   }
   
   newsContainer.innerHTML=html;
-
+*/
 }
