@@ -38,8 +38,8 @@ function getNews(source){
 	//alert(httpReq.responseText);
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
-		html += httpReq.responseText;
-		html += '<hr>';
+		var unformatNews = httpReq.responseText;
+		html = '<hr>' + '<p style="margin-left:30px; margin-right:30px>' + unformatNews + '</p>'+ html;
 		//alert(html);
 		newsContainer.innerHTML=html;
 	}
