@@ -1,7 +1,7 @@
 function getNews(source){
   
   var httpReq;
-  var html = '<hr>';
+  var html = '<hr />';
   var newsUpper = 10;
   var newsLower = 0;
   var newsLimit = 10;
@@ -38,13 +38,21 @@ function getNews(source){
 	//alert(httpReq.responseText);
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
-		var unformatNews = httpReq.responseText;
-		html = '<hr>' + '<p style="margin-left:30px; margin-right:30px>' + unformatNews + '</p>'+ html;
-		//alert(html);
+		var news = parseMD(httpReq.responseText);
+		news = httpReq.responseText;
+		html = '<hr />' + '<p style="margin-left:40px; margin-right:40px">' + news + '</p>' + html;
 		newsContainer.innerHTML=html;
+		alert(html);		
 	}
   }
+  
+  function parseMD(text){
+    return text;
+  }
+  
 }
+
+
 
 /*function loadNews(text){
   html += text;
