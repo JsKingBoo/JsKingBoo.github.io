@@ -50,47 +50,58 @@ function getNews(source){
 	var italic = false;
 	var bold = false;
 	var monospace = false;
+	var strike = false;
 	
 	fText = fText.replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />'); //handle line break
 	
 	while ((fText.split('***').length - 1) > 0){ //bold and italic at the same time
 		if (italic == false && bold == false){
 			fText = fText.replace('***', '<b><i>');
-			italic = !italic;
-			bold = !bold;
 		} else if (italic == false && bold == true){
-			fText = fText.replace('***', '</b><i>');	
-			italic = !italic;
-			bold = !bold;			
+			fText = fText.replace('***', '</b><i>');			
 		} else if (italic == true && bold == false){
 			fText = fText.replace('***', '<b></i>');
-			italic = !italic;
-			bold = !bold;
 		} else if (italic == true && bold == true){
 			fText = fText.replace('***', '</b></i>');		
-			italic = !italic;
-			bold = !bold;
 		}
+		italic = !italic;
+		bold = !bold;
 	}
 	
 	while ((fText.split('**').length - 1) > 0){ //bold
 		if (bold == false){
 			fText = fText.replace('**', '<b>');	
-			bold = !bold;
 		} else if (bold == true){
-			fText = fText.replace('**', '</b>');
-			bold = !bold;			
+			fText = fText.replace('**', '</b>');		
 		}
+		bold = !bold;	
 	}	
 	
 	while ((fText.split('*').length - 1) > 0){ //italic
 		if (italic == false){
 			fText = fText.replace('*', '<i>');	
-			italic = !italic;
 		} else if (italic == true){
 			fText = fText.replace('*', '</i>');
-			italic = !italic;
 		}
+		italic = !italic;
+	}
+	
+	while ((fText.split('~~').length - 1) > 0){ //italic
+		if (strike == false){
+			fText = fText.replace('~~', '<del>');	
+		} else if (strike == true){
+			fText = fText.replace('~~', '</del>');
+		}
+		strike = !strike;
+	}
+	
+	while ((fText.split('`').length - 1) > 0){ //italic
+		if (monospace == false){
+			fText = fText.replace('`', '<code>');	
+		} else if (monospace == true){
+			fText = fText.replace('`', '</code>');
+		}
+	 	monospace = !monospace;
 	}
 
 	while ((fText.split('](').length - 1) > 0){ //link 12[45](8)10
