@@ -2,11 +2,13 @@ function getNews(source){
   
   var httpReq;
   var html = '<hr />';
+  var style = 'style="margin-left:40px; margin-right:40px"';
   var newsUpper = 10;
   var newsLower = 0;
   var newsLimit = 10;
   var currentNews = 0;
   var newsContainer = document.getElementById("news-holder");
+  
   
   if (window.XMLHttpRequest){
 	httpReq=new XMLHttpRequest();
@@ -37,7 +39,7 @@ function getNews(source){
 	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
 		var news = parseMD(httpReq.responseText);
-		html = '<hr />' + '<p style="margin-left:40px; margin-right:40px">' + news + '</p>' + html;
+		html = '<hr />' + '<p ' + style + '>' + news + '</p>' + html;
 		newsContainer.innerHTML=html;
 		//alert(html);		
 	}
@@ -51,6 +53,7 @@ function getNews(source){
 	var bold = false;
 	var monospace = false;
 	var strike = false;
+	var hashtag = [false, false, false, false, false, false];
 	
 	fText = fText.replace(/\r\n/g, '<br />').replace(/[\r\n]/g, '<br />'); //handle line break
 	
@@ -112,9 +115,30 @@ function getNews(source){
 		var linkDisplay = fText.substring(link1 + 1, link2);
 		var linkTo = fText.substring(link2 + 2, link3);
 		fText = fText.replace(entire, '<a href="' + linkTo + '">' + linkDisplay + '</a>');
-	}	
+	}
+	
+	while ((fText.split('#').length - 1) > 0){ //## headings ##
+		for (var counter = 6; counter > 0; counter--){
+			var needsReplacing = repeatChar(counter, '#');
+			while (fText.indexOf(needsReplacing) > -1){
+				if (hashtag[counter - 1] == false){
+					fText = fText.replace(needsReplacing, '</p><h' + counter + ' ' + style + '>' + '<p ' + style + '>');
+				} else if (hashtag[counter - 1] == true){
+					fText = fText.replace(needsReplacing, '</h' + counter + '>');				
+				}
+			}
+		}
+	}
 	
     return fText;
+  }
+  
+  function repeatChar(num, ch){
+	var output = '';
+	for (var i = 0; i < num; i++){
+		output += ch
+	}
+	return output;
   }
   
 }
