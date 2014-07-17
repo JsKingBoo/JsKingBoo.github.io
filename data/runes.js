@@ -1,0 +1,26 @@
+//id, number, display name, type, base stats (HP, AD, armor, AP, MR, armor pen, m pen, mana, speed, crit chance, GP5, lifesteal, spellvamp, cdr), passive, 2nd form or N/A
+exports.Runes = {
+apm:{num:1,display:"Ability Power",type:"Mark",bonusStats:{hp:0,ad:0,arm:0,ap:1,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+aps:{num:2,display:"Ability Power",type:"Seal",bonusStats:{hp:0,ad:0,arm:0,ap:1,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+apg:{num:3,display:"Ability Power",type:"Glyph",bonusStats:{hp:0,ad:0,arm:0,ap:2,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+apq:{num:4,display:"Ability Power",type:"Quintessence",bonusStats:{hp:0,ad:0,arm:0,ap:5,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+armorm:{num:5,display:"Armor",type:"Mark",bonusStats:{hp:0,ad:0,arm:1,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+armors:{num:6,display:"Armor",type:"Seal",bonusStats:{hp:0,ad:0,arm:2,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+armorg:{num:7,display:"Armor",type:"Glyph",bonusStats:{hp:0,ad:0,arm:1,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+armorq:{num:8,display:"Armor",type:"Quintessence",bonusStats:{hp:0,ad:0,arm:5,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+apenm:{num:9,display:"Armor Penetration",type:"Mark",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:2,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+apenq:{num:10,display:"Armor Penetration",type:"Quintessence",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:3,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+adm:{num:11,display:"Attack Damage",type:"Mark",bonusStats:{hp:0,ad:2,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+ads:{num:12,display:"Attack Damage",type:"Seal",bonusStats:{hp:0,ad:1,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+adg:{num:13,display:"Attack Damage",type:"Glyph",bonusStats:{hp:0,ad:1,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+adq:{num:14,display:"Attack Damage",type:"Quintessence",bonusStats:{hp:0,ad:3,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0}},
+cdrm:{num:15,display:"Cooldown Reduction",type:"Mark",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0.2}},
+cdrs:{num:16,display:"Cooldown Reduction",type:"Seal",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0.4}},
+cdrg:{num:17,display:"Cooldown Reduction",type:"Glyph",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:0.8}},
+cdrq:{num:18,display:"Cooldown Reduction",type:"Quintessence",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,gol:0,lfs:0,sva:0,cdr:2.5}},
+critm:{num:19,display:"Critical Chance",type:"Mark",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:1,gol:0,lfs:0,sva:0,cdr:0}},
+crits:{num:20,display:"Critical Chance",type:"Seal",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0.4,gol:0,lfs:0,sva:0,cdr:0}},
+critg:{num:21,display:"Critical Chance",type:"Glyph",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0.2,gol:0,lfs:0,sva:0,cdr:0}},
+critq:{num:22,display:"Critical Chance",type:"Quintessence",bonusStats:{hp:0,ad:0,arm:0,ap:0,mr:0,ape:0,mpe:0,man:0,spe:0,crt:2,gol:0,lfs:0,sva:0,cdr:0}},
+
+}
