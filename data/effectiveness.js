@@ -1,5 +1,5 @@
 //"type" attacking types-array; number is multiplier
-exports.Effective = {
+effectivenessChart = {
 	"Normal":{
 		"Normal":1,
 		"Fighting":1,
