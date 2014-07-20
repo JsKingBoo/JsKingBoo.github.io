@@ -1,5 +1,5 @@
 //id, number, display name, type, base stats (HP, AD, armor, AP, MR, armor pen, m pen, mana, speed, crit chance, GP5, lifesteal, spellvamp, cdr), passive, 2nd form or N/A
-exports.Runes = {
+var runes = {
 apm:{num:1,display:"Ability Power",type:"Mark",bonusStats:{hp:0,ad:0,arm:0,ap:1,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,lfs:0,sva:0,cdr:0}},
 aps:{num:2,display:"Ability Power",type:"Seal",bonusStats:{hp:0,ad:0,arm:0,ap:1,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,lfs:0,sva:0,cdr:0}},
 apg:{num:3,display:"Ability Power",type:"Glyph",bonusStats:{hp:0,ad:0,arm:0,ap:2,mr:0,ape:0,mpe:0,man:0,spe:0,crt:0,lfs:0,sva:0,cdr:0}},

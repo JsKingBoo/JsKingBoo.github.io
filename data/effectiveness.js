@@ -1,5 +1,5 @@
 //"type" attacking types-array; number is multiplier
-effectivenessChart = {
+var effectivenessChart = {
 	"Normal":{
 		"Normal":1,
 		"Fighting":1,
@@ -99,7 +99,7 @@ effectivenessChart = {
 		"Dragon":1,
 		"Dark":1,
 		"Fairy":1
-	}
+	},
 	"Rock":{
 		"Normal":1,
 		"Fighting":0.5,
@@ -279,7 +279,7 @@ effectivenessChart = {
 		"Dragon":1,
 		"Dark":0,
 		"Fairy":1
-	}
+	},
 	"Ice":{
 		"Normal":1,
 		"Fighting":1,
@@ -299,7 +299,7 @@ effectivenessChart = {
 		"Dragon":2,
 		"Dark":1,
 		"Fairy":1
-	}
+	},
 	"Dragon":{
 		"Normal":1,
 		"Fighting":1,

@@ -1,13 +1,14 @@
 function getExports(){
 
-	var exports;
-
 	getScript('champs.js', function(){
-		exports[0] = championData;
+		window.exports['champs'] = championData;
 	});
 	getScript('effectiveness.js', function(){
-		exports[1] = effectivenessChart;
+		window.exports['effectiveness'] = effectivenessChart;
 	});
+	getScript('runes.js', function(){
+		window.exports['runes'] = runes;
+	});	
 
 	function getScript(url, callback) {
 	   var script = document.createElement('script');
