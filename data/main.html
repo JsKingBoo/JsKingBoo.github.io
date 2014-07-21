@@ -16,13 +16,21 @@
 	<script src="runes.js"></script>
 	<script src="exports.js"></script>
 	<script>
-		var exports;
 		getExports();
 	</script>
-	
 	<script>
-		alert(exports['champs']['soraka']['display']);
-	</script>	
+		if (exports.champs){
+			alert('ok');
+			if (exports.champs.soraka){
+				alert('uh huh');
+				if (exports.champs.soraka.display){
+					alert(exports.champs.soraka.display);				
+				}
+			}
+		}
+		//alert(exports['champs']['soraka']['display']);
+		//alert(exports.champs.soraka.display);
+	</script>		
 	
   </head>
   
