@@ -1,4 +1,4 @@
-var exports = {champs:{},effectiveness:{},runes:{}};
+var exports = {};
 
 function getExports(){
 

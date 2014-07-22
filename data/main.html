@@ -17,17 +17,21 @@
 	<script src="exports.js"></script>
 	<script>
 		getExports();
-	</script>
-	<script>
-		if (exports.champs){
-			alert('ok');
-			if (exports.champs.soraka){
-				alert('uh huh');
-				if (exports.champs.soraka.display){
-					alert(exports.champs.soraka.display);				
+		
+		setTimeout(getValues(), 100); //a bit sloppy :(
+		
+		function getValues(){
+		    return function(){
+				if (exports.champs){
+					if (exports.champs.soraka){
+						if (exports.champs.soraka.display){
+							alert(exports.champs.soraka.display);				
+						}
+					}
 				}
 			}
 		}
+
 		//alert(exports['champs']['soraka']['display']);
 		//alert(exports.champs.soraka.display);
 	</script>		
