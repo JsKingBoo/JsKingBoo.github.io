@@ -16,24 +16,21 @@
 	<script src="runes.js"></script>
 	<script src="exports.js"></script>
 	<script>
-		getExports();
+	
+		var exports = getExports();
 		
-		setTimeout(getValues(), 100); //a bit sloppy :(
+		setTimeout(checkExports(), 100);
 		
-		function getValues(){
-		    return function(){
-				if (exports.champs){
-					if (exports.champs.soraka){
-						if (exports.champs.soraka.display){
-							alert(exports.champs.soraka.display);				
-						}
-					}
-				}
+		function checkExports(){
+			if (exports.runes != null){
+				alert('success');
+				alert(exports.champs.soraka.display);
+			} else {
+				setTimeout("checkExports();", 100);		
 			}
 		}
-
-		//alert(exports['champs']['soraka']['display']);
-		//alert(exports.champs.soraka.display);
+		
+		
 	</script>		
 	
   </head>
@@ -44,9 +41,9 @@
     <script src="../template/navbar.js"></script>	
     <script>
 	  drawNavbar('info');
-    </script>	
+    </script>
 	
-
+	
 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

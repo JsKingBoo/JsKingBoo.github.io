@@ -1,17 +1,19 @@
-var exports = {};
-
 function getExports(){
 
+	var export1 = {};
+
 	getScript('champs.js', function(){
-		exports['champs'] = championData;
+		export1['champs'] = championData;
 	});
 	getScript('effectiveness.js', function(){
-		exports['effectiveness'] = effectivenessChart;
+		export1['effectiveness'] = effectivenessChart;
 	});
 	getScript('runes.js', function(){
-		exports['runes'] = runes;
+		export1['runes'] = runes;
 	});	
 
+	return export1;
+	
 	function getScript(url, callback) {
 	   var script = document.createElement('script');
 	   script.type = 'text/javascript';
