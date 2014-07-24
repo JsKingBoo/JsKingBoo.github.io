@@ -18,18 +18,19 @@
 	<script>
 	
 		var exports = getExports();
+		var loaded = false;
 		
 		setTimeout(checkExports(), 100);
 		
 		function checkExports(){
 			if (exports.runes != null){
-				alert('success');
-				alert(exports.champs.soraka.display);
+				loaded = true;
+				//alert('success');
+				//alert(exports.champs.soraka.display);
 			} else {
 				setTimeout("checkExports();", 100);		
 			}
 		}
-		
 		
 	</script>		
 	
@@ -42,8 +43,27 @@
     <script>
 	  drawNavbar('info');
     </script>
+
+	<div id="display-holder"></div>	
+    <!-- <script src="display.js"></script>	
+    <script>
+	  display('nothing');
+    </script> -->	
 	
-	
+	<script>
+	checkIfLoaded();
+	function checkIfLoaded(){
+		if (loaded == false){
+			setTimeout("checkIfLoaded();", 100);	
+		} else {
+			var displayContainer = document.getElementById("display-holder");
+
+			var html = '	<button href="#" class="btn btn-primary" style="margin-left:40px; margin-right:40px; width:1200px; height:120px;">' + exports.champs.soraka.display + '</button>';
+
+			displayContainer.innerHTML=html;		
+		}
+	}	
+	</script>
 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
