@@ -16,11 +16,11 @@ function teambuilder(exports){
     /*btn-default = EMPTY
 	  btn-primary = COMPLETED
 	  btn-warning = INCOMPLETE*/
-	  html += '<button href="#" class="btn btn-default" style="margin-left:40px; margin-right:40px; width:1200px; height:120px;">' + champs[0] + '</button>';
-	  html += '<button href="#" class="btn btn-default" style="margin-left:40px; margin-right:40px; width:1200px; height:120px;">' + champs[1] + '</button>';
-      html += '<button href="#" class="btn btn-primary" style="margin-left:40px; margin-right:40px; width:1200px; height:120px;">' + champs[2] + '</button>';
-      html += '<button href="#" class="btn btn-primary" style="margin-left:40px; margin-right:40px; width:1200px; height:120px;">' + champs[3] + '</button>';
-      html += '<button href="#" class="btn btn-warning" style="margin-left:40px; margin-right:40px; width:1200px; height:120px;">' + champs[4] + '</button>';
+	  html += '<button href="#" class="btn btn-default" style="margin-left:40px; width:1200px; height:120px;">' + champs[0] + '</button>';
+	  html += '<button href="#" class="btn btn-default" style="margin-left:40px; width:1200px; height:120px;">' + champs[1] + '</button>';
+      html += '<button href="#" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">' + champs[2] + '</button>';
+      html += '<button href="#" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">' + champs[3] + '</button>';
+      html += '<button href="#" class="btn btn-warning" style="margin-left:40px; width:1200px; height:120px;">' + champs[4] + '</button>';
 
 	}
 	

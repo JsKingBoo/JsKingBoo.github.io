@@ -25,7 +25,6 @@
 		function checkExports(){
 			if (exports.runes != null){
 				loaded = true;
-				//alert('success');
 				//alert(exports.champs.soraka.display);
 			} else {
 				setTimeout("checkExports();", 100);		
@@ -45,22 +44,14 @@
     </script>
 
 	<div id="display-holder"></div>	
-    <!-- <script src="display.js"></script>	
-    <script>
-	  display('nothing');
-    </script> -->	
-	
+    <script src="display.js"></script>
 	<script>
 	checkIfLoaded();
 	function checkIfLoaded(){
 		if (loaded == false){
 			setTimeout("checkIfLoaded();", 100);	
 		} else {
-			var displayContainer = document.getElementById("display-holder");
-
-			var html = '	<button href="#" class="btn btn-primary" style="margin-left:40px; margin-right:40px; width:1200px; height:120px;">' + exports.champs.soraka.display + '</button>';
-
-			displayContainer.innerHTML=html;		
+			displayInfo();
 		}
 	}	
 	</script>

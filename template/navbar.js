@@ -42,7 +42,7 @@ function drawNavbar(active){ //"home", "teambuilder", "play", "info"
 	html += '        <li class="dropdown">';
 	html += '          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Information and Leagues<span class="caret"></span></a>';
 	html += '          <ul class="dropdown-menu" role="menu">';
-	html += '            <li><a href="#">Champion Info</a></li>';
+	html += '            <li><a href="../data/main.html">Champion Info</a></li>';
 	html += '            <li><a href="#">Match Mechanics Info</a></li>';
 	html += '            <li class="divider"></li>';
 	html += '            <li><a href="#">Leaderboards</a></li>'
