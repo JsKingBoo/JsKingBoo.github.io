@@ -8,13 +8,28 @@ function displayInfo(){
 	function homeScreen(){
 	
 		var displayArray = [];
+		var numOfChamps = 0;
+		var progress = 0;
 	
 		for(var j in exports.champs) { //arrange display names in alpha order	
 			displayArray.push(exports['champs'][j]['display'])
+			numOfChamps += 1;
 		}
 		displayArray.sort();
 		for(var j in displayArray) { //get code names
-			var id = '';
+			var id = '';			
+			
+			progress += 1;
+			var percent = Math.floor(progress * 100 / numOfChamps);
+			
+			var loadingHtml = '';
+			loadingHtml += '<div class="progress">';
+			loadingHtml += '	<div class="progress-bar" role="progressbar" aria-valuenow="' + percent + '" aria-valuemin="0" aria-valuemax="100" style="width:' + percent + '%;">';
+			loadingHtml += '		' + percent + '%';
+			loadingHtml += '	</div>';
+			loadingHtml += '</div>';
+			displayContainer.innerHTML=loadingHtml;
+			
 			
 			for(var k in exports.champs) {
 				if(exports['champs'][k]['display'] == displayArray[j]) {
@@ -28,33 +43,31 @@ function displayInfo(){
 		displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION	
 
 	}
-	
-
-	
 
 }
 
 function onPress(chp){ //champ code name, NOT display name
-
-	var PROFILE_WIDTH = 500; //all caps = constant. fact
-	var OFFSET = 40;
-	var SCREENWIDTH = screen.width;
 
 	html = '';
 
 	html += '<div class="row">';
 	html += '	<div class="col-xs-6 col-md-3" style="margin-left:40px;">';
 	html += '		<a href="#" class="thumbnail">';
-	html += '			<img src="http://fc02.deviantart.net/fs70/f/2012/289/3/c/pin_template_by_neooki23-d5hzqob.png" class="img-polaroid" alt="...">';
+	html += '			<img src="splashart/' + chp + '.png" class="img-polaroid" alt="..." id="splash">'; //all art by Riot Games (tm)
 	html += '		</a>';
 	html += '	</div>';
 	html += '</div>';
-	//image is 500x500
+	//image is 480x480
+	
 	html += '<div id="title">';
-	html += '	<h1 style="position:relative;top:-290px;left:400px;font-size:48pt">' + exports['champs'][chp]['display'] + '</h1>';
-	html += '	<h2 style="position:relative;top:-270px;left:400px">'+ exports['champs'][chp]['blurb'] +'</h2>';
+	html += '	<h1 style="position:relative;top:-285px;left:400px;font-size:52pt">' + exports['champs'][chp]['display'] + '</h1>'; //champ name
+	html += '	<h2 style="position:relative;top:-275px;left:400px;font-size:30pt">'+ exports['champs'][chp]['blurb'] +'</h2>'; //blurb
 	html += '</div>';
 	
-	displayContainer.innerHTML=html; //DONE WITH FUNCTION
+	displayContainer.innerHTML=html; //DONE WITH FUNCTION	
+	
+	splash = document.getElementById('splash');
+	splash.style.width = '480px';	
+	splash.style.height='auto';
 }	
 
