@@ -13,7 +13,9 @@ CC: "slow", "blind", "root", "silence", "airborne", "stun", "taunt", "fear", "su
 buffs: "movespeed", "ad", "invisibility", "tenacity", "shield"
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
-projectile: only for windwall purposed
+projectile: only for windwall purposes
+skillshot: only for stealthing purposes
+onhit: if it applies onhit effects
 */
 moves = {
 	//soraka
@@ -37,6 +39,8 @@ moves = {
 		type:"Fairy",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Soraka summons a shower of stars to fall from the sky, striking all nearby enemy units within range for magic damage and reducing their magic resistance by 6. This effect stacks."
 	},
 	astralblessing:{
@@ -60,6 +64,8 @@ moves = {
 		type:"Fairy",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Soraka blesses a friendly unit, restoring health and granting them bonus armor."
 	},
 	infuse:{
@@ -84,6 +90,8 @@ moves = {
 		type:"Fairy",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"On ally cast, Soraka drains her mana to restore mana to her target ally. Soraka cannot use Infuse on herself. On enemy cast, Soraka silences the target and deals magic damage to them."
 	},
 	wish:{
@@ -106,6 +114,8 @@ moves = {
 		type:"Fairy",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Soraka fills her allies with hope, restoring health to herself and all friendly champions. Wish can affect untargetable allies."
 	},
 	//teemo
@@ -129,6 +139,8 @@ moves = {
 		type:"Poison",
 		contact:false,
 		projectile:true,
+		skillshot:false,
+		onhit:false,
 		description:"Teemo shoots a dart at an enemy, dealing magic damage and blinding them for 2 turns."
 	},
 	movequick:{
@@ -149,13 +161,15 @@ moves = {
 		type:"Dark",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Teemo gains increased movement speed."
 	},
 	toxicshot:{
 		accuracy:true,
 		base:20,
 		scaling:{
-			AP:40
+			AP:40,
 			AD:100
 		},
 		dependent:{},
@@ -170,6 +184,8 @@ moves = {
 		type:"Poison",
 		contact:false,
 		projectile:true,
+		skillshot:false,
+		onhit:true,
 		description:"Teemo's next attack deals bonus magic damage"
 	},	
 	noxioustrap:{
@@ -190,6 +206,8 @@ moves = {
 		type:"Poison",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Teemo places a mushroom trap on the ground. On enemy switch-in, all placed mushrooms explode dealing magic damage."
 	},	
 	//sivir
@@ -197,7 +215,7 @@ moves = {
 		accuracy:90,
 		base:40,
 		scaling:{
-			AD:100
+			AD:100,
 			AP:50
 		},
 		dependent:{
@@ -214,6 +232,8 @@ moves = {
 		type:"Normal",
 		contact:false,
 		projectile:true,
+		skillshot:true,
+		onhit:false,
 		description:"Sivir hurls her crossblade to a target location, which then returns to her."
 	},		
 	ricochet:{
@@ -234,6 +254,8 @@ moves = {
 		type:"Normal",
 		contact:false,
 		projectile:true,
+		skillshot:false,
+		onhit:true,
 		description:"Sivir's crossblade bounce to nearby enemies, dealing a percentage of her attack damage to each enemy hit."
 	},
 	spellshield:{
@@ -255,6 +277,8 @@ moves = {
 		type:"Psychic",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Sivir creates a magical barrier that lasts up to 1.5 seconds, blocking the next enemy ability used on Sivir."
 	},
 	onthehunt:{
@@ -275,6 +299,8 @@ moves = {
 		type:"Normal",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Sivir rallies her allies, granting all nearby allies and herself a movement speed bonus."
 	},	
 	//sion
@@ -298,6 +324,8 @@ moves = {
 		type:"Dark",
 		contact:false,
 		projectile:true,
+		skillshot:false,
+		onhit:false,
 		description:"Sion's gaze terrifies a single enemy."
 	},
 	deathscaress:{
@@ -320,6 +348,8 @@ moves = {
 		type:"Dark",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Sion surrounds himself with a shield which absorbs damage."
 	},
 	enrage:{
@@ -342,6 +372,8 @@ moves = {
 		type:"Dark",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:true,
 		description:"Sion deals bonus damage on his next attack and heals himself."
 	},
 	cannibalism:{
@@ -364,6 +396,112 @@ moves = {
 		type:"Dark",
 		contact:false,
 		projectile:false,
+		skillshot:false,
+		onhit:false,
 		description:"Sion deals damage and heals for the amount of damage dealt."
 	},
+	//ryze
+	overload:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:40
+		},
+		dependent:{
+			man:6.5
+		},
+		category:"Magic",
+		display:"Overload",
+		cooldown:3,
+		cost:60,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			cdr:1
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Ryze throws a charge of pure energy."
+	},
+	runeprison:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:60
+		},
+		dependent:{
+			man:4.5
+		},
+		category:"Magic",
+		display:"Rune Prison",
+		cooldown:14,
+		cost:80,
+		priority:0,
+		target:"enemy",
+		CC:{
+			root:1
+		},
+		buffs:{},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Ryze traps an enemy in a cage of magic."
+	},
+	spellflux:{
+		accuracy:true,
+		base:50,
+		scaling:{
+			AP:35
+		},
+		dependent:{
+			man:1
+		},
+		category:"Magic",
+		display:"Spell Flux",
+		cooldown:14,
+		cost:80,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			mrshred:12
+		},
+		buffs:{},
+		type:"Psychic",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:true,
+		description:"Ryze unleashes an orb of magical power."
+	},
+	desperatepower:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Desperate Power",
+		cooldown:30,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			movespeed:1
+			AP:2
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Ryze becomes supercharged, gaining bonus movement speed and an increase in power"
+	},
+	
+	
 }
