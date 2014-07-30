@@ -124,8 +124,9 @@ function getNews(source){
 				if (hashtag[counter - 1] == false){
 					fText = fText.replace(needsReplacing, '</p><h' + counter + ' ' + style + '>' + '<p ' + style + '>');
 				} else if (hashtag[counter - 1] == true){
-					fText = fText.replace(needsReplacing, '</h' + counter + '>');				
+					fText = fText.replace(needsReplacing, '</h' + counter + '><p ' + style + '>');				
 				}
+			    hashtag[counter - 1] = !hashtag[counter - 1];
 			}
 		}
 	}
