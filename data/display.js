@@ -49,6 +49,14 @@ function showChampList(){
 
 }
 
+function showEffectivenesChart(){
+
+}
+
+function showRunes(){
+
+}
+
 function onPressChamp(chp){ //champ code name, NOT display name
 
 	html = '';
