@@ -502,6 +502,102 @@ moves = {
 		onhit:false,
 		description:"Ryze becomes supercharged, gaining bonus movement speed and an increase in power"
 	},
-	
-	
+	//nunu
+	consume:{
+		accuracy:true,
+		base:70,
+		scaling:{
+			AP:75
+		},
+		dependent:{},
+		category:"Status",
+		display:"Consume",
+		cooldown:13,
+		cost:60,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			heal:true
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nunu eats a snack in order to regain some health."
+	},	
+	bloodboil:{
+		accuracy:true,
+		base:25,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Blood Boil",
+		cooldown:5,
+		cost:50,
+		priority:0,
+		target:"allyOrSelf",
+		CC:{},
+		buffs:{
+			movespeed:1,
+			AD:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nunu invigorates an ally by heating their blood."
+	},
+	iceblast:{
+		accuracy:true,
+		base:85,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Ice Blast",
+		cooldown:6,
+		cost:75,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Nunu throws an iceball."
+	},	
+	absolutezero:{
+		accuracy:100,
+		base:200,
+		scaling:{
+			AP:250
+		},
+		dependent:{
+			channel:3
+		},
+		category:"Magic",
+		display:"Absolute Zero",
+		cooldown:30,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nunu channels and saps a large area around him of heat, slowing all enemies. When Nun completes the channel he deals massive damage to all enemies caught. If the channel is interrupted only a portion of the damage is dealt."
+	},
 }
