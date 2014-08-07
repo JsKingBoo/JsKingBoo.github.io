@@ -3,14 +3,35 @@ NO PASSIVES IN MOVES
 IMPORTANT: CODE NAME DOESN'T FOLLOW SAME CONVENTIONS AS CHAMP NAME DUE TO 1 REPEATION
 base power: "X damage"
 scaling power: "X% AP", "X% AD"
-dependent power: "X% health", "X% enemy AP", etc
+dependent power:
+
+charge:
+	duration - duration of channel charging
+	canGetCancelled - silence, knockup, etc can disturb it
+	canCancelEarly - can cancel mid-charge
+
+channel
+	duration - duration of channel
+	initialDamage: T/F, initial burst in channeling like morgana ulti. default false
+	constantDamage: T/F, something like fiddle drains. default false
+	endingDamage: T/F, something like nunu's bingo blast. default false
+	canPerformOtherActions: T/F, can cast other spells while channeling
+	recallingStops:T/F, enemy recalls cancel the channel or simply gives the spell a new target (morgana oil spill). default true
+missingHealth:[0.5, 1] //increase by 0.5% for every 1% missing health
+			  [1, 100] //1% of missing health
+currentHealth:[1, 1] //does 1% more damage for every 1% current health
+			  [10, 100] //10% of current health in damage
+maxHealth:10 //10% max health damage
+enemyAP:80 //does 80% damage of enemy's AP. only for veigar
+
+
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
 cost is of any resource
 priority: default 0, bigger number = go faster, same number = whoever's speed is faster
 target: "self", "enemy", "ally", "allEnemies" (aoe), "allAllies" (aoe), "allAlliesAndSelf", "allyOrSelf", "enemyOrAlly", "any", "enemySide", "allySide"
 CC: "movespeed", "blind", "root", "silence", "airborne", "stun", "taunt", "fear", "suppression", "mrshred", "armshred". everything NOT in "constantCC" or "endingCC" is applied on hit
-buffs: "movespeed", "ad", "invisibility", "tenacity", "shield", "spellshield", "heal", "manaheal", "dodge", "crit", "damagereduction", "armor", "mr"
+buffs: "movespeed", "ad", "invisibility", "tenacity", "shield", "spellshield", "heal", "manaheal", "dodge", "crit", "damagereduction", "armor", "mr", "lifesteal", "spellvamp"
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
 projectile: only for windwall purposes
@@ -492,7 +513,7 @@ moves = {
 		target:"self",
 		CC:{},
 		buffs:{
-			movespeed:1
+			movespeed:1,
 			AP:2
 		},
 		type:"Psychic",
@@ -642,7 +663,7 @@ moves = {
 				constantDamage:true,
 				canPerformOtherActions:true,
 				recallingStops:true
-			}
+			},
 			missingHealth:[0.5, 1] //increase by 0.5% for every 1% missing health
 		},
 		category:"Magic",
@@ -754,6 +775,7 @@ moves = {
 		dependent:{
 			channel:{
 				duration:4,
+				recallingStops:true
 			},
 			missingHealth:[1, 1] //increase by 1% for every 1%
 		},
@@ -1037,5 +1059,119 @@ moves = {
 		skillshot:false,
 		onhit:true,
 		description:"Jax gains a massive armor and magic resist boost."
+	},
+	//fiddlesticks
+	terrify:{
+		accuracy:true,
+		base:3,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Terrify",
+		cooldown:15,
+		cost:65,
+		priority:0,
+		target:"enemy",
+		CC:{
+			fear:true
+		},
+		buffs:{},
+		type:"Ghost",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Fiddlesticks terrifies an enemy unit."
+	},
+	drain:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:45
+		},
+		dependent:{
+			channel:{
+				duration:5,
+				constantDamage:true,
+				canPerformOtherActions:false,
+				recallingStops:true
+			}
+		},
+		category:"Magic",
+		display:"Drain",
+		cooldown:5,
+		cost:120,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			spellvamp:true
+		},
+		type:"Grass",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Fiddlesticks channels an enemy unit. It cannot perform any other action while draining, and it can only be cancelled when the target dies, the target recalls, or 5 turns have passed."
+	},
+	darkwind:{
+		accuracy:100,
+		base:65,
+		scaling:{
+			AP:45
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Dark Wind",
+		cooldown:5,
+		cost:120,
+		priority:0,
+		target:"enemy",
+		CC:{
+			silence:1
+		},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Fiddlesticks tosses a crow which silences enemies."
+	},
+	crowstorm:{
+		accuracy:true,
+		base:125,
+		scaling:{
+			AP:45
+		},
+		dependent:{
+			charge:{
+				duration:1,
+				canGetCancelled:true,
+				canCancelEarly:false
+			}
+			channel:{
+				duration:5,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false
+			}
+		},
+		category:"Magic",
+		display:"Crowstorm",
+		cooldown:50,
+		cost:130,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{
+			heal:true
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"After channeling for a turn, Fiddlesticks will summon a murder of crows to murder anyone in its path."
 	},
 }
