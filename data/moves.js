@@ -9,8 +9,8 @@ cooldown is counted in turns
 cost is of any resource
 priority: default 0, bigger number = go faster, same number = whoever's speed is faster
 target: "self", "enemy", "ally", "allEnemies" (aoe), "allAllies" (aoe), "allAlliesAndSelf", "allyOrSelf", "enemyOrAlly", "any", "enemySide", "allySide"
-CC: "slow", "blind", "root", "silence", "airborne", "stun", "taunt", "fear", "suppression", "mrshred", "armshred"
-buffs: "movespeed", "ad", "invisibility", "tenacity", "shield"
+CC: "movespeed", "blind", "root", "silence", "airborne", "stun", "taunt", "fear", "suppression", "mrshred", "armshred". everything NOT in "constantCC" or "endingCC" is applied on hit
+buffs: "movespeed", "ad", "invisibility", "tenacity", "shield", "spellshield", "heal", "manaheal", "dodge", "crit", "damagereduction", "armor", "mr"
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
 projectile: only for windwall purposes
@@ -581,7 +581,10 @@ moves = {
 			AP:250
 		},
 		dependent:{
-			channel:3
+			channel:{
+				duration:3,
+				endingDamage:true,
+			}
 		},
 		category:"Magic",
 		display:"Absolute Zero",
@@ -590,7 +593,9 @@ moves = {
 		priority:0,
 		target:"allEnemies",
 		CC:{
-			movespeed:-1
+			constantCC:{
+				movespeed:-1
+			}
 		},
 		buffs:{},
 		type:"Ice",
@@ -599,5 +604,438 @@ moves = {
 		skillshot:false,
 		onhit:false,
 		description:"Nunu channels and saps a large area around him of heat, slowing all enemies. When Nun completes the channel he deals massive damage to all enemies caught. If the channel is interrupted only a portion of the damage is dealt."
+	},
+	//morgana
+	darkbinding:{
+		accuracy:70,
+		base:80,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Dark Binding",
+		cooldown:7,
+		cost:50,
+		priority:0,
+		target:"enemy",
+		CC:{
+			root:3
+		},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Morgana releases a sphere of dark magic that deals damage and roots an enemy."
+	},	
+	tormentedsoil:{
+		accuracy:80,
+		base:25,
+		scaling:{
+			AP:10
+		},
+		dependent:{
+			channel:{
+				duration:3,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:true
+			}
+			missingHealth:[0.5, 1] //increase by 0.5% for every 1% missing health
+		},
+		category:"Magic",
+		display:"Tormented Soil",
+		cooldown:9,
+		cost:70,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Morgana spills some oil, causing enemies to slip and fall while also causing a financial crisis."
+	},
+	blackshield:{
+		accuracy:true,
+		base:95,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"Status",
+		display:"Black Shield",
+		cooldown:15,
+		cost:55,
+		priority:0,
+		target:"allyOrSelf",
+		CC:{},
+		buffs:{
+			spellshield:true
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Morgana creates a shield around an ally or herself, absorbing magic damage and preventing disables."
+	},
+	soulshackles:{
+		accuracy:100,
+		base:175,
+		scaling:{
+			AP:70
+		},
+		dependent:{
+			channel:{
+				duration:3,
+				initialDamage:true,
+				endingDamage:true,
+				recallingStops:true
+			}
+		},
+		category:"Magic",
+		display:"Soul Shackles",
+		cooldown:30,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			constantCC:{
+				movespeed:-1
+			}
+			endingCC:{
+				stun:2
+			}
+		},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Morgana latches chains onto the souls of nearby enemies, dealing initial magic damage. At the end of the channel, enemy champions are stunned and are dealt damage again."
+	},
+	//master yi
+	alphastrike:{
+		accuracy:100,
+		base:25,
+		scaling:{
+			AD:100
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Alpha Strike",
+		cooldown:7,
+		cost:70,
+		priority:1,
+		target:"allEnemies",
+		CC:{},
+		buffs:{
+			dodge:10
+		},
+		type:"Fighting",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Master Yi quickly leaps to strike his enemies and gains a temporary dodge bonus."
+	},
+	meditate:{
+		accuracy:true,
+		base:30,
+		scaling:{
+			AP:30
+		},
+		dependent:{
+			channel:{
+				duration:4,
+			},
+			missingHealth:[1, 1] //increase by 1% for every 1%
+		},
+		category:"Status",
+		display:"Meditate",
+		cooldown:15,
+		cost:35,
+		priority:0,
+		target:"self",
+		CC:{
+			heal:true
+		},
+		buffs:{
+			damagereduction:50
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Master Yi channels and restores health each second."
+	},
+	wujustyle:{
+		accuracy:true,
+		base:10,
+		scaling:{
+			AD:110
+		},
+		dependent:{},
+		category:"True",
+		display:"Wuju Style",
+		cooldown:7,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{},
+		type:"Fighting",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Master Yi's next attack deals bonus true damage."
+	},
+	highlander:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Highlander",
+		cooldown:25,
+		cost:100,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			AS:2,
+			movespeed:1,
+		},
+		type:"Fighting",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Master Yi gains a massive move speed and attack speed boost."
+	},
+	//kayle
+	reckoning:{
+		accuracy:100,
+		base:60,
+		scaling:{
+			AP:60,
+			AD:20
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Reckoning",
+		cooldown:8,
+		cost:70,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1,
+			mrshred:3,
+			armshred:3
+		},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Kayle blasts a target enemy."
+	},
+	divineblessing:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:45,
+		},
+		dependent:{},
+		category:"Status",
+		display:"Divine Blessing",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"allyOrSelf",
+		CC:{},
+		buffs:{
+			heal:true,
+			movespeed:1
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Kayle blesses an ally or herself, healing them and gaining movement speed."
+	},
+	righteousfuryTR:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Righteous Fury",
+		cooldown:8,
+		cost:45,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			AP:1,
+			AD:-1
+		},
+		type:"Fire",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Kayle ignites her sword and becomes ranged, dealing magic damage on basic attacks."
+	},
+	righteousfuryTM:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Righteous Fury",
+		cooldown:8,
+		cost:45,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			AD:1,
+			AP:-1
+		},
+		type:"Fire",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Kayle deactivates her sword and becomes melee, dealing physical damage on basic attacks."
+	},
+	intervention:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Intervention",
+		cooldown:20,
+		cost:0,
+		priority:0,
+		target:"allyOrSelf",
+		CC:{},
+		buffs:{
+			damagereduction:100
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Kayle bathes an ally or herself in holy light, causing that champion to become immune to damage for a single turn."
+	},
+	//jax
+	leapstrike:{
+		accuracy:100,
+		base:70,
+		scaling:{
+			AP:60,
+			AD:60
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Leap Strike",
+		cooldown:10,
+		cost:65,
+		priority:1,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Fighting",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Jax leaps to a target and deals physical damage."
+	},
+	empower:{
+		accuracy:100,
+		base:40,
+		scaling:{
+			AP:60,
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Empower",
+		cooldown:7,
+		cost:30,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Fighting",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Jax empowers his next basic attack."
+	},
+	counterstrike:{
+		accuracy:100,
+		base:50,
+		scaling:{
+			AD:50,
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Counterstrike",
+		cooldown:17,
+		cost:70,
+		priority:-1,
+		target:"enemy",
+		CC:{
+			stun:1
+		},
+		buffs:{
+			dodge:100
+			damagereduction:25
+		},
+		type:"Fighting",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Jax dodges all basic attacks and takes less damage from abilities. He then stuns an enemy for one turn."
+	},
+	grandmastersmight:{
+		accuracy:true,
+		base:25,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Grandmaster's Might",
+		cooldown:20,
+		cost:100,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			armor:2,
+			mr:2
+		},
+		type:"Fighting",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Jax gains a massive armor and magic resist boost."
 	},
 }

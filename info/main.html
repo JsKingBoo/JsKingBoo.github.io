@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PokeLeague</title>
+    <!-- Bootstrap -->
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Data importation -->
+	<script src="../data/champs.js"></script>
+	<script src="../data/effectiveness.js"></script>	
+	<script src="../data/items.js"></script>
+	<script src="../data/moves.js"></script>
+	<script src="../data/passives.js"></script>
+	<script src="../data/runes.js"></script>
+	<script src="../data/exports.js"></script>
+	<script>
+	
+		var exports = getExports();
+		var loaded = false;
+		
+		setTimeout(checkExports(), 100);
+		
+		function checkExports(){
+			if (exports.runes != null){
+				loaded = true;
+				alert(exports.champs.soraka.display);
+			} else {
+				setTimeout("checkExports();", 100);		
+			}
+		}
+		
+	</script>		
+	
+  </head>
+  
+  <body>
+  
+	<div id="navbar-holder"></div>
+    <script src="../template/navbar.js"></script>	
+    <script>
+	  drawNavbar('info');
+    </script>
+
+	<div id="display-holder"></div>	
+  <!--  <script src="../data/display.js"></script>
+	<script>
+	checkIfLoaded();
+	function checkIfLoaded(){
+		if (loaded == false){
+			setTimeout("checkIfLoaded();", 100);	
+		} else {
+			displayInfo();
+		}
+	}	
+	</script> -->
+	
+
+		
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
