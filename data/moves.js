@@ -5,33 +5,67 @@ base power: "X damage"
 scaling power: "X% AP", "X% AD"
 dependent power:
 
-charge:
-	duration - duration of channel charging
-	canGetCancelled - silence, knockup, etc can disturb it
-	canCancelEarly - can cancel mid-charge
+	charge:
+		duration - duration of channel charging
+		canGetCancelled - silence, knockup, etc can disturb it
+		canCancelEarly - can cancel mid-charge
 
-channel
-	duration - duration of channel
-	initialDamage: T/F, initial burst in channeling like morgana ulti. default false
-	constantDamage: T/F, something like fiddle drains. default false
-	endingDamage: T/F, something like nunu's bingo blast. default false
-	canPerformOtherActions: T/F, can cast other spells while channeling
-	recallingStops:T/F, enemy recalls cancel the channel or simply gives the spell a new target (morgana oil spill). default true
-missingHealth:[0.5, 1] //increase by 0.5% for every 1% missing health
-			  [1, 100] //1% of missing health
-currentHealth:[1, 1] //does 1% more damage for every 1% current health
-			  [10, 100] //10% of current health in damage
-maxHealth:10 //10% max health damage
-enemyAP:80 //does 80% damage of enemy's AP. only for veigar
-
+	channel
+		duration - duration of channel
+		initialDamage: T/F, initial burst in channeling like morgana ulti. default false
+		constantDamage: T/F, something like fiddle drains. default false
+		endingDamage: T/F, something like nunu's bingo blast. default false
+		canPerformOtherActions: T/F, can cast other spells while channeling
+		recallingStops:T/F, enemy recalls cancel the channel or simply gives the spell a new target (morgana oil spill). default true
+	missingHealth:[0.5, 1] //increase by 0.5% for every 1% missing health
+				  [1, 100] //1% of missing health
+	currentHealth:[1, 1] //does 1% more damage for every 1% current health
+				  [10, 100] //10% of current health in damage
+	maxHealth:10 //10% max health damage
+	
+	enemyAP:80 //does 80% damage of enemy's AP. only for veigar
 
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
 cost is of any resource
 priority: default 0, bigger number = go faster, same number = whoever's speed is faster
 target: "self", "enemy", "ally", "allEnemies" (aoe), "allAllies" (aoe), "allAlliesAndSelf", "allyOrSelf", "enemyOrAlly", "any", "enemySide", "allySide"
-CC: "movespeed", "blind", "root", "silence", "airborne", "stun", "taunt", "fear", "suppression", "mrshred", "armshred". everything NOT in "constantCC" or "endingCC" is applied on hit
-buffs: "movespeed", "ad", "invisibility", "tenacity", "shield", "spellshield", "heal", "manaheal", "dodge", "crit", "damagereduction", "armor", "mr", "lifesteal", "spellvamp"
+CC: 
+
+	movespeed - add a stage of speed. Use negative amounts for slow
+	blind - autos and abilities that apply on-hit always miss for X amount of turns
+	root - cannot recall
+	silence - cannot cast abilities
+	airborne - equivalent of a "flinch". also for yasuo
+	stun - can't do anything
+	taunt - must use autos, can't recall
+	fear - like stun, but with additional effect
+	suppression - stun that cannot be QSSd away
+	mrshred - reduce MR by X amount
+	armshred - reduce armor by X amount
+	armor - add a stage of armor. Use negative amounts for x0.67, x0.5, etc
+	mr - add a stage or mr. Use negative amounts for x0.67, x0.5, etc
+	
+	NOTE: everything NOT in "constantCC" or "endingCC" brackets is applied on hit
+
+buffs: 
+
+	movespeed - add a stage of speed. x1.5, x2, etc
+	ad - add a stage of AD. x1.5, x2, etc
+	invisibility - invisible for X amount of turns
+	tenacity - tenacious for X amount of turns
+	shield - shield for 1 turn with strength of shield as X, or base "damage" if set to true
+	spellshield - shield for 1 turn with strength of shield as X, base "damage" if set to true
+	manaheal - regain a resource, base amount set to "true" or X
+	dodge - dodge chance for 1 turn
+	crit - additional crit chance for 1 turn
+	damagereduction - damage reduction for 1 turn
+	armor - add a stage of armor. x1.5, x2, etc
+	mr - do i have to repeat myself 
+	lifesteal - gain lifesteal for 1 turn
+	spellvamp - gain spellvamp for 1 turn
+	lockon - next attack or ability never misses. ignores dodge
+
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
 projectile: only for windwall purposes
@@ -1174,4 +1208,192 @@ moves = {
 		onhit:false,
 		description:"After channeling for a turn, Fiddlesticks will summon a murder of crows to murder anyone in its path."
 	},
+	//annie
+	frostshot:{
+		accuracy:true,
+		base:0,
+		scaling:{
+			AD:100
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Frost Shot",
+		cooldown:0,
+		cost:15,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:true,
+		description:"Ashe enchants her arrows with ice, slowing her target with each hit."
+	},
+	volley:{
+		accuracy:99,
+		base:40,
+		scaling:{
+			AD:100
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Volley",
+		cooldown:6,
+		cost:15,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Ashe fires 7 arrows in a cone, slowing every target hit."
+	},
+	hawkshot:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Hawkshot",
+		cooldown:30,
+		cost:15,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			lockon:true
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Ashe's next attack or ability never misses."
+	},
+	enchantedcrystalarrow:{
+		accuracy:50,
+		base:250,
+		scaling:{
+			AP:100 //ap ashe new meta?
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Enchanted Crystal Arrow",
+		cooldown:35,
+		cost:100,
+		priority:0,
+		target:"enemy",
+		CC:{
+			stun:1,
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Ashe fires a giant arrow which stuns, slows, and deals massive damage to the enemy hit."
+	},	
+	//annie
+	disintegrate:{
+		accuracy:100,
+		base:80,
+		scaling:{
+			AP:80
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Disintegrate",
+		cooldown:3,
+		cost:40,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Annie blasts a target enemy with a fireball."
+	},
+	incinerate:{
+		accuracy:100,
+		base:70,
+		scaling:{
+			AP:85
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Incinerate",
+		cooldown:8,
+		cost:70,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Annie scorches all enemies in front of her."
+	},
+	moltenshield:{
+		accuracy:true,
+		base:20,
+		scaling:{
+			AP:10
+		},
+		dependent:{},
+		category:"Status",
+		display:"Molten Shield",
+		cooldown:10,
+		cost:20,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			armor:1,
+			mr:1
+		},
+		type:"Fire",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Annie gives herself bonus armor and magic resist."
+	},
+	summontibbers:{
+		accuracy:100,
+		base:175,
+		scaling:{
+			AP:80
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Summon: Tibbers",
+		cooldown:40,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Annie violently summons her pet Tibbers."
+	},			
 }

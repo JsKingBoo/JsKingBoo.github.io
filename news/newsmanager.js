@@ -34,14 +34,12 @@ function getNews(source){
   }
   
   function stateChange() {
-	//alert(httpReq.readyState);
-	//alert(httpReq.responseText);
-	//alert(currentNews.toString());
 	if (httpReq.readyState == 4){
 		var news = parseMD(httpReq.responseText);
-		html = '<hr />' + '<p ' + style + '>' + news + '</p>' + html;
-		newsContainer.innerHTML=html;
-		//alert(html);		
+		if (news != ''){
+			html = '<hr />' + '<p ' + style + '>' + news + '</p>' + html;
+			newsContainer.innerHTML=html;
+		}	
 	}
   }
   
