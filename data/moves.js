@@ -1,8 +1,12 @@
 /*move code name, accuracy, base power, scaling power, dependent power, category, display name, cooldown, cost, priority, target, CC, buffs, type, contact, projectile, description
 NO PASSIVES IN MOVES
 IMPORTANT: CODE NAME DOESN'T FOLLOW SAME CONVENTIONS AS CHAMP NAME DUE TO 1 REPEATION
-base power: "X damage"
-scaling power: "X% AP", "X% AD"
+base power: "X bleaners"
+scaling power: 
+
+	AP - %AP ratio, out of 100, that boosts the scaling of the ability. e.g. "AP:50" for 50% bonus bleaners
+	AD - %AD ratio, out of 100, that boosts the scaling of the ability. e.g. "AD:50" for 50% bonus bleaners
+
 dependent power:
 
 	charge:
@@ -31,12 +35,18 @@ cost is of any resource
 priority: default 0, bigger number = go faster, same number = whoever's speed is faster
 target: "self", "enemy", "ally", "allEnemies" (aoe), "allAllies" (aoe), "allAlliesAndSelf", "allyOrSelf", "enemyOrAlly", "any", "enemySide", "allySide"
 CC: 
-
+	
+	cycle - used for "cycling" abilities like yasuo Q
+		duration - length of cycle
+		0:{} - list CC in brackets
+		1:{} - list CC in brackets
+		2:{} (if applicable) - list CC in brackets
 	movespeed - add a stage of speed. Use negative amounts for slow
+	as - add a stage of attack speed. Use negative amounts for attack speed slows. An AS of 0 will disable auto attacking (but not abilities with on-hit effects), and an AS of -1 or below will disable AA and on-hit effects.
 	blind - autos and abilities that apply on-hit always miss for X amount of turns
 	root - cannot recall
 	silence - cannot cast abilities
-	airborne - equivalent of a "flinch". also for yasuo
+	airborne - equivalent of a "flinch". also for yasuo. always lasts 1 turn, cannot make someone airborne if your move is slower, X is percent of airborness
 	stun - can't do anything
 	taunt - must use autos, can't recall
 	fear - like stun, but with additional effect
@@ -45,13 +55,22 @@ CC:
 	armshred - reduce armor by X amount
 	armor - add a stage of armor. Use negative amounts for x0.67, x0.5, etc
 	mr - add a stage or mr. Use negative amounts for x0.67, x0.5, etc
+	reducehealing - healing is halved for X amount of turns
 	
 	NOTE: everything NOT in "constantCC" or "endingCC" brackets is applied on hit
 
 buffs: 
 
+	cycle - used for "cycling" abilities like yasuo Q
+		duration - length of cycle
+		0:{} - list buffs in brackets
+		1:{} - list buffs in brackets
+		2:{} (if applicable) - list CC in brackets
+
 	movespeed - add a stage of speed. x1.5, x2, etc
 	ad - add a stage of AD. x1.5, x2, etc
+	ap - add a stage of AP. x1.5, x2, etc
+	as - add 1 attack speed.
 	invisibility - invisible for X amount of turns
 	tenacity - tenacious for X amount of turns
 	shield - shield for 1 turn with strength of shield as X, or base "damage" if set to true
@@ -64,13 +83,13 @@ buffs:
 	mr - do i have to repeat myself 
 	lifesteal - gain lifesteal for 1 turn
 	spellvamp - gain spellvamp for 1 turn
-	lockon - next attack or ability never misses. ignores dodge
+	lockon - next attack or ability never misses. ignores dodge and invisibility
 
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
-projectile: only for windwall purposes
+projectile: only for windwall purposes (fking yasuo)
 skillshot: only for stealthing purposes
-onhit: if it applies onhit effects
+onhit: if ability applies onhit effects
 */
 moves = {
 	//soraka
@@ -1394,6 +1413,422 @@ moves = {
 		projectile:false,
 		skillshot:false,
 		onhit:false,
-		description:"Annie violently summons her pet Tibbers."
-	},			
+		description:"Annie violently summons her pet Tibbers, dealing damage everywhere."
+	},		
+	//alistar
+	pulverize:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:50
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Pulverize",
+		cooldown:10,
+		cost:65,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			airborne:90
+		},
+		buffs:{},
+		type:"Ground",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Alistar smashes the ground beneath him. It usually knocks all targets airborne."
+	},
+	headbutt:{
+		accuracy:100,
+		base:55,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Headbutt",
+		cooldown:8,
+		cost:65,
+		priority:0,
+		target:"enemy",
+		CC:{
+			mrshred:10,
+			armshred:10
+		},
+		buffs:{},
+		type:"Rock",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Alistar headbutts an enemy, reducing its armor and magic resist while dealing damage."
+	},
+	triumphantroar:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:20
+		},
+		dependent:{},
+		category:"Status",
+		display:"Triumphant Roar",
+		cooldown:12,
+		cost:70,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			heal:true
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Alistar heals himself."
+	},
+	unbreakablewill:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Unbreakable Will",
+		cooldown:50,
+		cost:100,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			damagereduction:70,
+			ad:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Alistar gains damage reduction and increases his attack damage."
+	},
+	//tristana
+	rapidfire:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Rapid Fire",
+		cooldown:10,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			as:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Tristana increases her attack speed."
+	},
+	rocketjump:{
+		accuracy:90,
+		base:70,
+		scaling:{
+			AP:80
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Rocket Jump",
+		cooldown:15,
+		cost:70,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Tristana fires at the ground to propel herself on top of the enemy, dealing magic damage and slowing them."
+	},
+	explosiveshot:{
+		accuracy:100,
+		base:80,
+		scaling:{
+			AP:100
+		},
+		dependent:{
+			channel:{
+				duration:5,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:true
+			},
+		},
+		category:"Magic",
+		display:"Explosive Shot",
+		cooldown:25,
+		cost:50,
+		priority:0,
+		target:"enemy",
+		CC:{
+			reducehealing:5
+		},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Tristana explosively shoots an enemy, causing them to bleed health and also reduce its healing."
+	},	
+	bustershot:{
+		accuracy:100,
+		base:300,
+		scaling:{
+			AP:150
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Buster Shot",
+		cooldown:40,
+		cost:100,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Tristana fires a massive cannonball, dealing a great amount of damage."
+	},
+	//twisted fate
+	wildcards:{
+		accuracy:80,
+		base:60,
+		scaling:{
+			AP:65
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Wild Cards",
+		cooldown:4,
+		cost:60,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Steel",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Twisted Fate throws cards forward, striking enemies hit sharply."
+	},
+	pickacard:{
+		accuracy:100,
+		base:60,
+		scaling:{
+			AD:100,
+			AP:65
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Pick a Card",
+		cooldown:4,
+		cost:60,
+		priority:0,
+		target:"enemy",
+		CC:{
+			cycle:{
+				duration:3,
+				0:{},
+				1:{
+					movespeed:-1
+				},
+				2:{
+					stun:1
+				}
+			}
+		},
+		buffs:{
+			cycle:{
+				duration:3,
+				0:{
+					manaheal:100
+				},
+				1:{},
+				2:{}
+			}		
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:true,
+		description:"Twisted Fate picks a card."
+	},	
+	stackeddeck:{
+		accuracy:true,
+		base:55,
+		scaling:{
+			AD:100,
+			AP:50
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Stacked Deck",
+		cooldown:6,
+		cost:60,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			as:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:true,
+		description:"Twisted Fate gains attack speed and deals bonus damage on his next attack."
+	},
+	destiny:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Destiny",
+		cooldown:10,
+		cost:150,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			movespeed:1,
+			crit:100,
+			lockon:true
+		},
+		type:"Normal",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Twisted Fate reveals all champions. His next attack will not miss, and if applicable it will critically strike."
+	},	
+	//warwick
+	hungeringstrike:{
+		accuracy:100,
+		base:55,
+		scaling:{
+			AP:100
+		},
+		dependent:{
+			maxHealth:10
+		},
+		category:"Magic",
+		display:"Hungering Strike",
+		cooldown:7,
+		cost:80,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			heal:true
+		},
+		type:"Dark",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Warwick swipes at an enemy, dealing magic damage and stealing some health."
+	},
+	hunterscall:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Hunter's Call",
+		cooldown:10,
+		cost:35,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			movespeed:1,
+			as:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Warwick howls, gaining bonus movement speed and attack speed."
+	},	
+	bloodscent:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Blood Scent",
+		cooldown:12,
+		cost:150,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			movespeed:1,
+			lockon:true
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Warwick reveals enemy champions and increases his movement speed"
+	},	
+	infiniteduress:{
+		accuracy:100,
+		base:50,
+		scaling:{
+			AD:40
+		},
+		dependent:{
+			channel:{
+				duration:5,
+				constantDamage:true,
+				canPerformOtherActions:false,
+				recallingStops:false
+			}
+		},
+		category:"Magic",
+		display:"Infinite Duress",
+		cooldown:40,
+		cost:100,
+		priority:2,
+		target:"enemy",
+		CC:{
+			supression:5
+		},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Warwick blinks to an enemy champion, suppressing the target and dealing damage over 5 turns."
+	},		
 }
