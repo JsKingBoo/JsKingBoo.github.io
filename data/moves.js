@@ -9,7 +9,7 @@ scaling power:
 
 dependent power:
 
-	charge:
+	charge - "wind up" time before channel. e.g. fiddle ult
 		duration - duration of channel charging
 		canGetCancelled - silence, knockup, etc can disturb it
 		canCancelEarly - can cancel mid-charge
@@ -21,6 +21,12 @@ dependent power:
 		endingDamage: T/F, something like nunu's bingo blast. default false
 		canPerformOtherActions: T/F, can cast other spells while channeling
 		recallingStops:T/F, enemy recalls cancel the channel or simply gives the spell a new target (morgana oil spill). default true
+		drainCost - If the channel requires draining mana (e.g. anivia ulti) default 0
+		
+	> > > NOTE < < <
+	Both charge and channel can be cancelled at any time
+	> > > NOTE < < <
+	
 	missingHealth:[0.5, 1] //increase by 0.5% for every 1% missing health
 				  [1, 100] //1% of missing health
 	currentHealth:[1, 1] //does 1% more damage for every 1% current health
@@ -34,13 +40,14 @@ cooldown is counted in turns
 cost is of any resource
 priority: default 0, bigger number = go faster, same number = whoever's speed is faster
 target: "self", "enemy", "ally", "allEnemies" (aoe), "allAllies" (aoe), "allAlliesAndSelf", "allyOrSelf", "enemyOrAlly", "any", "enemySide", "allySide"
-CC: 
+CC - NEVER APPLIED TO ALLIES OR SELF
 	
 	cycle - used for "cycling" abilities like yasuo Q
 		duration - length of cycle
 		0:{} - list CC in brackets
 		1:{} - list CC in brackets
 		2:{} (if applicable) - list CC in brackets
+		
 	movespeed - add a stage of speed. Use negative amounts for slow
 	as - add a stage of attack speed. Use negative amounts for attack speed slows. An AS of 0 will disable auto attacking (but not abilities with on-hit effects), and an AS of -1 or below will disable AA and on-hit effects.
 	blind - autos and abilities that apply on-hit always miss for X amount of turns
@@ -59,22 +66,23 @@ CC:
 	
 	NOTE: everything NOT in "constantCC" or "endingCC" brackets is applied on hit
 
-buffs: 
+buffs - NEVER APPLIED TO ENEMIES
 
 	cycle - used for "cycling" abilities like yasuo Q
 		duration - length of cycle
 		0:{} - list buffs in brackets
 		1:{} - list buffs in brackets
-		2:{} (if applicable) - list CC in brackets
+		2:{} (if applicable) - list buffs in brackets
 
 	movespeed - add a stage of speed. x1.5, x2, etc
-	ad - add a stage of AD. x1.5, x2, etc
-	ap - add a stage of AP. x1.5, x2, etc
-	as - add 1 attack speed.
+	AD - add a stage of AD. x1.5, x2, etc
+	AP - add a stage of AP. x1.5, x2, etc
+	AS - add X attack speed.
 	invisibility - invisible for X amount of turns
 	tenacity - tenacious for X amount of turns
 	shield - shield for 1 turn with strength of shield as X, or base "damage" if set to true
 	spellshield - shield for 1 turn with strength of shield as X, base "damage" if set to true
+	heal - heal for base amount set to "true" or X	
 	manaheal - regain a resource, base amount set to "true" or X
 	dodge - dodge chance for 1 turn
 	crit - additional crit chance for 1 turn
@@ -84,6 +92,8 @@ buffs:
 	lifesteal - gain lifesteal for 1 turn
 	spellvamp - gain spellvamp for 1 turn
 	lockon - next attack or ability never misses. ignores dodge and invisibility
+	refreshCD - reduces the cooldown of other abilities by X
+	revive - only for zils. on death, revive with X health or set to "true" for base
 
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
@@ -1830,5 +1840,209 @@ moves = {
 		skillshot:false,
 		onhit:true,
 		description:"Warwick blinks to an enemy champion, suppressing the target and dealing damage over 5 turns."
+	},
+	//singed
+	poisontrial:{
+		accuracy:true,
+		base:10,
+		scaling:{
+			AP:30
+		},
+		dependent:{
+			channel:{
+				duration:999, //that should be enough
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false,
+				drainCost:13
+			}
+		},
+		category:"Magic",
+		display:"Poison Trial",
+		cooldown:0,
+		cost:0,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Poison",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Singed leaves a trail of poison behind him. The poison will linger so long as he has the mana to fuel it."
+	},	
+	megaadhesive:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Mega Adhesive",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			movespeed:-2
+		},
+		buffs:{},
+		type:"Poison",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Singed creates a pool of glue on the ground. Enemy champions mistake it for deodorant and get trapped."
 	},		
+	fling:{
+		accuracy:100,
+		base:80,
+		scaling:{
+			AP:75
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Fling",
+		cooldown:10,
+		cost:100,
+		priority:0,
+		target:"enemy",
+		CC:{
+			airborne:true,
+		},
+		buffs:{},
+		type:"Normal",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Singed flings a target enemy."
+	},
+	insanitypotion:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Insanity Potion",
+		cooldown:40,
+		cost:100,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			AP:1,
+			movespeed:1,
+			armor:1,
+			mr:1
+			heal:200,
+			manaheal:200
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Singed drinks a potent brew of chemicals."
+	},
+	//zilean
+	timebomb:{
+		accuracy:100,
+		base:90,
+		scaling:{
+			AP:90
+		},
+		dependent:{
+			channel:{
+				duration:3,
+				endingDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:true,
+			}
+		},
+		category:"Magic",
+		display:"Time Bomb",
+		cooldown:10,
+		cost:80,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Zilean places a ticking time bomb on an enemy, dealing magic damage later."
+	},
+	rewind:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Rewind",
+		cooldown:15,
+		cost:50,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			refreshCD:10
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Zilean reduces the cooldown of his other abilities by 10."
+	},	
+	timewarp:{
+		accuracy:100,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Time Warp",
+		cooldown:20,
+		cost:55,
+		priority:0,
+		target:"any",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{
+			movespeed:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Zilean bends time around himself, increasing his movement speed."
+	},
+	chronoshift:{
+		accuracy:true,
+		base:100,
+		scaling:{
+			AP:200
+		},
+		dependent:{},
+		category:"Status",
+		display:"Chrono Shift",
+		cooldown:150,
+		cost:125,
+		priority:1,
+		target:"allyOrSelf",
+		CC:{},
+		buffs:{
+			revive:true
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Zilean places a protective time rune on an ally or himself. If the target dies, it is revived with a set amount of health at the end of the turn."
+	},
 }
