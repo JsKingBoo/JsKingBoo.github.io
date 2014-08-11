@@ -33,7 +33,10 @@ dependent power:
 				  [10, 100] //10% of current health in damage
 	maxHealth:10 //10% max health damage
 	
+		OTHER POWERS/UNIQUE
+		
 	enemyAP:80 //does 80% damage of enemy's AP. only for veigar
+	deadyVenomStacks: //does 20 damage per stack of deadly venom. only for twitch
 
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
@@ -63,6 +66,14 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 	armor - add a stage of armor. Use negative amounts for x0.67, x0.5, etc
 	mr - add a stage or mr. Use negative amounts for x0.67, x0.5, etc
 	reducehealing - healing is halved for X amount of turns
+	
+		HAZARDS
+	
+	noxiousTrap - TEEMO
+	
+		OTHER DEBUFFS
+	
+	deadlyVenom - TWITCH
 	
 	NOTE: everything NOT in "constantCC" or "endingCC" brackets is applied on hit
 
@@ -2045,4 +2056,196 @@ moves = {
 		onhit:false,
 		description:"Zilean places a protective time rune on an ally or himself. If the target dies, it is revived with a set amount of health at the end of the turn."
 	},
+	//twitch
+	ambush:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Ambush",
+		cooldown:20,
+		cost:60,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			invisibility:2,
+			movespeed:1,
+			as:1
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Twitch enters stealth, gaining movement speed and attack speed."
+	},
+	venomcask:{
+		accuracy:80,
+		base:25,
+		scaling:{},
+		dependent:{},
+		category:"Magic",
+		display:"Venom Cask",
+		cooldown:10,
+		cost:50,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			movespeed:-2,
+			deadlyVenom:2
+		},
+		buffs:{},
+		type:"Poison",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Twitch throws something that won't wash off."
+	},
+	contaminate:{
+		accuracy:80,
+		base:20,
+		scaling:{
+			AP:20,
+			AD:30
+		},
+		dependent:{
+			deadlyVenomStacks:true
+		},
+		category:"Physical",
+		display:"Contaminate",
+		cooldown:7,
+		cost:50,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Poison",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Twitch throws something that won't wash off."
+	},
+	rattatattat:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Physical",
+		display:"Contaminate",
+		cooldown:30,
+		cost:100,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			ad:3
+		},
+		type:"Poison",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Twitch's attacks hit extremely hard."
+	},	
+	//evelynn
+	hatespike:{
+		accuracy:100,
+		base:30,
+		scaling:{
+			AP:30,
+			AD:25
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Hate Spike",
+		cooldown:1,
+		cost:12,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Evelynn sends out a hate spike"
+	},	
+	darkfrenzy:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Dark Frenzy",
+		cooldown:5,
+		cost:12,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			movespeed:1
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Evelynn speeds up."
+	},
+	ravage:{
+		accuracy:100,
+		base:0,
+		scaling:{
+			AD:100,
+			AP:100
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Ravage",
+		cooldown:4,
+		cost:12,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			AS:1
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Evelynn strikes an enemy twice and becomes enraged."
+	},
+	agonysembrace:{
+		accuracy:100,
+		base:0,
+		scaling:{},
+		dependent:{
+			currentHealth:[15, 100]
+		},
+		category:"Magic",
+		display:"Agony's Embrace",
+		cooldown:30,
+		cost:12,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{
+			shield:true
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Evelynn embales an area, gaining a shield if it hits an enemy."
+	},	
 }
