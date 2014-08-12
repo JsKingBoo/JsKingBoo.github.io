@@ -1223,7 +1223,7 @@ moves = {
 				duration:1,
 				canGetCancelled:true,
 				canCancelEarly:false
-			}
+			},
 			channel:{
 				duration:5,
 				constantDamage:true,
