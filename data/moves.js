@@ -802,7 +802,7 @@ moves = {
 		CC:{
 			constantCC:{
 				movespeed:-1
-			}
+			},
 			endingCC:{
 				stun:2
 			}
