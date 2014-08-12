@@ -1945,7 +1945,7 @@ moves = {
 			AP:1,
 			movespeed:1,
 			armor:1,
-			mr:1
+			mr:1,
 			heal:200,
 			manaheal:200
 		},
@@ -1968,7 +1968,7 @@ moves = {
 				duration:3,
 				endingDamage:true,
 				canPerformOtherActions:true,
-				recallingStops:true,
+				recallingStops:true
 			}
 		},
 		category:"Magic",
