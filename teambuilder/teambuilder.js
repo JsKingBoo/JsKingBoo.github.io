@@ -23,8 +23,6 @@ function teambuilder(exports){
       html += '<button href="#" class="btn btn-warning" style="margin-left:40px; width:1200px; height:120px;">' + champs[4] + '</button>';
 
 	}
-	
-	
 
 	function setCookie(name, value) {
 		document.cookie = name + '=' + value + '; ' + 'expires=Fri, 01 Jan 2100 12:00:00 GMT';
