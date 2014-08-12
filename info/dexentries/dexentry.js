@@ -8,7 +8,7 @@ function champInfo(chp){ //champ code name, NOT display name
 	html += '<div class="row">';
 	html += '	<div class="col-xs-6 col-md-3" style="margin-left:40px;">';
 	html += '		<a href="#" class="thumbnail">';
-	html += '			<img src="splashart/' + chp + '.png" class="img-polaroid" alt="..." id="splash">'; //all art by Riot Games (tm)
+	html += '			<img src="/data/splashart/' + chp + '.png" class="img-polaroid" alt="..." id="splash">'; //all art by Riot Games (tm)
 	html += '		</a>';
 	html += '	</div>';
 	html += '</div>';

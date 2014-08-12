@@ -1101,7 +1101,7 @@ moves = {
 			stun:1
 		},
 		buffs:{
-			dodge:100
+			dodge:100,
 			damagereduction:25
 		},
 		type:"Fighting",
