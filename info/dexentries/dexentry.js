@@ -14,7 +14,7 @@ function champInfo(chp){ //champ code name, NOT display name
 	html += '</div>';
 	//image is 480x480
 	
-	html += '<div id="movepool" style="margin-left:40px">';
+	html += '<div id="movepool" style="margin-left:40px;width:540px;height:120px">';
 	html += '	<div class="btn-group">';
 	html += '		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
 	html += '			Moev <span class="caret"></span>';
