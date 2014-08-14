@@ -14,17 +14,16 @@ function champInfo(chp){ //champ code name, NOT display name
 	html += '</div>';
 	//image is 480x480
 	
+	html += '<div style="margin:40px;"></div>';
 	html += '<div id="movepool">';
 	html += '	<div class="btn-group">';
 	html += '		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
-	html += '			Action <span class="caret"></span>';
+	html += '			Moev <span class="caret"></span>';
 	html += '		</button>';
 	html += '		<ul class="dropdown-menu" role="menu">';
-	html += '			<li><a href="#">Action</a></li>';
-	html += '			<li><a href="#">Another action</a></li>';
-	html += '			<li><a href="#">Something else here</a></li>';
-	html += '			<li class="divider"></li>';
-	html += '			<li><a href="#">Separated link</a></li>';
+	html += '			<li><a href="#">Description</a></li>';
+	html += '			<li><a href="#">Base damage + AP/AD	scaling</a></li>';
+	html += '			<li><a href="#">Something something something</a></li>';
 	html += '		</ul>';
 	html += '	</div>';
 	html += '</div>';	
