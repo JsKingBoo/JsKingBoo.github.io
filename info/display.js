@@ -42,7 +42,7 @@ function showChampList(){
 			}
 		}
 
-		html += '<button href="#" id="' + id + '" onclick="window.location.href="dexentries/' + chp + '.html" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">' + displayArray[j] + '</button>';
+		html += '<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + chp + '.html&quot;" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">' + displayArray[j] + '</button>';
 	}
 	
 	displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION	
