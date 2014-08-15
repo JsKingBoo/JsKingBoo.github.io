@@ -65,5 +65,7 @@ function onPressChamp(chp){ //champ code name, NOT display name
 	html += 	'window.location.href = "dexentries/' + chp + '/html"';
 	html += '</script>';
 	
+	displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION		
+	
 }	
 

@@ -1,4 +1,4 @@
-function drawNavbar(active){ //"home", "teambuilder", "play", "info"
+function drawNavbar(active){ //"home", "teambuilder", "play", "info", "dex"
 
 	var navContainer = document.getElementById("navbar-holder");
 
@@ -19,30 +19,46 @@ function drawNavbar(active){ //"home", "teambuilder", "play", "info"
 	html += '    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
 	html += '      <ul class="nav navbar-nav">';
 	
-	if (active == 'home'){ //check for active home
-	  html += '        <li class="active"><a href="#">Home</a></li>';	
-	} else {
-	  html += '        <li><a href="/home/index.html">Home</a></li>';	
-	}
+	if (active == 'dex'){ //check for active dexentries, why do you have to be so difficult?
 	
-	if (active == 'teambuilder'){ //check for active teambuilder
-	  html += '        <li class="active"><a href="#">Teambuilder</a></li>';		
+		html += '        <li><a href="../../home/index.html">Home</a></li>';			
+		html += '        <li><a href="../../teambuilder/main.html">Teambuilder</a></li>';			
+		html += '        <li><a href="../../play/main.html">Play</a></li>';	
+		  
 	} else {
-	  html += '        <li><a href="/teambuilder/main.html">Teambuilder</a></li>';	
+	
+		if (active == 'home'){ //check for active home
+			html += '        <li class="active"><a href="#">Home</a></li>';	
+		} else {
+			html += '        <li><a href="../home/index.html">Home</a></li>';	
+		}
+		
+		if (active == 'teambuilder'){ //check for active teambuilder
+			html += '        <li class="active"><a href="#">Teambuilder</a></li>';		
+		} else {
+			html += '        <li><a href="../teambuilder/main.html">Teambuilder</a></li>';	
+		}
+
+		if (active == 'play'){
+			html += '        <li class="active"><a href="#">Play</a></li>';		
+		} else {
+			html += '        <li><a href="../play/main.html">Play</a></li>';	
+		}	
+		
 	}
 
-	if (active == 'play'){
-	  html += '        <li class="active"><a href="#">Play</a></li>';		
-	} else {
-	  html += '        <li><a href="/play/main.html">Play</a></li>';	
-	}
 	
 	//dropdown
 	
 	html += '        <li class="dropdown">';
 	html += '          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Information and Leagues<span class="caret"></span></a>';
 	html += '          <ul class="dropdown-menu" role="menu">';
-	html += '            <li><a href="/info/main.html">Champion Info</a></li>'; // ../info/main
+	
+	if (active == 'dex'){
+		html += '            <li><a href="../../info/main.html">Champion Info</a></li>'; // ../info/main
+	} else {
+		html += '            <li><a href="../info/main.html">Champion Info</a></li>'; // ../info/main
+	}
 	html += '            <li><a href="#">Match Mechanics Info</a></li>';  // ../info/match
 	html += '            <li class="divider"></li>';
 	html += '            <li><a href="#">Leaderboards</a></li>' //maybe remove these...?
