@@ -42,7 +42,7 @@ function showChampList(){
 			}
 		}
 
-		html += '<button href="#" id="' + id + '" onclick="onPressChamp(&quot;' + id + '&quot;)" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">' + displayArray[j] + '</button>';
+		html += '<button href="#" id="' + id + '" onclick="window.location.href="dexentries/' + chp + '.html" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">' + displayArray[j] + '</button>';
 	}
 	
 	displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION	
@@ -56,16 +56,4 @@ function showEffectivenesChart(){
 function showRunes(){
 
 }
-
-function onPressChamp(chp){ //champ code name, NOT display name
-
-	html = '';
-
-	html += '<script type="text/javascript">';
-	html += 	'window.location.href = "dexentries/' + chp + '/html"';
-	html += '</script>';
-	
-	displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION		
-	
-}	
 
