@@ -1,7 +1,7 @@
 var displayContainer = document.getElementById("display-holder");
 var html = '';
 
-var WINDOW_WIDTH = screen.availWidth
+var WINDOW_WIDTH = screen.availWidth - 80; //should use a constant, oh well
 
 function displayInfo(){
 	html += '<div class="row">';
