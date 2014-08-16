@@ -3,7 +3,7 @@ var html = '';
 
 function displayInfo(){
 	html += '<div class="row">';
-	html += '	<div class="col-md-6>';
+	html += '	<div class="col-md-6">';
 	html += '		<button href="#" id="show-champs" onclick="showChampList()" class="btn btn-primary" style="margin-left:40px; height:120px;">Champions</button>';
 	html += '	</div>';
 	html += '</div>';
@@ -45,7 +45,7 @@ function showChampList(){
 			}
 		}
 		html += '<div class="row">';
-		html += '	<div class="col-md-6>';
+		html += '	<div class="col-md-6">';
 		html += '		<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="margin-left:40px; height:120px;">' + displayArray[j] + '</button>';
 		html += '	</div>';
 		html += '</div>';	
