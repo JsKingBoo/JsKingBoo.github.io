@@ -2,10 +2,13 @@ var displayContainer = document.getElementById("display-holder");
 var html = '';
 
 function displayInfo(){
-	html += '<button href="#" id="show-champs" onclick="showChampList()" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">Champions</button>';
+	html += '<div class="row">';
+	html += '	<div class="col-md-6>';
+	html += '		<button href="#" id="show-champs" onclick="showChampList()" class="btn btn-primary" style="margin-left:40px; height:120px;">Champions</button>';
+	html += '	</div>';
+	html += '</div>';
 	
 	displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION	
-
 }
 
 function showChampList(){
@@ -41,8 +44,12 @@ function showChampList(){
 				id = k;
 			}
 		}
-
-		html += '<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="margin-left:40px; width:1200px; height:120px;">' + displayArray[j] + '</button>';
+		html += '<div class="row">';
+		html += '	<div class="col-md-6>';
+		html += '		<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="margin-left:40px; height:120px;">' + displayArray[j] + '</button>';
+		html += '	</div>';
+		html += '</div>';	
+	
 	}
 	
 	displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION	

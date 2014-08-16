@@ -127,5 +127,7 @@ lucian:{num:115,display:"Lucian",blurb:"The Purifier's Resolve",types:["Normal"]
 jinx:{num:116,display:"Jinx",blurb:"The Loose Cannon",types:["Normal"],baseStats:{hp:380,ad:50,as:2,arm:17,ap:0,mr:30,ape:35,mpe:0,man:170,spe:325},passive:"Get Excited!",ranged:true},
 yasuo:{num:117,display:"Yasuo",blurb:"The Unforgiven",types:["Flying"],baseStats:{hp:430,ad:50,as:1,arm:19,ap:0,mr:30,ape:10,mpe:0,man:0,spe:350},passive:"Way of the Wanderer",ranged:false},
 koz:{num:118,display:"Vel'Koz",blurb:"The Eye of the Void",types:["Psychic"],baseStats:{hp:380,ad:51,as:1,arm:16,ap:50,mr:30,ape:20,mpe:0,man:250,spe:340},passive:"Organic Deconstruction",ranged:false},
-braum:{num:119,display:"Braum",blurb:"The Heart of the Freljord",types:["Ice"],baseStats:{hp:430,ad:50,as:1,arm:24,ap:0,mr:40,ape:0,mpe:0,man:230,spe:335},passive:"Concussive Blows",ranged:false}
+braum:{num:119,display:"Braum",blurb:"The Heart of the Freljord",types:["Ice"],baseStats:{hp:430,ad:50,as:1,arm:24,ap:0,mr:40,ape:0,mpe:0,man:230,spe:335},passive:"Concussive Blows",ranged:false},
+gnar_m:{num:120,display:"Gnar",blurb:"The Missing Link",types:["Normal"],baseStats:{hp:430,ad:45,as:2,arm:19,ap:0,mr:30,ape:10,mpe:0,man:100,spe:335},passive:"Rage Gene",ranged:true,otherForm:["gnar_r"]},
+gnar_r:{num:120,display:"Gnar",blurb:"The Missing Link",types:["Ground", "Fighting"],baseStats:{hp:460,ad:50,as:1,arm:22,ap:0,mr:32,ape:10,mpe:0,man:100,spe:325},passive:"Rage Gene",ranged:false,otherForm:["gnar_m"]}
 }
