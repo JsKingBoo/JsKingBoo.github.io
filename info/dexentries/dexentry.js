@@ -17,11 +17,11 @@ function champInfo(chp){ //champ code name, NOT display name
 	html += '</div>';
 	//image is 480x480
 	
-	html += '<div id="movepool" style="margin-left:' + MARGIN + 'px;width:540px;height:120px">';
+	html += '<div id="movepool">';
 	html += '	<div class="row">';	
 	html += '		<div class=".col-md-8">';
 	html += '			<div class="btn-group">';
-	html += '				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">';
+	html += '				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-left:' + MARGIN + 'px; width:' + (WINDOW_WIDTH / 2) + 'px; height:120px;">';
 	html += '					Move <span class="caret"></span>';
 	html += '				</button>';
 	html += '				<ul class="dropdown-menu" role="menu">';
