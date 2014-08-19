@@ -19,8 +19,9 @@ dependent power:
 		initialDamage: T/F, initial burst in channeling like morgana ulti. default false
 		constantDamage: T/F, something like fiddle drains. default false
 		endingDamage: T/F, something like nunu's bingo blast. default false
-		canPerformOtherActions: T/F, can cast other spells while channeling
+		canPerformOtherActions: T/F, can cast other spells while channeling. default false
 		recallingStops:T/F, enemy recalls cancel the channel or simply gives the spell a new target (morgana oil spill). default true
+		cancellable:T/F, can cancel in the middle. default false
 		drainCost - If the channel requires draining mana (e.g. anivia ulti) default 0
 		
 	> > > NOTE < < <
@@ -40,7 +41,7 @@ dependent power:
 
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
-cost is of any resource
+cost is of any resource, "true" for using all resource availible
 priority: default 0, bigger number = go faster, same number = whoever's speed is faster
 target: "self", "enemy", "ally", "allEnemies" (aoe), "allAllies" (aoe), "allAlliesAndSelf", "allyOrSelf", "enemyOrAlly", "any", "enemySide", "allySide"
 CC - NEVER APPLIED TO ALLIES OR SELF
@@ -105,7 +106,8 @@ buffs - NEVER APPLIED TO ENEMIES
 	lockon - next attack or ability never misses. ignores dodge and invisibility
 	refreshCD - reduces the cooldown of other abilities by X
 	revive - only for zils. on death, revive with X health or set to "true" for base
-
+	endure - only for tryndamere. can't go below 1 HP for X turns
+	
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
 projectile: only for windwall purposes (fking yasuo)
@@ -1865,6 +1867,7 @@ moves = {
 				constantDamage:true,
 				canPerformOtherActions:true,
 				recallingStops:false,
+				cancellable:true,
 				drainCost:13
 			}
 		},
@@ -2248,4 +2251,203 @@ moves = {
 		onhit:false,
 		description:"Evelynn embales an area, gaining a shield if it hits an enemy."
 	},	
+	//tryndamere
+	bloodlust:{
+		accuracy:true,
+		base:30,
+		scaling:{
+			AP:30
+		},
+		dependent:{},
+		category:"Status",
+		display:"Bloodlust",
+		cooldown:10,
+		cost:true,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			ad:1,
+			heal:true
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Tryndamere consumes all his fury, restoring some of his health and increasing his attack damage."
+	},
+	mockingshout:{
+		accuracy:true,
+		base:30,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Mocking Shout",
+		cooldown:10,
+		cost:0,
+		priority:0,
+		target:"enemy",
+		CC:{
+			ad:-1,
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Tryndamere decreases the enemy's attack damage and movespeed."
+	},
+	spinningslash:{
+		accuracy:90,
+		base:70,
+		scaling:{
+			AD:100
+			AP:100
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Spinning Slash",
+		cooldown:10,
+		cost:0,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Tryndamere spins to win."
+	},
+	undyingrage:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Undying Rage",
+		cooldown:40,
+		cost:0,
+		priority:3,
+		target:"self",
+		CC:{},
+		buffs:{
+			endure:3
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Tryndamere spins to win."
+	},
+	//karthus
+	laywaste:{
+		accuracy:90,
+		base:40,
+		scaling:{
+			AP:30
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Lay Waste",
+		cooldown:0,
+		cost:10,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Ghost",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Karthus creates a point of unstable matter, causing an explosion."
+	},
+	wallofpain:{
+		accuracy:90,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Wall of Pain",
+		cooldown:10,
+		cost:10,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Ghost",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Karthus summons a wall of pain."
+	},
+	defile:{
+		accuracy:true,
+		base:20,
+		scaling:{
+			AP:20
+		},
+		dependent:{
+			channel:{
+				duration:999, //huehuehuehuheuheu
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false,
+				cancellable:true,
+				drainCost:20
+			}
+		},
+		category:"Magic",
+		display:"Defile",
+		cooldown:1,
+		cost:10,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Ghost",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Karthus surrounds himself with the souls of his victims."
+	},
+	requiem:{
+		accuracy:true,
+		base:200,
+		scaling:{
+			AP:60
+		},
+		dependent:{
+			channel:{
+				duration:3,
+				endingDamage:true,
+				recallingStops:false
+			}
+		},
+		category:"Magic",
+		display:"Requiem",
+		cooldown:40,
+		cost:150,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Ghost",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Karthus presses R."
+	},	
+	
 }
