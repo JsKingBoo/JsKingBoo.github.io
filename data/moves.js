@@ -37,7 +37,8 @@ dependent power:
 		OTHER POWERS/UNIQUE
 		
 	enemyAP:80 //does 80% damage of enemy's AP. only for veigar
-	deadyVenomStacks: //does 20 damage per stack of deadly venom. only for twitch
+	deadyVenomStacks:true //does 20 damage per stack of deadly venom. only for twitch
+	chilledStacks:true //does double damage if detected. only for anivia
 
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
@@ -57,7 +58,7 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 	blind - autos and abilities that apply on-hit always miss for X amount of turns
 	root - cannot recall
 	silence - cannot cast abilities
-	airborne - equivalent of a "flinch". also for yasuo. always lasts 1 turn, cannot make someone airborne if your move is slower, X is percent of airborness
+	airborne - equivalent of a "flinch". also for yasuo. always lasts 1 turn, cannot make someone airborne if your move is slower, X is percent of airborness or true
 	stun - can't do anything
 	taunt - must use autos, can't recall
 	fear - like stun, but with additional effect
@@ -75,6 +76,7 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 		OTHER DEBUFFS
 	
 	deadlyVenom - TWITCH
+	chilled - ANIVIA
 	
 	NOTE: everything NOT in "constantCC" or "endingCC" brackets is applied on hit
 
@@ -90,6 +92,8 @@ buffs - NEVER APPLIED TO ENEMIES
 	AD - add a stage of AD. x1.5, x2, etc
 	AP - add a stage of AP. x1.5, x2, etc
 	AS - add X attack speed.
+	armor - add a stage of armor. x1.5, x2, etc
+	mr - do i have to repeat myself 
 	invisibility - invisible for X amount of turns
 	tenacity - tenacious for X amount of turns
 	shield - shield for 1 turn with strength of shield as X, or base "damage" if set to true
@@ -99,8 +103,6 @@ buffs - NEVER APPLIED TO ENEMIES
 	dodge - dodge chance for 1 turn
 	crit - additional crit chance for 1 turn
 	damagereduction - damage reduction for 1 turn
-	armor - add a stage of armor. x1.5, x2, etc
-	mr - do i have to repeat myself 
 	lifesteal - gain lifesteal for 1 turn
 	spellvamp - gain spellvamp for 1 turn
 	lockon - next attack or ability never misses. ignores dodge and invisibility
@@ -2449,5 +2451,310 @@ moves = {
 		onhit:false,
 		description:"Karthus presses R."
 	},	
-	
+	//amumu
+	bandagetoss:{
+		accuracy:85,
+		base:80,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Bandage Toss",
+		cooldown:10,
+		cost:80,
+		priority:0,
+		target:"enemy",
+		CC:{
+			stun:1
+		},
+		buffs:{},
+		type:"Ghost",
+		contact:true,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Amumy tosses a sticky bandage and stunning the target if it hits."
+	},
+	despair:{
+		accuracy:true,
+		base:8,
+		scaling:{},
+		dependent:{
+			channel:{
+				duration:999,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false,
+				cancellable:true,
+				drainCost:20
+			},
+			maxHealth:1.5
+		},
+		category:"Magic",
+		display:"Despair",
+		cooldown:1,
+		cost:80,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			stun:1
+		},
+		buffs:{},
+		type:"Water",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Amumy cries a cursed river of tears."
+	},
+	tantrum:{
+		accuracy:true,
+		base:75,
+		scaling:{
+			AP:50
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Tantrum",
+		cooldown:10,
+		cost:35,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Amumu releases his anger."
+	},
+	curseofthesadmummy:{
+		accuracy:true,
+		base:150,
+		scaling:{
+			AP:80
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Curse of the Sad Mummy",
+		cooldown:100,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			stun:2
+		},
+		buffs:{},
+		type:"Ground",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Amumu entangles surrounding enemies, temporarily mummifying them."
+	},
+	//cho gath
+	rupture:{
+		accuracy:80,
+		base:80,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Rupture",
+		cooldown:9,
+		cost:90,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			airborne:true,
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Ground",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Cho'Gath stamps the ground, causing spikes to erupt and slow enemies hit."
+	},
+	feralscream:{
+		accuracy:90,
+		base:75,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Feral Scream",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			silence:2
+		},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:true,
+		onhit:false,
+		description:"Cho'Gath roars, silencing enemies hit."
+	},
+	vorpalspikes:{
+		accuracy:true,
+		base:20,
+		scaling:{
+			AP:30,
+			AD:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Vorpal Spikes",
+		cooldown:0,
+		cost:0,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Rock",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Cho'Gath's attack launches spikes."
+	},
+	feast:{
+		accuracy:true,
+		base:300,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"True",
+		display:"Feast",
+		cooldown:50,
+		cost:100,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			heal:true
+		},
+		type:"Normal",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Cho'Gath eats an enemy and restores health."
+	},
+	//anivia
+	flashfrost:{
+		accuracy:60,
+		base:80,
+		scaling:{
+			AP:80
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Flash Frost",
+		cooldown:10,
+		cost:80,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			stun:1,
+			chilled:1
+		},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Anivia unleashes an orb of ice."
+	},
+	crystallize:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Crystallize",
+		cooldown:15,
+		cost:70,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			armor:1,
+			mr:1
+		},
+		type:"Ice",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Anivia constructs a wall of ice, boosting her defense."
+	},
+	frostbite:{
+		accuracy:100,
+		base:55,
+		scaling:{
+			AP:50
+		},
+		dependent:{
+			chilledStacks:true
+		},
+		category:"Magic",
+		display:"Frostbite",
+		cooldown:5,
+		cost:50,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Anivia fires a shard of ice."
+	},
+	glacialstorm:{
+		accuracy:true,
+		base:80,
+		scaling:{
+			AP:25
+		},
+		dependent:{
+			channel:{
+				duration:999,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false,
+				cancellable:true,
+				drainCost:40
+			},
+		},
+		category:"Magic",
+		display:"Glacial Storm",
+		cooldown:5,
+		cost:75,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			chilled:1
+		},
+		buffs:{},
+		type:"Ice",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Anivia creates a blizzard, dealing magic damage every second to enemies inside."
+	},
 }
