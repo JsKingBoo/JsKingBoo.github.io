@@ -107,8 +107,10 @@ buffs - NEVER APPLIED TO ENEMIES
 	spellvamp - gain spellvamp for 1 turn
 	lockon - next attack or ability never misses. ignores dodge and invisibility
 	refreshCD - reduces the cooldown of other abilities by X
+	
 	revive - only for zils. on death, revive with X health or set to "true" for base
 	endure - only for tryndamere. can't go below 1 HP for X turns
+	reflect - only for rammus & thornmail. reflects 25% of physical damage dealt
 	
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
@@ -2757,4 +2759,205 @@ moves = {
 		onhit:false,
 		description:"Anivia creates a blizzard, dealing magic damage every second to enemies inside."
 	},
+	//rammus
+	powerball:{
+		accuracy:95,
+		base:100,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Powerball",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"enemy",
+		CC:{
+			airborne:50
+		},
+		buffs:{
+			movespeed:2
+		},
+		type:"Ground",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Rammus enters roll position, accelerating and slamming into an enemy."
+	},
+	defensiveballcurl:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Defensive Ball Curl",
+		cooldown:10,
+		cost:40,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			armor:1,
+			mr:1,
+			reflect:1
+		},
+		type:"Rock",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Rammus enters a defensive position, gaining bonus armor and magic resist while deflecting the next physical attack."
+	},
+	puncturingtaunt:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Puncturing Taunt",
+		cooldown:10,
+		cost:50,
+		priority:0,
+		target:"enemy",
+		CC:{
+			armshred:10,
+			mrshred:10,
+			taunt:3
+		},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Rammus taunts an enemy and reduces its armor."
+	},
+	tremors:{
+		accuracy:true,
+		base:65,
+		scaling:{
+			AP:35
+		},
+		dependent:{
+			channel:{
+				duration:6,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false,
+				cancellable:false,
+			},
+		},
+		category:"Magic",
+		display:"Tremors",
+		cooldown:40,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Ground",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Earthquake tears open the ground!"
+	},
+	//veigar
+	balefulstrike:{
+		accuracy:100,
+		base:10,
+		scaling:{
+			AP:20
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Baleful Strike",
+		cooldown:0,
+		cost:20,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			ap:1
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Veigar strikes an enemy, dealing damage and raising his AP."
+	},
+	darkmatter:{
+		accuracy:70,
+		base:100,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Dark Matter",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Veigar causes a meteor strike, dealing massive damage if it hits."
+	},
+	eventhorizon:{
+		accuracy:80,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Even Horizon",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			stun:1
+		},
+		buffs:{
+			lockon:1
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Veigar twists the edge of space."
+	},	
+	primordialburst:{
+		accuracy:true,
+		base:250,
+		scaling:{
+			AP:120
+		},
+		dependent:{
+			enemyAP:80
+		},
+		category:"Magic",
+		display:"Primordial Burst",
+		cooldown:50,
+		cost:100,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Veigar blasts an enemy champion, causing it to implode with its own power."
+	},
+	//kassadin
 }
