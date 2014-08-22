@@ -35,7 +35,10 @@ dependent power:
 	maxHealth:10 //10% max health damage
 	
 		OTHER POWERS/UNIQUE
-		
+			
+	mana:10 //10% of max mana. ryze and kassadin
+	armor:10 //10% of armor. rammus, taric, and malphite
+	mr:10 //10% of mr. galio
 	enemyAP:80 //does 80% damage of enemy's AP. only for veigar
 	deadyVenomStacks:true //does 20 damage per stack of deadly venom. only for twitch
 	chilledStacks:true //does double damage if detected. only for anivia
@@ -57,7 +60,7 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 	as - add a stage of attack speed. Use negative amounts for attack speed slows. An AS of 0 will disable auto attacking (but not abilities with on-hit effects), and an AS of -1 or below will disable AA and on-hit effects.
 	blind - autos and abilities that apply on-hit always miss for X amount of turns
 	root - cannot recall
-	silence - cannot cast abilities
+	silence - cannot cast abilities. if 0 it interrupts channels (kassadin only)
 	airborne - equivalent of a "flinch". also for yasuo. always lasts 1 turn, cannot make someone airborne if your move is slower, X is percent of airborness or true
 	stun - can't do anything
 	taunt - must use autos, can't recall
@@ -111,6 +114,7 @@ buffs - NEVER APPLIED TO ENEMIES
 	revive - only for zils. on death, revive with X health or set to "true" for base
 	endure - only for tryndamere. can't go below 1 HP for X turns
 	reflect - only for rammus & thornmail. reflects 25% of physical damage dealt
+	moneyMaking - only for gangplank. completely useless
 	
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
@@ -2960,4 +2964,300 @@ moves = {
 		description:"Veigar blasts an enemy champion, causing it to implode with its own power."
 	},
 	//kassadin
+	nullsphere:{
+		accuracy:100,
+		base:80,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Null Sphere",
+		cooldown:9,
+		cost:70,
+		priority:0,
+		target:"enemy",
+		CC:{
+			silence:0
+		},
+		buffs:{
+			spellshield:40
+		},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Kassadin fires an orb of void energy."
+	},	
+	netherblade:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:70,
+			AD:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Nether Blade",
+		cooldown:8,
+		cost:0,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			manaheal:30
+		},
+		type:"Dark",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Kassadin empowers his blade and deals bonus damage on his next basic attack."
+	},	
+	forcepulse:{
+		accuracy:99,
+		base:80,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Force Pulse",
+		cooldown:9,
+		cost:70,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Kassadin emits a pulse of void energy and slows enemies."
+	},	
+	riftwalk:{
+		accuracy:true,
+		base:80,
+		scaling:{},
+		dependent:{
+			mana:2
+		},
+		category:"Magic",
+		display:"Riftwalk",
+		cooldown:7,
+		cost:100,
+		priority:2,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			damagereduction:30
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Kassadin teleports to a nearby location and deals magic damage upon arrival."
+	},	
+	//gangplank
+	parrrley:{
+		accuracy:100,
+		base:20,
+		scaling:{
+			AD:100
+		},
+		dependent:{},
+		category:"Physical",
+		display:"Parrrley",
+		cooldown:1,
+		cost:50,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			moneyMaking:4
+		},
+		type:"Normal",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:true,
+		description:"Gangplank shoots an enemy with his pistol and gains money."
+	},
+	removescurry:{
+		accuracy:true,
+		base:80,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Statis",
+		display:"Remove Scurry",
+		cooldown:15,
+		cost:65,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			heal:true,
+			tenacity:100
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Gangplank eats an orange and becomes k."
+	},	
+	raisemorale:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Raise Morale",
+		cooldown:15,
+		cost:50,
+		priority:0,
+		target:"allAlliesAndSelf",
+		CC:{},
+		buffs:{
+			ad:1,
+			movespeed:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Gangplank fires into the air and raises morale."
+	},	
+	cannonbarrage:{
+		accuracy:true,
+		base:200,
+		scaling:{
+			AP:20
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Cannon Barrage",
+		cooldown:40,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Gangplank fires cannonballs at a target location dealing magic damage without RNG shenanigans."
+	},	
+	//taric
+	imbue:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:30
+		},
+		dependent:{},
+		category:"Status",
+		display:"Imbue",
+		cooldown:15,
+		cost:60,
+		priority:0,
+		target:"allyOrSelf",
+		CC:{},
+		buffs:{
+			heal:true
+		},
+		type:"ground",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Taric channels an earthen energy to heal an ally or himself."
+	},	
+	shatter:{
+		accuracy:100,
+		base:40,
+		scaling:{},
+		dependent:{
+			armor:20
+		},
+		category:"Magic",
+		display:"Shatter",
+		cooldown:10,
+		cost:50,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			armorshred:10
+		},
+		buffs:{
+			armor:1
+		},
+		type:"Steel",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Taric shatters his gemstones."
+	},
+	dazzle:{
+		accuracy:100,
+		base:60,
+		scaling:{
+			AP:30
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Dazzle",
+		cooldown:17,
+		cost:75,
+		priority:0,
+		target:"enemy",
+		CC:{
+			stun:1
+		},
+		buffs:{},
+		type:"Normal",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Taric fires a prismatic sphere at a target enemy."
+	},
+	radiance:{
+		accuracy:true,
+		base:150,
+		scaling:{
+			AP:50
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Radiance",
+		cooldown:25,
+		cost:100,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			ad:1,
+			ap:1
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Taric slams the ground with his hammer and gains increased attack damage and ability power."
+	},
 }
