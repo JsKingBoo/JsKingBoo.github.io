@@ -116,6 +116,8 @@ buffs - NEVER APPLIED TO ENEMIES
 	reflect - only for rammus & thornmail. reflects 25% of physical damage dealt
 	moneyMaking - only for gangplank. completely useless
 	
+	NOTE: everything NOT in "constantBuffs" or "endingBuffs" brackets is applied on hit
+	
 type: "normal", "fighting" etc etc
 contact: only for thornmail purposes
 projectile: only for windwall purposes (fking yasuo)
@@ -3260,4 +3262,211 @@ moves = {
 		onhit:false,
 		description:"Taric slams the ground with his hammer and gains increased attack damage and ability power."
 	},
+	//malphite
+	seismicshard:{
+		accuracy:100,
+		base:70,
+		scaling:{
+			AP:60
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Seismic Shard",
+		cooldown:8,
+		cost:70,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{
+			movespeed:1
+		},
+		type:"Ground",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Malphite sends a shard of earth through the ground at his target."
+	},	
+	brutalstrikes:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Brutal Strikes",
+		cooldown:20,
+		cost:25,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			ad:1,
+			armor:1
+		},
+		type:"Rock",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Malphite increases his attack and armor."
+	},	
+	groundslam:{
+		accuracy:100,
+		base:60,
+		scaling:{
+			AP:20
+		},
+		dependent:{
+			armor:30
+		},
+		category:"Magic",
+		display:"Ground Slam",
+		cooldown:7,
+		cost:50,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			as:-1
+		},
+		buffs:{},
+		type:"Ground",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Malphite slams the ground."
+	},	
+	unstoppableforce:{
+		accuracy:95,
+		base:200,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Unstoppable Force",
+		cooldown:40,
+		cost:100,
+		priority:2,
+		target:"allEnemies",
+		CC:{
+			airborne:true
+		},
+		buffs:{},
+		type:"Ground",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Malphite rushes towards a target, slamming into the ground and knocking all enemies airborne."
+	},
+	//janna
+	howlinggale:{
+		accuracy:80,
+		base:105,
+		scaling:{
+			AP:66
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Howling Gale",
+		cooldown:14,
+		cost:90,
+		priority:0,
+		target:"enemy",
+		CC:{
+			airborne:true
+		},
+		buffs:{},
+		type:"Flying",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Janna summons a might whirlwind."
+	},		
+	zephyr:{
+		accuracy:100,
+		base:60,
+		scaling:{
+			AP:50
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Zephyr",
+		cooldown:8,
+		cost:40,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Flying",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Janna launches air to slow an enemy."
+	},
+	eyeofthestorm:{
+		accuracy:100,
+		base:80,
+		scaling:{
+			AP:70
+		},
+		dependent:{},
+		category:"Status",
+		display:"Eye of the Storm",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"ally",
+		CC:{},
+		buffs:{
+			shield:true
+		},
+		type:"Flying",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Janna surrounds an ally with a shield."
+	},		
+	monsoon:{
+		accuracy:true,
+		base:100,
+		scaling:{
+			AP:60
+		},
+		dependent:{
+			channel:{
+				duration:3,
+				recallingStops:false,
+				cancellable:false
+			}
+		},
+		category:"Status",
+		display:"Monsoon",
+		cooldown:40,
+		cost:100,
+		priority:1,
+		target:"allAlliesAndSelf",
+		CC:{
+			airborne:true
+		},
+		buffs:{
+			constantBuffs:{
+				heal:true
+			}
+		},
+		type:"Water",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Janna summons a powerful monsoon, healing all allies."
+	},	
 }
