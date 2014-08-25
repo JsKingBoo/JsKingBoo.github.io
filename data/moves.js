@@ -42,7 +42,8 @@ dependent power:
 	enemyAP:80 //does 80% damage of enemy's AP. only for veigar
 	deadyVenomStacks:true //does 20 damage per stack of deadly venom. only for twitch
 	chilledStacks:true //does double damage if detected. only for anivia
-
+	missilebarrage:X //does X amount of damage and consumes 1 stack of missile barrage. only for corki
+	
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
 cost is of any resource, "true" for using all resource availible
@@ -115,6 +116,7 @@ buffs - NEVER APPLIED TO ENEMIES
 	endure - only for tryndamere. can't go below 1 HP for X turns
 	reflect - only for rammus & thornmail. reflects 25% of physical damage dealt
 	moneyMaking - only for gangplank. completely useless
+	missilebarrage - only for corki. adds X stack of missilebarrage
 	
 	NOTE: everything NOT in "constantBuffs" or "endingBuffs" brackets is applied on hit
 	
@@ -1212,7 +1214,7 @@ moves = {
 		cooldown:5,
 		cost:120,
 		priority:0,
-		target:"enemy",
+		target:"allEnemies",
 		CC:{
 			silence:1
 		},
@@ -1222,7 +1224,7 @@ moves = {
 		projectile:true,
 		skillshot:false,
 		onhit:false,
-		description:"Fiddlesticks tosses a crow which silences enemies."
+		description:"Fiddlesticks tosses a crow which silences every enemy it bounces to."
 	},
 	crowstorm:{
 		accuracy:true,
@@ -3683,5 +3685,213 @@ moves = {
 		skillshot:false,
 		onhit:false,
 		description:"Mundo heals himself."
+	},
+	//katarina
+	bouncingblades:{
+		accuracy:100,
+		base:60,
+		scaling:{
+			AP:45
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Bouncing Blades",
+		cooldown:6,
+		cost:0,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Steel",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Katarina throws a dagger which bounces to nearby enemies."
+	},
+	sinistersteel:{
+		accuracy:true,
+		base:40,
+		scaling:{
+			AP:25,
+			AD:40
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Sinister Steel",
+		cooldown:4,
+		cost:0,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Steel",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Katarina spins."
+	},
+	shunpo:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:40
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Shunpo",
+		cooldown:10,
+		cost:0,
+		priority:0,
+		target:"enemy",
+		CC:{
+			mr:-1,
+			armor:-1
+		},
+		buffs:{
+			damagereduction:1
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Katarina spins."
+	},
+	deathlotus:{
+		accuracy:true,
+		base:40,
+		scaling:{
+			AP:25,
+			AD:40
+		},
+		dependent:{
+			channel:{
+				duration:5,
+				constantDamage:true,
+				canPerformOtherActions:false,
+				recallingStops:false
+			}
+		},
+		category:"Magic",
+		display:"Death Lotus",
+		cooldown:40,
+		cost:0,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			reducehealing:1
+		},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Katarina spins some more."
+	},
+	//corki
+	phosphorusbomb:{ //phos phor phus
+		accuracy:90,
+		base:80,
+		scaling:{
+			AP:50,
+			AD:40
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Phosphorus Bomb",
+		cooldown:8,
+		cost:60,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Corki launches a bomb, which detonates."
+	},
+	valkyrie:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:40
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Valkyrie",
+		cooldown:20,
+		cost:50,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			dodge:30
+		},
+		type:"Fire",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Corki leaves a blazing trail in his wake, dodging some attacks."
+	},
+	gatlinggun:{
+		accuracy:true,
+		base:10,
+		scaling:{
+			AD:20
+		},
+		dependent:{
+			channel:{
+				duration:4,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false
+			}
+		},
+		category:"Physical",
+		display:"Gatling Gun",
+		cooldown:15,
+		cost:50,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			armorshred:4
+		},
+		buffs:{
+			missilebarrage:1
+		},
+		type:"Steel",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Corki activates his gatling gun and grants a charge of Missile Barrage."
+	},
+	missilebarrage:{
+		accuracy:90,
+		base:0,
+		scaling:{},
+		dependent:{
+			missilebarrage:100
+		},
+		category:"Magic",
+		display:"Missile Barrage",
+		cooldown:2,
+		cost:20,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{},
+		type:"Fire",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Corki fires an exploding missile. He reloads a missile every time he uses his gatling gun."
 	},
 }
