@@ -52,9 +52,28 @@
 		if (loaded == false){
 			setTimeout("checkIfLoaded();", 100);	
 		} else {
-			champInfo('aatrox');
+			champInfo(getFileName());
 		}
 	}	
+	
+	function getFileName(){
+		var url = window.location.href
+		//the following is in case i decide to get another server host
+		//remove hashtag
+		if (url.indexOf("#") != -1){
+			url = url.substring(0, url.indexOf("#"));
+		}
+		//remove query
+		if (url.indexOf("?") != -1){
+			url = url.substring(0, url.indexOf("?"));
+		}
+		//remove everything in front of the last /
+		url = url.substring(url.lastIndexOf("/") + 1, url.length);
+		//remove .html
+		url = url.substring(0, url.indexOf(".html"));
+		return url
+	}
+	
 	</script>
 	
 
