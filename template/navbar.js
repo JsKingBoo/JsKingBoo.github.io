@@ -55,9 +55,9 @@ function drawNavbar(active){ //"home", "teambuilder", "play", "info", "dex"
 	html += '          <ul class="dropdown-menu" role="menu">';
 	
 	if (active == 'dex'){
-		html += '            <li><a href="../../info/main.html">Champion Info</a></li>'; // ../info/main
+		html += '            <li><a href="../../info/main.html">Statistics Info</a></li>'; // ../info/main
 	} else {
-		html += '            <li><a href="../info/main.html">Champion Info</a></li>'; // ../info/main
+		html += '            <li><a href="../info/main.html">Statistics Info</a></li>'; // ../info/main
 	}
 	html += '            <li><a href="#">Match Mechanics Info</a></li>';  // ../info/match
 	html += '            <li class="divider"></li>';

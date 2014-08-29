@@ -45,6 +45,7 @@ function showChampList(){
 		for(var k in exports.champs) {
 			if(exports['champs'][k]['display'] == displayArray[j]) {
 				id = k;
+				console.log(k)
 			}
 		}
 		html += '<div class="row">';
