@@ -2316,7 +2316,7 @@ moves = {
 		accuracy:90,
 		base:70,
 		scaling:{
-			AD:100
+			AD:100,
 			AP:100
 		},
 		dependent:{},
