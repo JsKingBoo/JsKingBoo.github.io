@@ -7,10 +7,10 @@ function champInfo(chp){ //champ code name, NOT display name
 	//splash
 	html += '<div class="container">';
 	html += '	<div class="jumbotron">';
-	html += '		<img src="/data/splashart/' + chp + '.png" class="img-polaroid" style="width:480px; height:480px;" alt="" id="splash">'; //all art by Riot Games (tm)
-	//heading
+	//heading	
 	html += '		<h1>' + exports['champs'][chp]['display'] + '</h1>'; //champ name
-	html += '		<h2>'+ exports['champs'][chp]['blurb'] +'</h2>'; //blurb
+	html += '		<h2>'+ exports['champs'][chp]['blurb'] +'</h2>'; //blurb	
+	html += '		<img src="/data/splashart/' + chp + '.png" class="img-polaroid" alt="" id="splash">'; //all art by Riot Games (tm)
 	html += '	</div>';
 	//image is 480x480
 	//movepools ??
