@@ -7,12 +7,12 @@ var WINDOW_WIDTH = screen.availWidth - (MARGIN * 2);
 function displayInfo(){
 	html += '<div class="container">';
 	//html += '	<div class="col-md-6">';
-	html += '	<button href="#" id="show-champs" onclick="showChampList()" class="btn btn-primary" style="margin-left:' + MARGIN + 'px; width:' + WINDOW_WIDTH + 'px; height:120px;">Champions</button>';
+	html += '	<button href="#" id="show-champs" onclick="showChampList()" class="btn btn-primary" style="height:120px;">Champions</button>';
 	//html += '	</div>';
 	//html += '</div>';
 	//html += '<div class="row">';	
 	//html += '	<div class="col-md-6">';
-	html += '		<button href="#" id="show-runes" onclick="showRunes()" class="btn btn-primary" style="margin-left:' + MARGIN + 'px; width:' + WINDOW_WIDTH + 'px; height:120px;">Runes</button>';
+	html += '		<button href="#" id="show-runes" onclick="showRunes()" class="btn btn-primary" style="height:120px;">Runes</button>';
 	//html += '	</div>';
 	html += '</div>';
 	
@@ -55,7 +55,7 @@ function showChampList(){
 		}
 		html += '<div class="row">';
 		html += '	<div class="col-md-6">';
-		html += '		<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="margin-left:' + MARGIN + 'px; width:' + WINDOW_WIDTH + 'px; height:120px;">' + displayArray[j] + '</button>';
+		html += '		<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="height:120px;">' + displayArray[j] + '</button>';
 		html += '	</div>';
 		html += '</div>';	
 	
