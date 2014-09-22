@@ -7,10 +7,10 @@ function champInfo(chp){ //champ code name, NOT display name
 	//splash
 	html += '<div class="container">';
 	html += '	<div class="jumbotron">';
-	html += '		<div class="something">';
+	html += '		<div>';
 	html += '			<img src="/data/splashart/' + chp + '.png" class="img-polaroid" alt="" id="splash">'; //all art by Riot Games (tm)
 	html += '		</div>';
-	html += '		<div class="somethingelse">';
+	html += '		<div style="margin-left:300px">';
 	html += '			<h1>';//heading			
 	html += '				' + exports['champs'][chp]['display']; //champ name
 	html += 			'</h1>'; 
