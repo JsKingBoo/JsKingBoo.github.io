@@ -12,7 +12,8 @@ function displayInfo(){
 
 function showChampList(){
 
-	html = ''
+	//reset HTML
+	html = '<div class="container">';
 
 	var displayArray = [];
 	var numOfChamps = 0;
@@ -23,12 +24,13 @@ function showChampList(){
 		numOfChamps += 1;
 	}
 	displayArray.sort();
+	
+	
 	for(var j in displayArray) { //get code names
-		var id = '';			
-		
+		var id = '';					
 		progress += 1;
 		var percent = Math.floor(progress * 100 / numOfChamps);
-		
+		//set loading bar
 		var loadingHtml = '';
 		loadingHtml += '<div class="progress">';
 		loadingHtml += '	<div class="progress-bar" role="progressbar" aria-valuenow="' + percent + '" aria-valuemin="0" aria-valuemax="100" style="width:' + percent + '%;">';
@@ -37,21 +39,20 @@ function showChampList(){
 		loadingHtml += '</div>';
 		displayContainer.innerHTML=loadingHtml;
 		
-		
 		for(var k in exports.champs) {
 			if(exports['champs'][k]['display'] == displayArray[j]) {
 				id = k;
 				console.log(k)
 			}
 		}
-		html += '<div class="row">';
-		html += '	<div class="col-md-6">';
-		html += '		<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="height:120px; display:block; width:100%;">' + displayArray[j] + '</button>';
-		html += '	</div>';
-		html += '</div>';	
-	
+
+		//add 1 champ
+		html += '	<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="height:120px; display:block; width:100%;">' + displayArray[j] + '</button>';
+
 	}
 	
+	//end the div tag
+	html += '</div>';	
 	displayContainer.innerHTML=html;	//this = DONE WITH FUNCTION	
 
 }
