@@ -1,9 +1,6 @@
 var displayContainer = document.getElementById("display-holder");
 var html = '';
 
-var MARGIN = 40;
-var WINDOW_WIDTH = screen.availWidth - (MARGIN * 2);
-
 function displayInfo(){
 	html += '<div class="container">';
 	html += '	<button href="#" id="show-champs" onclick="showChampList()" class="btn btn-primary" style="height:120px; display:block; width:100%;">Champions</button>';
@@ -49,7 +46,7 @@ function showChampList(){
 		}
 		html += '<div class="row">';
 		html += '	<div class="col-md-6">';
-		html += '		<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="height:120px;">' + displayArray[j] + '</button>';
+		html += '		<button href="#" id="' + id + '" onclick="window.location.href=&quot;dexentries/' + id + '.html&quot;" class="btn btn-primary" style="height:120px; display:block; width:100%;">' + displayArray[j] + '</button>';
 		html += '	</div>';
 		html += '</div>';	
 	
