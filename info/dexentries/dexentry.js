@@ -34,7 +34,7 @@ function champInfo(chp){ //champ code name, NOT display name
 	displayContainer.innerHTML=html; //DONE WITH FUNCTION	
 	
 	splash = document.getElementById('splash');
-	splash.style.width = '480px';	
+	splash.style.width = '240px';	
 	splash.style.height='auto';
 
 }	
