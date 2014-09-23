@@ -13,7 +13,7 @@ function drawNavbar(active){ //"home", "teambuilder", "play", "info", "dex"
 	html += '        <span class="icon-bar"></span>';
 	html += '        <span class="icon-bar"></span>';
 	html += '      </button>';
-	html += '      <a class="navbar-brand" href="#">Brand</a>';
+	html += '      <a class="navbar-brand" href="#">PokeLeague</a>';
 	html += '    </div>';
 	html += '    <!-- Collect the nav links, forms, and other content for toggling -->';
 	html += '    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
