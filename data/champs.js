@@ -41,7 +41,8 @@ katarina:{num:36,display:"Katarina",blurb:"The Sinister Blade",types:["Dark"],ba
 corki:{num:37,display:"Corki",blurb:"The Daring Bombardier",types:["Fighting", "Flying"],baseStats:{hp:375,ad:50,as:2,arm:18,ap:20,mr:30,ape:10,mpe:10,man:245,spe:325},passive:"Hextech Shrapnel Shells",ranged:true},
 nasus:{num:38,display:"Nasus",blurb:"The Curator of Sands",types:["Fighting", "Ground"],baseStats:{hp:410,ad:40,as:1,arm:19,ap:0,mr:35,ape:5,mpe:0,man:200,spe:350},passive:"Soul Eater",ranged:false},
 shaco:{num:39,display:"Shaco",blurb:"The Demon Jester",types:["Fighting", "Dark"],baseStats:{hp:375,ad:90,as:1,arm:10,ap:50,mr:10,ape:5,mpe:5,man:230,spe:350},passive:"Backstab",ranged:false},
-heimerdinger:{num:40,display:"Heimerdinger",blurb:"The Revered Inventor",types:["Electric"],baseStats:{hp:350,ad:40,as:1,arm:15,ap:20,mr:30,ape:0,mpe:5,man:240,spe:340},passive:"Techmaturgical Repair Bots",ranged:true},
+heimerdinger:{num:40,display:"Heimerdinger",blurb:"The Revered Inventor",types:["Electric"],baseStats:{hp:350,ad:40,as:1,arm:15,ap:20,mr:30,ape:0,mpe:5,man:240,spe:340},passive:"Techmaturgical Repair Bots",ranged:true,otherForm:["heimerdinger-m"]},
+heimerdinger-m:{num:40,display:"Heimerdinger",blurb:"The Revered Inventor",types:["Electric"],baseStats:{hp:350,ad:40,as:1,arm:15,ap:20,mr:30,ape:0,mpe:5,man:240,spe:340},passive:"Techmaturgical Repair Bots",ranged:true,otherForm:["heimerdinger"]},
 udyr_ti:{num:41,display:"Udyr",blurb:"The Spirit Walker",types:["Fighting"],baseStats:{hp:430,ad:50,as:1,arm:18,ap:0,mr:35,ape:10,mpe:0,man:220,spe:345},passive:"Monkey's Agility",ranged:false,otherForm:["udyr_tu","udyr_b","udyr_p"]},
 udyr_tu:{num:41,display:"Udyr",blurb:"The Spirit Walker",types:["Fighting"],baseStats:{hp:430,ad:50,as:1,arm:18,ap:0,mr:35,ape:10,mpe:0,man:220,spe:345},passive:"Monkey's Agility",ranged:false,otherForm:["udyr_ti","udyr_b","udyr_p"]},
 udyr_b:{num:41,display:"Udyr",blurb:"The Spirit Walker",types:["Fighting"],baseStats:{hp:430,ad:50,as:1,arm:18,ap:0,mr:35,ape:10,mpe:0,man:220,spe:345},passive:"Monkey's Agility",ranged:false,otherForm:["udyr_ti","udyr_tu","udyr_p"]},
@@ -129,5 +130,6 @@ yasuo:{num:117,display:"Yasuo",blurb:"The Unforgiven",types:["Flying"],baseStats
 koz:{num:118,display:"Vel'Koz",blurb:"The Eye of the Void",types:["Psychic"],baseStats:{hp:380,ad:51,as:1,arm:16,ap:50,mr:30,ape:20,mpe:0,man:250,spe:340},passive:"Organic Deconstruction",ranged:false},
 braum:{num:119,display:"Braum",blurb:"The Heart of the Freljord",types:["Ice"],baseStats:{hp:430,ad:50,as:1,arm:24,ap:0,mr:40,ape:0,mpe:0,man:230,spe:335},passive:"Concussive Blows",ranged:false},
 gnar_m:{num:120,display:"Gnar",blurb:"The Missing Link",types:["Normal"],baseStats:{hp:430,ad:45,as:2,arm:19,ap:0,mr:30,ape:10,mpe:0,man:100,spe:335},passive:"Rage Gene",ranged:true,otherForm:["gnar_r"]},
-gnar_r:{num:120,display:"Gnar",blurb:"The Missing Link",types:["Ground", "Fighting"],baseStats:{hp:460,ad:50,as:1,arm:22,ap:0,mr:32,ape:10,mpe:0,man:100,spe:325},passive:"Rage Gene",ranged:false,otherForm:["gnar_m"]}
+gnar_r:{num:120,display:"Gnar",blurb:"The Missing Link",types:["Ground", "Fighting"],baseStats:{hp:460,ad:50,as:1,arm:22,ap:0,mr:32,ape:10,mpe:0,man:100,spe:325},passive:"Rage Gene",ranged:true,otherForm:["gnar_m"]},
+azir:{num:121,display:"Azir",blurb:"The Emperor of the Sands",types:["Ground"],baseStats:{hp:390,ad:45,as:1,arm:14,ap:60,mr:30,ape:0,mpe:20,man:280,spe:335},passive:"Shurima's Legacy",ranged:false},
 }

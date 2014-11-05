@@ -7,7 +7,7 @@ function champInfo(chp){ //champ code name, NOT display name
 	//splash
 	html += '<div class="container">';
 	html += '	<div class="jumbotron">';
-	html += '		<img style="float:left" src="/data/splashart/' + chp + '.png" class="img-polaroid" alt="" id="splash" />'; //all art by Riot Games (tm)
+	html += '		<img style="float:left" src="/data/splashart/' + chp + '.png" class="img-polaroid" alt="Aatrox" id="splash" />'; //all art by Riot Games (tm)
 	html += '		<h1>    ' + exports['champs'][chp]['display'] + '</h1>'; //heading
 	html += '		<h2>    ' + exports['champs'][chp]['blurb']   + '</h2>'; //blurb
 	html += '	</div>';
@@ -30,9 +30,9 @@ function champInfo(chp){ //champ code name, NOT display name
 	
 	displayContainer.innerHTML=html; //DONE WITH FUNCTION	
 	
-	/*splash = document.getElementById('splash');
+	splash = document.getElementById('splash');
 	splash.style.width = '240px';	
-	splash.style.height='auto';*/
+	splash.style.height='auto'
 
 }	
 

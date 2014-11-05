@@ -25,7 +25,7 @@ dependent power:
 		drainCost - If the channel requires draining mana (e.g. anivia ulti) default 0
 		
 	> > > NOTE < < <
-	Both charge and channel can be cancelled at any time
+	Both charge and channel can be cancelled at any time (if cancellable" is true)
 	> > > NOTE < < <
 	
 	missingHealth:[0.5, 1] //increase by 0.5% for every 1% missing health
@@ -35,7 +35,9 @@ dependent power:
 	maxHealth:10 //10% max health damage
 	
 		OTHER POWERS/UNIQUE
-			
+	
+	health:10 //10 health cost. on health based champs like mundo and vlad
+	       [1, 1] //increase by 1% for every 1% missing health. for soraka
 	mana:10 //10% of max mana. ryze and kassadin
 	armor:10 //10% of armor. rammus, taric, and malphite
 	mr:10 //10% of mr. galio
@@ -43,6 +45,7 @@ dependent power:
 	deadyVenomStacks:true //does 20 damage per stack of deadly venom. only for twitch
 	chilledStacks:true //does double damage if detected. only for anivia
 	missilebarrage:X //does X amount of damage and consumes 1 stack of missile barrage. only for corki
+	Qstacks:true //nasus. does current amount of Q stacks in damage
 	
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
@@ -58,7 +61,7 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 		2:{} (if applicable) - list CC in brackets
 		
 	movespeed - add a stage of speed. Use negative amounts for slow
-	as - add a stage of attack speed. Use negative amounts for attack speed slows. An AS of 0 will disable auto attacking (but not abilities with on-hit effects), and an AS of -1 or below will disable AA and on-hit effects.
+	AS - add a stage of attack speed. Use negative amounts for attack speed slows. An AS of 0 will disable auto attacking (but not abilities with on-hit effects), and an AS of -1 or below will disable AA and on-hit effects.
 	blind - autos and abilities that apply on-hit always miss for X amount of turns
 	root - cannot recall
 	silence - cannot cast abilities. if 0 it interrupts channels (kassadin only)
@@ -75,7 +78,10 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 	
 		HAZARDS
 	
-	noxiousTrap - TEEMO
+	noxiousTrap - TEEMO - slow then 50 magic damage per turn for 3 turns max. switch out removes DoT
+	jackInTheBoxes - SHACO - fear then 30 magic damage per turn for 5 turns max. switch out removes DoT
+	dingerTurrets - HEIMERDINGER - 100 magic damage per turn. never expires. die when 50 damage is dealt to ally. does not shield
+	dingerTurretsMega - HEIMERDINGER - 150 magic damage per turn. expires after 3 turns or when 100 damage is dealt to ally. does not shield
 	
 		OTHER DEBUFFS
 	
@@ -102,21 +108,24 @@ buffs - NEVER APPLIED TO ENEMIES
 	tenacity - tenacious for X amount of turns
 	shield - shield for 1 turn with strength of shield as X, or base "damage" if set to true
 	spellshield - shield for 1 turn with strength of shield as X, base "damage" if set to true
-	heal - heal for base amount set to "true" or X	
+	heal - heal for base amount set to "true" or X. targets either ally or self (if cast on enemy)
 	manaheal - regain a resource, base amount set to "true" or X
-	dodge - dodge chance for 1 turn
+	health - gain bonus health for base amount set to "true" or X. targets self only, when effect ends the healed HP stays
+	dodge - dodge chance for 1 turn, out of 100
 	crit - additional crit chance for 1 turn
 	damagereduction - damage reduction for 1 turn
 	lifesteal - gain lifesteal for 1 turn
 	spellvamp - gain spellvamp for 1 turn
 	lockon - next attack or ability never misses. ignores dodge and invisibility
 	refreshCD - reduces the cooldown of other abilities by X
+	transform - transforms to another champion. Kayle melee to Kayle ranged, Udyr forms, etc
 	
 	revive - only for zils. on death, revive with X health or set to "true" for base
 	endure - only for tryndamere. can't go below 1 HP for X turns
 	reflect - only for rammus & thornmail. reflects 25% of physical damage dealt
 	moneyMaking - only for gangplank. completely useless
 	missilebarrage - only for corki. adds X stack of missilebarrage
+	Qstacks - only for nasus. adds X stacks to Q
 	
 	NOTE: everything NOT in "constantBuffs" or "endingBuffs" brackets is applied on hit
 	
@@ -129,20 +138,82 @@ onhit: if ability applies onhit effects
 moves = {
 	//soraka
 	starcall:{
-		accuracy:100,
-		base:40,
+		accuracy:95,
+		base:70,
 		scaling:{
-			AP:40
+			AP:35
 		},
 		dependent:{},
 		category:"Magic",
 		display:"Starcall",
-		cooldown:1,
-		cost:30,
+		cooldown:7,
+		cost:70,
+		priority:-1,
+		target:"allEnemies",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{
+			heal:10
+		},
+		type:"Fairy",
+		contact:false,
+		projectile:false,
+		skillshot:true,
+		onhit:false,
+		description:"Soraka calls down a star at a target location. Enemies standing in the point of impact take magic damage."
+	},
+	astralblessing:{
+		accuracy:true,
+		base:30,
+		scaling:{
+			AP:60
+		},
+		dependent:{
+			health:[10, 100]
+		},
+		category:"Status",
+		display:"Astral Infusion",
+		cooldown:4,
+		cost:40,
+		priority:0,
+		target:"ally",
+		CC:{},
+		buffs:{
+			heal:true,
+		},
+		type:"Fairy",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Soraka blesses a friendly unit, restoring health at the cost of her own."
+	},
+	infuse:{
+		accuracy:100,
+		base:70,
+		scaling:{
+			AP:40
+		},
+		dependent:{
+			channel:{
+				duration:2,
+				initialDamage:true,
+				endingDamage:true,
+				recallingStops:true
+			}
+		},
+		category:"Magic",
+		display:"Equinox",
+		cooldown:18,
+		cost:70,
 		priority:0,
 		target:"allEnemies",
 		CC:{
-			mrshred:3
+			silence:1,
+			endingCC:{
+				root:1
+			}
 		},
 		buffs:{},
 		type:"Fairy",
@@ -150,58 +221,7 @@ moves = {
 		projectile:false,
 		skillshot:false,
 		onhit:false,
-		description:"Soraka summons a shower of stars to fall from the sky, striking all nearby enemy units within range for magic damage and reducing their magic resistance by 6. This effect stacks."
-	},
-	astralblessing:{
-		accuracy:true,
-		base:30,
-		scaling:{
-			AP:35
-		},
-		dependent:{},
-		category:"Status",
-		display:"Astral Blessing",
-		cooldown:10,
-		cost:80,
-		priority:0,
-		target:"allyOrSelf",
-		CC:{},
-		buffs:{
-			heal:true,
-			armor:1
-		},
-		type:"Fairy",
-		contact:false,
-		projectile:false,
-		skillshot:false,
-		onhit:false,
-		description:"Soraka blesses a friendly unit, restoring health and granting them bonus armor."
-	},
-	infuse:{
-		accuracy:100,
-		base:50,
-		scaling:{
-			AP:20
-		},
-		dependent:{},
-		category:"Status",
-		display:"Infuse",
-		cooldown:10,
-		cost:50,
-		priority:0,
-		target:"enemyOrAlly",
-		CC:{
-			silence:1
-		},
-		buffs:{
-			manaheal:true,
-		},
-		type:"Fairy",
-		contact:false,
-		projectile:false,
-		skillshot:false,
-		onhit:false,
-		description:"On ally cast, Soraka drains her mana to restore mana to her target ally. Soraka cannot use Infuse on herself. On enemy cast, Soraka silences the target and deals magic damage to them."
+		description:"Soraka creates a zone, first silencing champions then rooting them."
 	},
 	wish:{
 		accuracy:true,
@@ -209,7 +229,9 @@ moves = {
 		scaling:{
 			AP:55
 		},
-		dependent:{},
+		dependent:{
+			missingHealth:[1, 1]
+		},
 		category:"Status",
 		display:"Wish",
 		cooldown:30,
@@ -225,7 +247,7 @@ moves = {
 		projectile:false,
 		skillshot:false,
 		onhit:false,
-		description:"Soraka fills her allies with hope, restoring health to herself and all friendly champions. Wish can affect untargetable allies."
+		description:"Soraka calls upon the stars, healing all allies and herself."
 	},
 	//teemo
 	blindingdart:{
@@ -998,7 +1020,8 @@ moves = {
 		CC:{},
 		buffs:{
 			AP:1,
-			AD:-1
+			AD:-1,
+			transform:"kayle-r"
 		},
 		type:"Fire",
 		contact:false,
@@ -1021,7 +1044,8 @@ moves = {
 		CC:{},
 		buffs:{
 			AD:1,
-			AP:-1
+			AP:-1,
+			transform:"kayle-m"
 		},
 		type:"Fire",
 		contact:false,
@@ -1561,7 +1585,7 @@ moves = {
 		target:"self",
 		CC:{},
 		buffs:{
-			as:1
+			AS:1
 		},
 		type:"Normal",
 		contact:false,
@@ -1729,7 +1753,7 @@ moves = {
 		target:"enemy",
 		CC:{},
 		buffs:{
-			as:1
+			AS:1
 		},
 		type:"Normal",
 		contact:false,
@@ -1803,7 +1827,7 @@ moves = {
 		CC:{},
 		buffs:{
 			movespeed:1,
-			as:1
+			AS:1
 		},
 		type:"Normal",
 		contact:false,
@@ -2087,7 +2111,7 @@ moves = {
 		buffs:{
 			invisibility:2,
 			movespeed:1,
-			as:1
+			AS:1
 		},
 		type:"Dark",
 		contact:false,
@@ -3330,7 +3354,7 @@ moves = {
 		priority:0,
 		target:"allEnemies",
 		CC:{
-			as:-1
+			AS:-1
 		},
 		buffs:{},
 		type:"Ground",
@@ -3512,7 +3536,7 @@ moves = {
 		CC:{},
 		buffs:{
 			movespeed:1,
-			as:1
+			AS:1
 		},
 		type:"Electric",
 		contact:false,
@@ -3894,4 +3918,404 @@ moves = {
 		onhit:false,
 		description:"Corki fires an exploding missile. He reloads a missile every time he uses his gatling gun."
 	},
+	//nasus
+	siphoningstrike:{
+		accuracy:true,
+		base:30,
+		scaling:{
+			AD:100
+		},
+		dependent:{
+			Qstacks:true
+		},
+		category:"Physical",
+		display:"Siphoning Strike",
+		cooldown:1,
+		cost:20,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{
+			Qstacks:3
+		},
+		type:"Ground",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Nasus empowers his next attack to deal bonus damage. He also gains a permanent damage buff to this ability."
+	},
+	wither:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Wither",
+		cooldown:10,
+		cost:80,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1,
+			AS:-1
+		},
+		buffs:{},
+		type:"Ghost",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nasus ages his target, slowing an enemy's movespeed and attack speed."
+	},
+	spiritfire:{
+		accuracy:100,
+		base:25,
+		scaling:{
+			AP:60
+		},
+		dependent:{
+			channel:{
+				duration:5,
+				initialDamage:true,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false
+			}
+		},
+		category:"Magic",
+		display:"Spirit Fire",
+		cooldown:12,
+		cost:80,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			armor:-1
+		},
+		buffs:{},
+		type:"Ghost",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nasus unleashes a spirit flame in the area, dealing magic damage over 5 turns."
+	},
+	furyofthesands:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{
+			channel:{
+				duration:5,
+				constantDamage:true,
+				canPerformOtherActions:true,
+				recallingStops:false
+			},
+			maxHealth:3
+		},
+		category:"Magic",
+		display:"Fury of the Sands",
+		cooldown:30,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{
+			health:300
+		},
+		type:"Ground",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nasus summons a sandstorm to empower himself, gaining bonus health and dealing magic damage to enemies around him for 5 turns."
+	},
+	//shaco
+	deceive:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Deceive",
+		cooldown:11,
+		cost:90,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			invisibility:1,
+			dodge:50,
+			crit:true
+		},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Shaco goes invisible and gains dodge chance. His next auto attack will critically strike."
+	},
+	jackinthebox:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Magic",
+		display:"Jack in the Box",
+		cooldown:5,
+		cost:50,
+		priority:0,
+		target:"enemySide",
+		CC:{
+			jackInTheBoxes:1
+		},
+		buffs:{},
+		type:"Dark",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Shaco places a box on the enemy side. On enemy switch in, it fears the enemy champion and deals magic damage to them."
+	},	
+	twoshivpoison:{
+		accuracy:100,
+		base:50,
+		scaling:{
+			AD:70,
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Two-Shiv Poison",
+		cooldown:8,
+		cost:50,
+		priority:0,
+		target:"enemy",
+		CC:{
+			movespeed:-1
+		},
+		buffs:{},
+		type:"Poison",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Shaco throws a dagger at a target enemy."
+	},	
+	hallucinate:{ //i'm probably going to regret this...
+		accuracy:true,
+		base:300,
+		scaling:{
+			AP:100
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Hallucinate",
+		cooldown:80,
+		cost:100,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{
+			shield:200,
+			dodge:5
+		},
+		type:"Psychic",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Shaco creates a clone of himself, which takes damage for him and explodes at the end of the turn, dealing magic damage."
+	},	
+	//heimerdinger
+	//no one cares about your fancy ability names dingy
+	hexturret:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Magic",
+		display:"H-28G Evolution Turret",
+		cooldown:6,
+		cost:50,
+		priority:0,
+		target:"enemySide",
+		CC:{
+			dingerTurrets:1
+		},
+		buffs:{},
+		type:"Electric",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Heimer places a turret on his own side, dealing constant magic damage to the enemy. It is only destroyed by dealing 50 magic damage to the foe."
+	},	
+	hexrocket:{
+		accuracy:95,
+		base:60,
+		scaling:{
+			AP:45
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Hextech Micro-Rockets",
+		cooldown:10,
+		cost:70,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Electric",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Heimerdinger launches a bunch of rockets at a target enemy."
+	},
+	hexballthinger:{
+		accuracy:90,
+		base:60,
+		scaling:{
+			AP:60
+		},
+		dependent:{},
+		category:"Magic",
+		display:"CH-2 Electron Storm Grenade",
+		cooldown:15,
+		cost:85,
+		priority:0,
+		target:"enemy",
+		CC:{
+			stun:1
+		},
+		buffs:{},
+		type:"Electric",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Heimerdinger hurls a grenade at the enemy, dealing damage and stunning the enemy if it hits."
+	},
+	upgrade:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"UPGRADE!!!",
+		cooldown:30,
+		cost:100,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			transform:"heimerdinger-m"
+		},
+		type:"Electric",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"SCIENCE HAS GONE MAD!"
+	},	
+	//heimerdinger mega
+	hexturretmega:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Magic",
+		display:"H-28Q Apex Turret",
+		cooldown:1,
+		cost:50,
+		priority:0,
+		target:"enemySide",
+		CC:{
+			dingerTurretsMega:1
+		},
+		buffs:{
+			transform:"heimerdinger"
+		},
+		type:"Electric",
+		contact:false,
+		projectile:true,
+		skillshot:false,
+		onhit:false,
+		description:"Heimerdinger places a turret on his own side, dealing constant magic damage to the enemy. It is only destroyed by dealing 50 magic damage to the foe."
+	},	
+	hexrocketmega:{
+		accuracy:99, //LOL IF YOU MISS
+		base:135,
+		scaling:{
+			AP:45
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Hextech Rocket Swarm",
+		cooldown:1,
+		cost:70,
+		priority:0,
+		target:"allEnemies",
+		CC:{},
+		buffs:{
+			transform:"heimerdinger"
+		},
+		type:"Electric",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Heimerdinger launches a barrage of rockets at a target enemy."
+	},
+	hexballthingermega:{
+		accuracy:95,
+		base:150,
+		scaling:{
+			AP:60
+		},
+		dependent:{},
+		category:"Magic",
+		display:"CH-3X Lightning Grenade",
+		cooldown:1,
+		cost:85,
+		priority:0,
+		target:"allEnemies",
+		CC:{
+			stun:1
+		},
+		buffs:{
+			transform:"heimerdinger"
+		},
+		type:"Electric",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Heimerdinger hurls a grenade at the enemy, dealing damage and stunning the enemy if it hits."
+	},
+	upgradem:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"I changed my mind",
+		cooldown:1,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			refreshCD:30,
+			transform:"heimerdinger"
+		},
+		type:"Electric",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Heimerdinger reverts back to unupgraded form without performing an ability."
+	},	
+	
 }
