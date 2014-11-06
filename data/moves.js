@@ -46,6 +46,7 @@ dependent power:
 	chilledStacks:true //does double damage if detected. only for anivia
 	missilebarrage:X //does X amount of damage and consumes 1 stack of missile barrage. only for corki
 	Qstacks:true //nasus. does current amount of Q stacks in damage
+	bearMarker:true //decreases by 1 each turn until 0. can be stunned by udyr if 0
 	
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
@@ -87,6 +88,7 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 	
 	deadlyVenom - TWITCH
 	chilled - ANIVIA
+	bearMarker - UDYR
 	
 	NOTE: everything NOT in "constantCC" or "endingCC" brackets is applied on hit
 
@@ -118,7 +120,7 @@ buffs - NEVER APPLIED TO ENEMIES
 	spellvamp - gain spellvamp for 1 turn
 	lockon - next attack or ability never misses. ignores dodge and invisibility
 	refreshCD - reduces the cooldown of other abilities by X
-	transform - transforms to another champion. Kayle melee to Kayle ranged, Udyr forms, etc
+	transform - transforms to another champion. Kayle melee to Kayle ranged, Udyr forms, etc. is ignored if already in that champ (tiger udyr -> tiger udyr)
 	
 	revive - only for zils. on death, revive with X health or set to "true" for base
 	endure - only for tryndamere. can't go below 1 HP for X turns
@@ -4317,5 +4319,110 @@ moves = {
 		onhit:false,
 		description:"Heimerdinger reverts back to unupgraded form without performing an ability."
 	},	
+	//udyr
+	tigerstance:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Tiger Stance",
+		cooldown:6,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			AS:1,
+			AD:1,
+			transform:"udyr-ti"
+		},
+		type:"Fighting",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Udyr enters Tiger Stance."
+	},		
+	turtlestance:{
+		accuracy:true,
+		base:60,
+		scaling:{
+			AP:50
+		},
+		dependent:{},
+		category:"Status",
+		display:"Turtle Stance",
+		cooldown:6,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			shield:true,
+			transform:"udyr-tu"
+		},
+		type:"Rock",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Udyr enters Turtle Stance."
+	},		
+	bearstance:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{
+			bearMarker:true
+		},
+		category:"Status",
+		display:"Bear Stance",
+		cooldown:6,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{
+			bearMarker:4
+		},
+		buffs:{
+			movespeed:1,
+			transform:"udyr-b"
+		},
+		type:"Fighting",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Udyr enters Bear Stance."
+	},		
+	phoenixstance:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{
+			channel:{
+				duration:5,
+				constantDamage:true,
+				canPerformOtherActions:true
+			}
+		},
+		category:"Status",
+		display:"Phoenix Stance",
+		cooldown:6,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			transform:"udyr-p"
+		},
+		type:"Fire",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Udyr enters Phoenix Stance."
+	},		
 	
 }
