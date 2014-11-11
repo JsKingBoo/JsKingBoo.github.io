@@ -46,11 +46,12 @@ dependent power:
 	chilledStacks:true //does double damage if detected. only for anivia
 	missilebarrage:X //does X amount of damage and consumes 1 stack of missile barrage. only for corki
 	Qstacks:true //nasus. does current amount of Q stacks in damage
-	bearMarker:true //decreases by 1 each turn until 0. can be stunned by udyr if 0
+	bearMarker:true //decreases by 1 each turn until 0. can be stunned by udyr if 0 or non-existent
+	hunted:true //decreases by 1 each turn until 0. if true consumes mark and deals 33% damage
 	
 category: "Physical", "Magic", "True", "Status"
 cooldown is counted in turns
-cost is of any resource, "true" for using all resource availible
+cost is of any resource, "true" for using all resource available
 priority: default 0, bigger number = go faster, same number = whoever's speed is faster
 target: "self", "enemy", "ally", "allEnemies" (aoe), "allAllies" (aoe), "allAlliesAndSelf", "allyOrSelf", "enemyOrAlly", "any", "enemySide", "allySide"
 CC - NEVER APPLIED TO ALLIES OR SELF
@@ -83,12 +84,14 @@ CC - NEVER APPLIED TO ALLIES OR SELF
 	jackInTheBoxes - SHACO - fear then 30 magic damage per turn for 5 turns max. switch out removes DoT
 	dingerTurrets - HEIMERDINGER - 100 magic damage per turn. never expires. die when 50 damage is dealt to ally. does not shield
 	dingerTurretsMega - HEIMERDINGER - 150 magic damage per turn. expires after 3 turns or when 100 damage is dealt to ally. does not shield
+	bushwhack - NIDALEE - 5 + 2% enemy current health every turn over 4 turns. applies hunted debuff
 	
 		OTHER DEBUFFS
 	
 	deadlyVenom - TWITCH
 	chilled - ANIVIA
 	bearMarker - UDYR
+	hunted - NIDALEE
 	
 	NOTE: everything NOT in "constantCC" or "endingCC" brackets is applied on hit
 
@@ -4424,5 +4427,196 @@ moves = {
 		onhit:false,
 		description:"Udyr enters Phoenix Stance."
 	},		
-	
+	//nidalee-human
+	javelintoss:{
+		accuracy:80,
+		base:75,
+		scaling:{
+			AP:40
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Javelin Toss",
+		cooldown:6,
+		cost:60,
+		priority:0,
+		target:"enemy",
+		CC:{
+			hunted:4;
+		},
+		buffs:{},
+		type:"Stone",
+		contact:false,
+		projectile:true,
+		skillshot:true,
+		onhit:false,
+		description:"Nidalee hurls her javelin forwards, dealing magic damage."
+	},		
+	bushwhack:{
+		accuracy:true,
+		base:20,
+		scaling:{
+			AP:1
+		},
+		dependent:{
+			currentHealth:[1, 100]
+		},
+		category:"Magic",
+		display:"Bushwhack",
+		cooldown:13,
+		cost:40,
+		priority:0,
+		target:"enemySide",
+		CC:{
+			bushwhack:1;
+		},
+		buffs:{},
+		type:"Grass",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nidalee lays a trap which is set off upon switch in, dealing magic damage over a few seconds."
+	},		
+	primalsurge:{
+		accuracy:true,
+		base:40,
+		scaling:{
+			AP:50
+		},
+		dependent:{},
+		category:"Status",
+		display:"Primal Surge",
+		cooldown:12,
+		cost:60,
+		priority:0,
+		target:"allyOrSelf",
+		CC:{},
+		buffs:{
+			AS:1,
+			heal:true
+		},
+		type:"Grass",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nidalee heals herself or an ally."
+	},		
+	aspectofthecougar:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Aspect of the Cougar",
+		cooldown:1,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			transform:"nidalee-c"
+		},
+		type:"Grass",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nidalee enters cougar form"
+	},		
+	//nidalee-c
+	takedown:{
+		accuracy:true,
+		base:20,
+		scaling:{
+			AD:75,
+			AP:36
+		},
+		dependent:{
+			hunted:true
+		},
+		category:"Magic",
+		display:"Takedown",
+		cooldown:5,
+		cost:0,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Fighting",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:true,
+		description:"Nidalee's next attack deals bonus damage."
+	},	
+	pounce:{
+		accuracy:90,
+		base:50,
+		scaling:{
+			AP:30
+		},
+		dependent:{
+			hunted:true
+		},
+		category:"Magic",
+		display:"Pounce",
+		cooldown:5,
+		cost:0,
+		priority:1,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Fighting",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nidalee pounces on an enemy, dealing magic damage."
+	},	
+	swipe:{
+		accuracy:90,
+		base:70,
+		scaling:{
+			AP:45
+		},
+		dependent:{},
+		category:"Magic",
+		display:"Swipe",
+		cooldown:5,
+		cost:0,
+		priority:0,
+		target:"enemy",
+		CC:{},
+		buffs:{},
+		type:"Fighting",
+		contact:true,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nidalee claws at an enemy and deals magic damage to enemies hit."
+	},	
+	aspectofthehuman:{
+		accuracy:true,
+		base:0,
+		scaling:{},
+		dependent:{},
+		category:"Status",
+		display:"Aspect of the Human", //LOOOOL THIS LOOKS PATHETIC
+		cooldown:1,
+		cost:0,
+		priority:0,
+		target:"self",
+		CC:{},
+		buffs:{
+			transform:"nidalee-h"
+		},
+		type:"Normal",
+		contact:false,
+		projectile:false,
+		skillshot:false,
+		onhit:false,
+		description:"Nidalee enters human form."
+	},	
 }
