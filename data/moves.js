@@ -4215,7 +4215,7 @@ moves = {
 		target:"self",
 		CC:{},
 		buffs:{
-			transform:"heimerdinger-m"
+			transform:"heimerdinger_m"
 		},
 		type:"Electric",
 		contact:false,
@@ -4338,7 +4338,7 @@ moves = {
 		buffs:{
 			AS:1,
 			AD:1,
-			transform:"udyr-ti"
+			transform:"udyr_ti"
 		},
 		type:"Fighting",
 		contact:false,
@@ -4363,7 +4363,7 @@ moves = {
 		CC:{},
 		buffs:{
 			shield:true,
-			transform:"udyr-tu"
+			transform:"udyr_tu"
 		},
 		type:"Rock",
 		contact:false,
@@ -4390,7 +4390,7 @@ moves = {
 		},
 		buffs:{
 			movespeed:1,
-			transform:"udyr-b"
+			transform:"udyr_b"
 		},
 		type:"Fighting",
 		contact:false,
@@ -4418,7 +4418,7 @@ moves = {
 		target:"self",
 		CC:{},
 		buffs:{
-			transform:"udyr-p"
+			transform:"udyr_p"
 		},
 		type:"Fire",
 		contact:false,
@@ -4516,7 +4516,7 @@ moves = {
 		target:"self",
 		CC:{},
 		buffs:{
-			transform:"nidalee-c"
+			transform:"nidalee_c"
 		},
 		type:"Grass",
 		contact:false,
@@ -4610,7 +4610,7 @@ moves = {
 		target:"self",
 		CC:{},
 		buffs:{
-			transform:"nidalee-h"
+			transform:"nidalee_h"
 		},
 		type:"Normal",
 		contact:false,
