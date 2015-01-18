@@ -132,4 +132,6 @@ braum:{num:119,display:"Braum",blurb:"The Heart of the Freljord",types:["Ice"],b
 gnar_m:{num:120,display:"Gnar",blurb:"The Missing Link",types:["Normal"],baseStats:{hp:430,ad:45,as:2,arm:19,ap:0,mr:30,ape:10,mpe:0,man:100,spe:335},passive:"Rage Gene",ranged:true,otherForm:["gnar_r"]},
 gnar_r:{num:120,display:"Gnar",blurb:"The Missing Link",types:["Ground", "Fighting"],baseStats:{hp:460,ad:50,as:1,arm:22,ap:0,mr:32,ape:10,mpe:0,man:100,spe:325},passive:"Rage Gene",ranged:true,otherForm:["gnar_m"]},
 azir:{num:121,display:"Azir",blurb:"The Emperor of the Sands",types:["Ground"],baseStats:{hp:390,ad:45,as:1,arm:14,ap:60,mr:30,ape:0,mpe:20,man:280,spe:335},passive:"Shurima's Legacy",ranged:false},
+kalista:{num:122,display:"Kalista",blurb:"The Spear of Vengeance",types:["Ghost"],baseStats:{hp:410,ad:53,as:1,arm:19,ap:0,mr:30,ape:20,mpe:0,man:230,spe:325},passive:"Martial Poise",ranged:true},
+
 }

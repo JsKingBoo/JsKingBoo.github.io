@@ -4442,7 +4442,7 @@ moves = {
 		priority:0,
 		target:"enemy",
 		CC:{
-			hunted:4;
+			hunted:4
 		},
 		buffs:{},
 		type:"Stone",
