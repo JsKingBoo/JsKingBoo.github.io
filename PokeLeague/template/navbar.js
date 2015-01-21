@@ -25,12 +25,10 @@ function drawNavbar(){
 
 	//////////////////////////////////THAT\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	
-	html += '        <li><a href="/index.html">Home</a></li>';			
-	html += '        <li><a href="/PokeLeague/index.html">PokéLeague</a></li>';			
-	html += '        <li><a href="http://getbootstrap.com/components/#navbar">ddddd</a></li>';	
-
-
+	html += '        <li><a href="../index.html">PokéLeague Home</a></li>';			
+	html += '        <li><a href="../teambuilder/main.html">Teambuilder</a></li>';			
+	html += '        <li><a href="../play/main.html">Play</a></li>';	
+	html += '        <li><a href="../info/main.htm">Reference</a></li>';	
 	
 	///////////////////////////THIS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	

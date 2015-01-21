@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">	
+  </head>
+  
+  	<script type="text/javascript">
+	//Script is by a man named "Fang"
+	//Thanks sir!
+	window.onload=function() {
+		function countdown() {
+			if ( typeof countdown.counter == 'undefined' ) {
+				countdown.counter = 60; // initial count
+			}
+			if(countdown.counter > 0) {
+				document.getElementById('count').innerHTML = countdown.counter-- + " seconds remaining";
+				setTimeout(countdown, 1000);
+			} else {
+				//location.href="something";
+				document.getElementById('count').innerHTML = "0 - Time's up!";
+			}
+		}
+		countdown();
+	};
+	</script>	
+  
+  <body>
+
+    <div id="navbar-holder"></div>
+    <script src="navbar.js"></script>	
+    <script>
+	  drawNavbar();
+    </script>	
+	
+<!-- DO STUFF HERE -->	
+	
+	<div class="container">
+		Countdown: (currently set to 60 seconds)<br/>
+		<div id="count"></div>
+		<br/>
+		Note that this is a page for testing purposes only. Feel free to ignore this.<br/>
+	</div>
+	
+<!-- STOP DOING STUFF HERE -->	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

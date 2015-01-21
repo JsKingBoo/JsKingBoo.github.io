@@ -26,11 +26,7 @@ function drawNavbar(){
 	//////////////////////////////////THAT\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	
-	html += '        <li><a href="/index.html">Home</a></li>';			
-	html += '        <li><a href="/PokeLeague/index.html">PokéLeague</a></li>';			
-	html += '        <li><a href="http://getbootstrap.com/components/#navbar">ddddd</a></li>';	
-
-
+	html += '        <li><a href="main.html">Countdown Home</a></li>';			
 	
 	///////////////////////////THIS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
