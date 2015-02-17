@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">	
+	<link rel="stylesheet" type="text/css" href="table.css">	
+	
+	<!-- Data importation -->
+	<script src="champion-bans.js"></script>
+	<script src="exports.js"></script>
+	<script>
+	
+		var bans = getExports();
+		var loaded = false;
+		
+		setTimeout(checkExports(), 100);
+		
+		function checkExports(){
+			if (bans != null){
+				loaded = true;
+				alert(bans[0]);
+			} else {
+				setTimeout("checkExports();", 100);		
+			}
+		}
+		
+	</script>		
+	
+  </head>
+  
+  <body>
+  
+    <div id="navbar-holder"></div>
+    <script src="../navbar.js"></script>	
+    <script>
+	  drawNavbar("bans");
+    </script>		
+	
+<!-- DO STUFF HERE -->	
+	
+	<div class="container">
+		<p>Here are bans on abilities <b>for hiders only</b>. Seekers may use all abilities</p>
+		<div id="display-holder"></div>
+	</div>	
+	
+	<script src="display.js"></script>	
+	<script>
+		checkIfLoaded();
+		function checkIfLoaded(){
+			if (loaded == false){
+				setTimeout("checkIfLoaded();", 100);	
+			} else {
+				displayChampionData();
+			}
+		}
+	</script>
+	
+<!-- STOP DOING STUFF HERE -->	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
