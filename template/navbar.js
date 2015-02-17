@@ -27,7 +27,8 @@ function drawNavbar(){
 	
 	
 	html += '        <li><a href="/index.html">Home</a></li>';			
-	html += '        <li><a href="/PokeLeague/index.html">PokéLeague</a></li>';			
+	html += '        <li><a href="/PokeLeague/home/index.html">PokéLeague</a></li>';		
+	html += '        <li><a href="/League of Legends Hide and Seekk/main.html">ddddd</a></li>';		
 	html += '        <li><a href="http://getbootstrap.com/components/#navbar">ddddd</a></li>';	
 
 
