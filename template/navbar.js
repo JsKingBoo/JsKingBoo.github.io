@@ -17,7 +17,7 @@ function drawNavbar(){
 	html += '        <span class="icon-bar"></span>';
 	html += '        <span class="icon-bar"></span>';
 	html += '      </button>';
-	html += '      <a class="navbar-brand" href="JsKingBoo.github.io">JsKingBoo.github.io</a>';
+	html += '      <a class="navbar-brand" href="http://JsKingBoo.github.io">JsKingBoo.github.io</a>';
 	html += '    </div>';
 	html += '    <!-- Collect the nav links, forms, and other content for toggling -->';
 	html += '    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
@@ -28,8 +28,7 @@ function drawNavbar(){
 	
 	html += '        <li><a href="/index.html">Home</a></li>';			
 	html += '        <li><a href="/PokeLeague/home/index.html">PokéLeague</a></li>';		
-	html += '        <li><a href="/League of Legends Hide and Seekk/main.html">ddddd</a></li>';		
-	html += '        <li><a href="http://getbootstrap.com/components/#navbar">ddddd</a></li>';	
+	html += '        <li><a href="/League of Legends Hide and Seek/main.html">LoL Hide and Seek</a></li>';		
 
 
 	

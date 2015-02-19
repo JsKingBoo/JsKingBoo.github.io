@@ -3,15 +3,52 @@ var html = '';
 
 function displayChampionData(){
 
-	//reset HTML
-	html = '<div class="table-responsive">';
+	//console.log("ok bere we go");
+
+	//reset HTML, and set table head info
+	html = '<div class="table table-bordered table-striped table-responsive">';
 	html +='	<table class="table">';
+	
+	html +='		<thead>';
+	html +='			<tr>';
+	html +='			  <th style="vertical-align:top">';
+	html +='				Champion name<br/>';
+	html +='				<small>nicknames don\'t count</small>';
+	html +='			  </th>';
+	html +='			  <th style="vertical-align:top">';
+	html +='				Q<br/>';
+	html +='				<small>cry more</small>';
+	html +='			  </th>';
+	html +='			  <th style="vertical-align:top">';
+	html +='				W<br/>';
+	html +='				<small>; w ;</small>';
+	html +='			  </th>';
+	html +='			  <th style="vertical-align:top">';
+	html +='				E<br/>';
+	html +='				<small>2.71</small>';
+	html +='			  </th>';
+	html +='			  <th style="vertical-align:top">';
+	html +='				R<br/>';	
+	html +='				<small>aka ulti</small>';
+	html +='			  </th>';
+	html +='			  <th style="vertical-align:top">';
+	html +='				Miscellaneous Notes<br/>';
+	html +='				<small>and letters</small>';
+	html +='			  </th>';
+	html +='			</tr>';
+	html +='		</thead>  ';
     
 	var numOfChamps = 0;
 	var progress = 0;
 	
+	var light = 1;
+	
 	//build table
-	for(var j = 0; j < bans.length; j++) {
+	for(var j = 0; j < bans['champs'].length; j++) {
+		light *= -1;
+		
+		//console.log("in constructor loop run #" + j);
+		
 		//loading bar
 		progress += 1;
 		var percent = Math.floor(progress * 100 / numOfChamps);
@@ -28,28 +65,42 @@ function displayChampionData(){
 		//new row
 		html += '<tr>';
 		
+		//debug in case I derp
+		if(bans['champs'][j][5] == null){
+			console.log(bans['champs'][j][0]);
+		}
+		
 		//champion name; if notes (5) have "PERMABANNED" then bg is red
-		if(bans[j][5].indexOf('PERMABANNED') >= 0) {
-			html += '<td id="red">' + bans[j][0] + '</td>';
+		if(bans['champs'][j][5].indexOf('PERMABANNED') >= 0) {
+			//console.log("permabanned " + bans['champs'][j][0]);
+			html += '<td id="red">' + bans['champs'][j][0] + '</td>';
 		}else{
-			html += '<td id="blue">' + bans[j][0] + '</td>';			
+			html += '<td id="blue">' + bans['champs'][j][0] + '</td>';					
 		}
 		
 		//basic abilities
 		for (var k = 1; k < 5; k++){
-			if (bans[j][k] == "Yes"){
-				html += '<td id="green">' + bans[j][k] + '</td>';
-			} else if (bans[j][k] == "Maybe"){
-				html += '<td id="yellow">' + bans[j][k] + '</td>';				
-			} else if (bans[j][k] == "No"){
-				html += '<td id="red">' + bans[j][k] + '</td>';				
+			if (bans['champs'][j][k] == "Yes"){
+				html += '<td id="green">' + bans['champs'][j][k] + '</td>';
+			} else if (bans['champs'][j][k] == "Maybe"){
+				html += '<td id="yellow">' + bans['champs'][j][k] + '</td>';				
+			} else if (bans['champs'][j][k] == "No"){
+				html += '<td id="red">' + bans['champs'][j][k] + '</td>';	
+			} else if (bans['champs'][j][k] == "Contested"){
+				html += '<td id="light-grey">' + bans['champs'][j][k] + '</td>';				
 			} else {
-				html += '<td id="blue">' + bans[j][k] + '</td>';				
+				html += '<td id="blue">' + bans['champs'][j][k] + '</td>';				
 			}
 		}
 		
-		//notes
-		html += '<td id="red">' + bans[j][5] + '</td>';
+		//notes; red if contains PERMABANNED; blue if notes is empty; yellow otherwise
+		if(bans['champs'][j][5].indexOf('PERMABANNED') >= 0) {
+			html += '<td id="red">' + bans['champs'][j][5] + '</td>';
+		}else if(bans['champs'][j][5] != ""){
+			html += '<td id="yellow">' + bans['champs'][j][5] + '</td>';			
+		}else{ //empty
+			html += '<td id="blue">' + bans['champs'][j][5] + '</td>';						
+		}
 		
 		//end new row
 		html += '</tr>';

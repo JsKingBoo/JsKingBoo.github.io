@@ -17,3 +17,13 @@ td#blue{
 	color:#31708F;
 	background-color:#D9EDF7
 }
+
+td#light-grey{
+	color:#000000;
+	background-color:#FEFEFE
+}
+
+td#dark-gray{
+	color:#000000;
+	background-color:#F9F9F9
+}

@@ -1,9 +1,10 @@
 function getExports(){
 
-	var export1 = null;
+	var export1 = {};
 
 	getScript('champion-bans.js', function(){
-		export1 = championData;
+		//console.log("packaging champs data");
+		export1['champs'] = championData;
 	});
 	
 	return export1;

@@ -17,7 +17,7 @@ function drawNavbar(){
 	html += '        <span class="icon-bar"></span>';
 	html += '        <span class="icon-bar"></span>';
 	html += '      </button>';
-	html += '      <a class="navbar-brand" href="JsKingBoo.github.io">JsKingBoo.github.io</a>';
+	html += '      <a class="navbar-brand" href="http://JsKingBoo.github.io/">JsKingBoo.github.io</a>';
 	html += '    </div>';
 	html += '    <!-- Collect the nav links, forms, and other content for toggling -->';
 	html += '    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
@@ -25,7 +25,7 @@ function drawNavbar(){
 
 	//////////////////////////////////THAT\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	html += '        <li><a href="../index.html">PokéLeague Home</a></li>';			
+	html += '        <li><a href="../home/index.html">PokéLeague Home</a></li>';			
 	html += '        <li><a href="../teambuilder/main.html">Teambuilder</a></li>';			
 	html += '        <li><a href="../play/main.html">Play</a></li>';	
 	html += '        <li><a href="../info/main.htm">Reference</a></li>';	

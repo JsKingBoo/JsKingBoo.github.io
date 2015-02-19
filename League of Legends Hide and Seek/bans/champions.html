@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
+    <title>League of Legends Hide and Seek</title>
     <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">	
 	<link rel="stylesheet" type="text/css" href="table.css">	
 	
@@ -13,17 +13,21 @@
 	<script src="exports.js"></script>
 	<script>
 	
+		//console.log("startin' up; getting exports");
+	
 		var bans = getExports();
 		var loaded = false;
 		
 		setTimeout(checkExports(), 100);
 		
 		function checkExports(){
-			if (bans != null){
+			//console.log("did we get exports?");
+			if (bans['champs'] != null){
 				loaded = true;
-				alert(bans[0]);
+				//console.log("got it: " + bans['champs']);
 			} else {
 				setTimeout("checkExports();", 100);		
+				//console.log("nope, we didn't get exports yet");
 			}
 		}
 		
@@ -43,16 +47,21 @@
 	
 	<div class="container">
 		<p>Here are bans on abilities <b>for hiders only</b>. Seekers may use all abilities</p>
+		<p>Use [CTRL] + F (or Command F for Macs) to quickly look up a champion. If you're on mobile, #BigSorry</p>
 		<div id="display-holder"></div>
 	</div>	
 	
 	<script src="display.js"></script>	
 	<script>
+		//console.log("checking if loaded...");
+	
 		checkIfLoaded();
 		function checkIfLoaded(){
 			if (loaded == false){
 				setTimeout("checkIfLoaded();", 100);	
+				//console.log("nope not loaded");
 			} else {
+				//console.log("loaded!");
 				displayChampionData();
 			}
 		}
