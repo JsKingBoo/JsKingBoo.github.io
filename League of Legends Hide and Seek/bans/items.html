@@ -5,26 +5,67 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Home</title>
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">	
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet">	
+	<link rel="stylesheet" type="text/css" href="table.css">	
+	
+  	<!-- Data importation -->
+	<script src="item-bans.js"></script>
+	<script src="exports.js"></script>
+	<script>
+	
+		//console.log("startin' up; getting exports");
+	
+		var bans = getExports();
+		var loaded = false;
+		
+		setTimeout(checkExports(), 100);
+		
+		function checkExports(){
+			//console.log("did we get exports?");
+			if (bans['items'] != null){
+				loaded = true;
+				//console.log("got it: " + items['champs']);
+			} else {
+				setTimeout("checkExports();", 100);		
+				//console.log("nope, we didn't get exports yet");
+			}
+		}
+		
+	</script>		
+	
   </head>
   
   <body>
 
     <div id="navbar-holder"></div>
-    <script src="navbar.js"></script>	
+    <script src="../navbar.js"></script>	
     <script>
-	  drawNavbar("main");
+	  drawNavbar("bans");
     </script>	
 	
 <!-- DO STUFF HERE -->	
 	
 	<div class="container">
-		<p>League of Legends Hide and Seek is a community created gamemode in which 5 hiders must evade 2 seekers within a time limit
-
-		<h3><a href="rules/general.html">General rules</a></h3>
-		<h4><a href="rules/seeker.html">Seeker rules</a></h4>
-		<h4><a href="rules/hider.html">Hider rules</a></h4>
+		<p>These are item bans. What else could you think this was? Benjamin Spock's <i>The Common Sense Book to Child and Infant Care</i>?</p>
+		<p>Use [CTRL] + F or Command + F for Macs to quickly look up a champion.</p>		
+		<div id="display-holder"></div>
 	</div>
+	
+	<script src="display.js"></script>	
+	<script>
+		//console.log("checking if loaded...");
+	
+		checkIfLoaded();
+		function checkIfLoaded(){
+			if (loaded == false){
+				setTimeout("checkIfLoaded();", 100);	
+				//console.log("nope not loaded");
+			} else {
+				//console.log("loaded!");
+				displayItemData();
+			}
+		}
+	</script>
 	
 <!-- STOP DOING STUFF HERE -->	
 	
@@ -32,6 +73,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

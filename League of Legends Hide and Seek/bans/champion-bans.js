@@ -1,7 +1,8 @@
 //Display name, Q, W, E, R, notes
 //"Yes", "Maybe", "No"
-var lastUpdated = "Patch 5.3, February 17, 2015";
+var lastUpdated = "Patch 5.4, March 6, 2015";
 var championData = [
+["Akali", "No", "Yes", "No", "Yes", ""],
 ["Alistar", "Yes", "Yes", "Yes", "Yes", ""],
 ["Amumu", "Yes", "No", "No", "Yes", "Levelling E is allowed; using its active is not"],
 ["Anivia", "Yes", "Yes", "No", "Yes", ""],
@@ -14,6 +15,7 @@ var championData = [
 ["Evelynn", "No", "Yes", "No", "Yes", "PERMABANNED for both Hiders and Seekers. May not kill for a reset on W (unless the seeker has stayed in the field for an extended period of time at low health)"],
 ["Ezreal", "No", "No", "Yes", "No", ""],
 ["Fiddlesticks", "Yes", "No", "Yes", "Yes", ""],
+["Galio", "Yes", "Yes", "Yes", "Yes", ""],
 ["Gangplank", "No", "Yes", "Yes", "Yes", ""],
 ["Garen", "Yes", "Yes", "No", "No", ""],
 ["Gragas", "Yes", "Contested", "Yes", "Yes", "W may proc passive"],
@@ -25,7 +27,11 @@ var championData = [
 ["Katarina", "No", "Yes", "Yes", "No", ""],
 ["Kayle", "Yes", "Yes", "No", "Yes", ""],
 ["Kennen", "No", "No", "Yes", "No", "Kennen cannot proc his passive"],
+["Kog'Maw", "No", "No", "Yes", "No", ""],
+["Lux", "Yes", "Yes", "Yes", "No", ""],
 ["Malphite", "Yes", "Yes", "Yes", "Yes", ""],
+["Malzahar", "Yes", "Yes", "Yes", "Yes", "W can be used to spawn a voidling and block skillshots"],
+["Miss Fortune", "No", "No", "Yes", "No", ""],
 ["Mordekaiser", "Contested", "Yes", "Contested", "Contested", "Abilities proc passive, which give him an absorption shield"],
 ["Morgana", "Yes", "No", "Yes", "Yes", ""],
 ["Nasus", "No", "Yes", "Yes", "Yes", ""],
@@ -33,6 +39,7 @@ var championData = [
 ["Nidalee (Human)", "No", "No", "Yes", "Yes", ""],
 ["Pantheon", "No", "Yes", "No", "Yes", ""],
 ["Nunu", "Yes", "Yes", "Yes", "Yes", "Realize that you can only use your Q if the enemy team has a pet (such as Malzahar's Voidlings)"],
+["Olaf", "Yes", "No", "No", "Yes", ""],
 ["Poppy", "No", "Yes", "Yes", "Yes", ""],
 ["Rammus", "Yes", "Yes", "Yes", "No", ""],
 ["Ryze", "No", "Yes", "No", "Yes", ""],
@@ -41,7 +48,9 @@ var championData = [
 ["Singed", "No", "Yes", "Yes", "Yes", ""],
 ["Sion", "Yes", "Yes", "Yes", "Yes", ""],
 ["Sivir", "No", "No", "Yes", "Yes", ""],
+["Sona", "No", "Yes", "Yes", "Yes", ""],
 ["Soraka", "Yes", "Yes", "Yes", "Yes", ""],
+["Swain", "Yes", "Yes", "No", "No", ""],
 ["Taric", "Yes", "No", "Yes", "No", "Levelling W is allowed; using its active is not"],
 ["Teemo", "Yes", "Yes", "No", "Yes", "PERMABANNED for Hiders"],
 ["Tristana", "No", "Yes", "No", "No", "You may not kill for a reset on W (unless the seeker has stayed in the field for an extended period of time at low health)"],
@@ -49,24 +58,15 @@ var championData = [
 ["Twisted Fate", "No", "Yes", "No", "Yes", "Try not picking a blue card, mkay?"],
 ["Twitch", "Yes", "Yes", "No", "No", ""],
 ["Udyr", "No", "Yes", "Yes", "No", "Udyr may auto attack to proc his E stun"],
+["Urgot", "Contested", "Yes", "Contested", "No", "Q procs passive, which reduces damage dealt by 15%. It's a mini-exhaust."],
 ["Veigar", "No", "Yes", "No", "No", ""],
-["Vi", "Yes", "No", "No", "Yes", ""],
+["Vi", "Yes", "No", "No", "No", ""],
+["Vladimir", "No", "Yes", "No", "No", ""],
 ["Warwick", "No", "No", "Yes", "Yes", ""],
+["Xin Zhao", "Yes", "No", "Yes", "Yes", ""],
 ["Zilean", "No", "Yes", "Yes", "Yes", ""]
 ];
 /*
-garen:{},
-akali:{},
-malzahar:
-olaf:{display:"Olaf"},
-kog_maw:{display:"Kog'Maw"},
-xin_zhao:{display:"Xin Zhao"},
-vladimir:{},
-galio:{num:57,display:"Galio",blurb:"The Sentinel's Sorrow",types:["Rock", "Flying"],baseStats:{hp:435,ad:56,as:1,arm:21,ap:0,mr:200,ape:0,mpe:0,man:235,spe:335},passive:"Runic Skin",ranged:false},
-urgot:{num:58,display:"Urgot",blurb:"The Headsman's Pride",types:["Poison", "Steel"],baseStats:{hp:435,ad:48,as:1,arm:19,ap:0,mr:30,ape:0,mpe:0,man:220,spe:335},passive:"Zaun_Touched Bolt Augmenter",ranged:true},
-fortune:{num:59,display:"Miss Fortune",blurb:"The Bounty Hunter",types:["Normal"],baseStats:{hp:435,ad:46,as:2,arm:19,ap:20,mr:30,ape:5,mpe:0,man:212,spe:325},passive:"Strut",ranged:true},
-sona:{num:60,display:"Sona",blurb:"Maven of the Strings",types:["Normal"],baseStats:{hp:380,ad:47,as:1,arm:12,ap:10,mr:30,ape:0,mpe:0,man:265,spe:330},passive:"Power Chord",ranged:true},
-swain:{num:61,display:"Swain",blurb:"The Master Tactician",types:["Dark"],baseStats:{hp:385,ad:49,as:1,arm:16,ap:30,mr:30,ape:0,mpe:0,man:240,spe:335},passive:"Carrion Renewal",ranged:true},
 lux:{num:62,display:"Lux",blurb:"The Lady of Luminosity",types:["Normal"],baseStats:{hp:345,ad:50,as:1,arm:12,ap:40,mr:30,ape:0,mpe:10,man:250,spe:330},passive:"Illumination",ranged:true},
 leblanc:{num:63,display:"Leblanc",blurb:"The Deceiver",types:["Psychic"],baseStats:{hp:390,ad:51,as:1,arm:16,ap:50,mr:30,ape:0,mpe:5,man:250,spe:335},passive:"Mirror Image",ranged:true},
 irelia:{num:64,display:"Irelia",blurb:"The Will of the Blades",types:["Psychic", "Fighting"],baseStats:{hp:456,ad:56,as:1,arm:19,ap:10,mr:35,ape:5,mpe:0,man:230,spe:345},passive:"Ionian Fervor",ranged:false},

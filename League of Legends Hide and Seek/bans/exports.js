@@ -6,6 +6,11 @@ function getExports(){
 		//console.log("packaging champs data");
 		export1['champs'] = championData;
 	});
+
+	getScript('item-bans.js', function(){
+		//console.log("packaging items data");
+		export1['items'] = itemData;
+	});
 	
 	return export1;
 	
