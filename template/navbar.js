@@ -26,12 +26,12 @@ function drawNavbar(){
 	//////////////////////////////////THAT\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	
-	html += '        <li><a href="/index.html">Home</a></li>';			
+	html += '        <li><a href="/index.html">Home</a></li>';		
+	html += '        <li><a href="/news/main.html">News</a></li>';			
+	html += '        <li><a href="/League of Legends Hide and Seek/main.html">LoL Hide and Seek</a></li>';
+	html += '        <li><a href="/Countdown/main.html">Countdown</a></li>';			
 	html += '        <li><a href="/PokeLeague/home/index.html">PokéLeague</a></li>';		
-	html += '        <li><a href="/League of Legends Hide and Seek/main.html">LoL Hide and Seek</a></li>';		
 
-
-	
 	///////////////////////////THIS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
 	

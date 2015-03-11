@@ -1,6 +1,6 @@
 //Display name, Q, W, E, R, notes
 //"Yes", "Maybe", "No"
-var lastUpdated = "Patch 5.4, March 6, 2015";
+var lastUpdated = "Patch 5.5, March 11, 2015";
 var championData = [
 ["Akali", "No", "Yes", "No", "Yes", ""],
 ["Alistar", "Yes", "Yes", "Yes", "Yes", ""],
@@ -28,6 +28,7 @@ var championData = [
 ["Kayle", "Yes", "Yes", "No", "Yes", ""],
 ["Kennen", "No", "No", "Yes", "No", "Kennen cannot proc his passive"],
 ["Kog'Maw", "No", "No", "Yes", "No", ""],
+["Leblanc", "No", "Yes", "Yes", "Yes", ""],
 ["Lux", "Yes", "Yes", "Yes", "No", ""],
 ["Malphite", "Yes", "Yes", "Yes", "Yes", ""],
 ["Malzahar", "Yes", "Yes", "Yes", "Yes", "W can be used to spawn a voidling and block skillshots"],
@@ -67,8 +68,6 @@ var championData = [
 ["Zilean", "No", "Yes", "Yes", "Yes", ""]
 ];
 /*
-lux:{num:62,display:"Lux",blurb:"The Lady of Luminosity",types:["Normal"],baseStats:{hp:345,ad:50,as:1,arm:12,ap:40,mr:30,ape:0,mpe:10,man:250,spe:330},passive:"Illumination",ranged:true},
-leblanc:{num:63,display:"Leblanc",blurb:"The Deceiver",types:["Psychic"],baseStats:{hp:390,ad:51,as:1,arm:16,ap:50,mr:30,ape:0,mpe:5,man:250,spe:335},passive:"Mirror Image",ranged:true},
 irelia:{num:64,display:"Irelia",blurb:"The Will of the Blades",types:["Psychic", "Fighting"],baseStats:{hp:456,ad:56,as:1,arm:19,ap:10,mr:35,ape:5,mpe:0,man:230,spe:345},passive:"Ionian Fervor",ranged:false},
 trundle:{num:65,display:"Trundle",blurb:"The Troll King",types:["Fighting"],baseStats:{hp:455,ad:55,as:1,arm:23,ap:0,mr:35,ape:5,mpe:0,man:206,spe:350},passive:"King's Tribute",ranged:false},
 cassiopeia:{num:66,display:"Cassiopeia",blurb:"The Serpent's Embrace",types:["Poison", "Ground"],baseStats:{hp:380,ad:47,as:1,arm:15,ap:50,mr:30,ape:0,mpe:10,man:250,spe:335},passive:"Deadly Cadence",ranged:false},
