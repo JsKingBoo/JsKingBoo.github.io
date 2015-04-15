@@ -67,10 +67,22 @@ function displayChampionData(){
 			console.log(bans['champs'][j][0]);
 		}
 		
+		//count number of valid abilities; if 4 then the champ name turns green :^)
+		countAbilities = 0;
+		for (var k = 1; k < 5; k++){
+			if (bans['champs'][j][k] == "Yes"){
+				countAbilities++;
+			}
+		}		
+		
 		//champion name; if notes (5) have "PERMABANNED" then bg is red
 		if(bans['champs'][j][5].indexOf('PERMABANNED') >= 0) {
 			//console.log("permabanned " + bans['champs'][j][0]);
 			html += '<td id="red">' + bans['champs'][j][0] + '</td>';
+		}
+		//if all 4 abilities are usable, champ turns green
+		else if (countAbilities == 4){
+			html += '<td id="green">' + bans['champs'][j][0] + '</td>';			
 		}else{
 			html += '<td id="blue">' + bans['champs'][j][0] + '</td>';					
 		}

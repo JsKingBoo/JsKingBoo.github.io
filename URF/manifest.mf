@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: JsKingBoo
+Class-Path: URF.jar gson-2.3.1.jar json-20141113.jar riot-api-java.jar
+Main-Class: riotapi.URFViewer
