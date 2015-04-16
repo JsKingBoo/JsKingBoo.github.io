@@ -13,7 +13,9 @@ a[href$="#TheEnigmaBlade"] {
 	animation-iteration-count:infinite;
 	animation-timing-function:ease-in-out;
 	animation-delay:0s;
-	animation-play-state:running
+	animation-play-state:running;
+	color: #000000;
+	text-decoration: bold;
 }
 
 @-webkit-keyframes shake {
