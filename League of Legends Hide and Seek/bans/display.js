@@ -6,7 +6,10 @@ function displayChampionData(){
 	//console.log("ok bere we go");
 
 	//reset HTML, and set table head info
-	html = '<div class="table table-bordered table-striped table-responsive">';
+	html = '';
+	html += 'Last updated: ' + bans['champupdate'] + '<br\>';
+	
+	html += '<div class="table table-bordered table-striped table-responsive">';
 	html +='	<table class="table">';
 	
 	html +='		<thead>';
@@ -128,7 +131,10 @@ function displayItemData(){
 	//console.log("eerrrm iteerrrms");
 
 	//reset HTML, and set table head info
-	html = '<div class="table table-bordered table-striped table-responsive">';
+	html = '';
+	html += 'Last updated: ' + bans['itemupdate'] + '<br\>';
+	
+	html += '<div class="table table-bordered table-striped table-responsive">';
 	html +='	<table class="table">';
 	
 	html +='		<thead>';
