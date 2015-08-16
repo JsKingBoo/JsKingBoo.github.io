@@ -7,6 +7,7 @@ var navbarHtml = ''; //technically it isn't a navbar but ok
 var currentGuess = ["", "", "", "", "", "", "", "", "", ""];
 var answer = []; //convenience
 var answerCount = [0, 0, 0, 0]; //convenience; counts number of times [razor, iron, plun, ockl] appears in ansewr
+var noOfGuesses = 0;
 
 //item ID
 var razorfin = "3611";
@@ -100,12 +101,17 @@ function drawCurrentGuesses(){
 	//draw the submit button
 	currentGuessHtml += '<button type="button" class="btn btn-success" onclick="makeGuess();">Submit Guess</button>';
 	
+	//draw the clear button
+	currentGuessHtml += '<button type="button" class="btn btn-danger" onclick="generateNewGuess();">Clear Guess</button>';
+
 	//output
 	var displayContainer = document.getElementById("current_guess");
 	displayContainer.innerHTML=currentGuessHtml;
 }
 
 function makeGuess(){
+	noOfGuesses += 1;
+	
 	//solidify previous guess
 	for (var i = 0; i < ch; i++){
 		previousGuessHtml += '<img src="Brawlers/' + currentGuess[i] + '.png" alt="brawler" style="width:'+imagewidth+'px;height:'+imagewidth+'px">'
@@ -165,12 +171,14 @@ function makeGuess(){
 	
 	//YOU WIN
 	if (exact == ch){
-		var text = "Congrats! You've solved the code! This match took place in the " + rreg + " region. ";
+		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " guesses.\nThis match took place in the " + rreg + " region. \nRefresh the page to try again!\n";
 		if (bozoForgot){
-			text += "At least one person in this match forgot to buy a brawler! Instead, a placeholder Razorfin was put in that place. Can you guess who forgot?";
+			text += "At least one person in this match forgot to buy a brawler! Instead, a placeholder Razorfin was put in that place. Can you guess who forgot?\n";
 		}
 		alert(text);
 		return;
+	} else {
+		
 	}
 	
 	// //clear out the current guess "cache"
