@@ -167,7 +167,7 @@ function makeGuess(){
 	
 	
 	//update on findings:
-	previousGuessHtml += "Right Place: " + exact + "; Right Brawler, Wrong Place: " + kinda + "; Wrong Brawler: " + lolno + "<br/>";
+	previousGuessHtml += 'Right Place: <span style="color:#006400;font-size:16px">' + exact + '</span>; Right Brawler, Wrong Place: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Wrong Brawler: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
 	
 	//YOU WIN
 	if (exact == ch){
