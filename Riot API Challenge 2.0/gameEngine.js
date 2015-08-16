@@ -70,7 +70,7 @@ function drawStickyHeader(champURL){ //"champURL" is an ARRAY
 		var color;
 		if (i < 5){color = "blue"} else {color = "red"} //red team blue team ;d
 		
-		navbarHtml += '       <li><img src="' + champURL[i] + '" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px;border:' + imgborder + 'px solid ' + color +'"></li>';
+		navbarHtml += '       <li><img src="' + champURL[i] + '" alt="' + champURL[i] + '" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px;border:' + imgborder + 'px solid ' + color +'"></li>';
 	}
 
 	navbarHtml += '      </ul>';
@@ -95,7 +95,7 @@ function drawCurrentGuesses(){
 	
 	//cycle through the guess data
 	for (var i = 0; i < ch; i++){
-		currentGuessHtml += '<input type="image" src="Brawlers/' + currentGuess[i] + '.png" alt="brawler" style="width:'+imagewidth+'px;height:'+imagewidth+'px" onclick="cycleInput('+i+','+currentGuess[i]+')"/>';
+		currentGuessHtml += '<input type="image" src="Brawlers/' + currentGuess[i] + '.png" alt="' + idToBrawler(currentGuess[i]) + '" style="width:'+imagewidth+'px;height:'+imagewidth+'px" onclick="cycleInput('+i+','+currentGuess[i]+')"/>';
 	}
 	
 	//draw the submit button
@@ -114,7 +114,7 @@ function makeGuess(){
 	
 	//solidify previous guess
 	for (var i = 0; i < ch; i++){
-		previousGuessHtml += '<img src="Brawlers/' + currentGuess[i] + '.png" alt="brawler" style="width:'+imagewidth+'px;height:'+imagewidth+'px">'
+		previousGuessHtml += '<img src="Brawlers/' + currentGuess[i] + '.png" alt="' + idToBrawler(currentGuess[i]) + '" style="width:'+imagewidth+'px;height:'+imagewidth+'px">'
 	}
 	currentGuessHtml = '';
 	
@@ -213,6 +213,13 @@ function generateNewGuess(){
 		currentGuess[i] = razorfin;
 	}
 	drawCurrentGuesses();
+}
+
+function idToBrawler(s){
+	if (s == razorfin){ return "razorfin"; }
+	else if (s == ironback){ return "ironback"; }
+	else if (s == pluncrab){ return "plundercrab"; }
+	else if (s == ocklepod){ return "ocklepod"; }
 }
 
 //initial set-up, since currentGuess is empty initially
