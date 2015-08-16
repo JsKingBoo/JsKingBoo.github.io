@@ -197,6 +197,9 @@ function makeGuess(){
 	var displayContainer = document.getElementById("current_guess");
 	displayContainer.innerHTML=currentGuessHtml;
 	
+	//scroll to bottom of page
+	window.scrollTo(0,document.body.scrollHeight);
+	
 }
 
 function cycleInput(id, current){ //a button will send a call to cycle. this will do it.

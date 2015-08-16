@@ -24,7 +24,7 @@ function getMatchInformation(passedRegion, passedMatch, passedKey) {
 	this.httpRequest = function(callback){
 		xmlHttp.open("GET", url, true);
 		xmlHttp.onreadystatechange = callback; //i got a response, now what
-		console.log("API request 1 " + url);
+		//console.log("API request 1 " + url);
 		xmlHttp.send(null);
 	}	
 	

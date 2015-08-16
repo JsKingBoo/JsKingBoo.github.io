@@ -30,12 +30,12 @@ function getRandomRegion(){
 
 function requestMatch(region){ //async hell
 
-	console.log("getting random match " + region);
+	//console.log("getting random match " + region);
 	
 	$.getJSON("BILGEWATER/" + region.toUpperCase() + ".json", function(json) { //access the JSON file via jQuery
 		//choose a random number and get that match from that region
 		var x = Math.floor((Math.random() * 10000) + 1);
-		console.log("getRandomMatch " + json[x]);
+		//console.log("getRandomMatch " + json[x]);
 		id = json[x];
 	});
 	

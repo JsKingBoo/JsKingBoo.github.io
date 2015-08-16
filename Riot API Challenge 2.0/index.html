@@ -27,18 +27,17 @@
 		var mat;
 		var loadedID = false;
 		var jsonTests = 500; //magic number lol
-		//console.log(reg);
-		//console.log(mat);
 		
 		//async hell
 		setTimeout(checkMatchIDLoaded(), 100);
 		function checkMatchIDLoaded(){
 			if (jsonTests <= 0){
-				console.log("error: cannot get match accessor; timed out");
+				//console.log("error: cannot get match accessor; timed out");
+				alert("Error: cannot get match accessor; timed out");
 				return;
 			}
 			if (mat != null){ //data is loaded
-				console.log("match region + data has been loaded");
+				//console.log("match region + data has been loaded");
 				loadedID = true;
 				partZeroDone();
 			} else {
@@ -69,13 +68,14 @@
 		function checkJsonLoaded(){
 			//time out
 			if (jsonTests <= 0){
-				console.log("error: cannot get match json data; timed out");
+				//console.log("error: cannot get match json data; timed out");
+				alert("Error: cannot get match JSON data; timed out");
 				return;
 			}
 			//console.log("html " + matchJsonTXT);
 			
 			if (matchJsonTXT != null){ //data has been loaded
-				console.log("match data has been loaded");
+				//console.log("match data has been loaded");
 				matchJson = JSON.parse(matchJsonTXT);
 				loadedMatch = true;
 			} else { //not loaded yet, continue waiting
@@ -92,10 +92,11 @@
   
 	<div id="stickybar" style="position:fixed"></div>
 	<div class="container" style="margin-left:0px">
-	
-		<h1 style="display:inline">Loading...</h1><h6 style="display:inline">while reading feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh</h6>
-		<p>Brawler Codebreaker isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p><br/>
-
+		<div id="loading">
+			<h1>Loading Brawler Codebreakers...</h1>
+			<h6>while waiting feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh</h6>
+			<p>"Brawler Codebreakers" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p><br/>
+		</div>
 		<div id="previous_guess">
 			.
 		</div>
@@ -153,12 +154,13 @@
 		function checkChampNameJsonLoaded(){
 			//time out
 			if (jsonTests <= 0){
-				console.log("error: cannot get champion portrait data; timed out");
+				//console.log("error: cannot get champion portrait data; timed out");
+				alert("Error: cannot get champion portraits; timed out");
 				return;
 			}
 			
 			if (champNameJsonTXT != null){ //data has been loaded
-				console.log("champion portrait data has been loaded");
+				//console.log("champion portrait data has been loaded");
 				champNameArray = getAllChampNames();
 				/*for (var i = 0; i < champNameArray.length; i++){ //debug
 					console.log(i + ": " + champNameArray[i]);
@@ -213,11 +215,14 @@
 			function checkIfEverythingIsLoaded(){
 				if (loadedID && loadedMatch && loadedChampNames && loadBrawlers){
 					//fuck yes
-					console.log("the game is about to begin");
-					drawStickyHeader(champNameArray);
-					storeAnswer(allbrawlers);
-					dreg(reg);
-					drawCurrentGuesses();
+					//console.log("the game is about to begin");
+					var fillerSize = (window.innerWidth * 9 / 100) - 4;
+					drawStickyHeader(champNameArray); //draw the champion portraits
+					storeAnswer(allbrawlers); //set the answer from the match data
+					dreg(reg); //set the region for the game engine
+					drawCurrentGuesses(); //draw the current guess array
+					var displayContainer2 = document.getElementById("loading"); //remove loading stuff
+					displayContainer2.innerHTML='<img src="filler.png" alt="" style="width:' + fillerSize + 'px;height:' + fillerSize + 'px" />';
 				} else {
 					setTimeout("checkIfEverythingIsLoaded()", 100);
 				}
@@ -229,7 +234,12 @@
 	
 	</div>
 	
-
+	<footer>
+	<br/><br/><br/>
+	<p style="font-size:8px;margin:15px">
+	"Brawler Codebreakers" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+	</p>
+	</footer>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
