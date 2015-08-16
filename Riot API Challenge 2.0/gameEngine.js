@@ -118,19 +118,20 @@ function makeGuess(){
 	}
 	currentGuessHtml = '';
 	
+	//comment out "kinda", makes game too easy
 	var exact = 0;
-	var kinda = 0;
+	//var kinda = 0;
 	var lolno = 0;
-	var kindaHelper = [0,0,0,0];
-	for (var i = 0; i < 4; i++){
+	//var kindaHelper = [0,0,0,0];
+	/*for (var i = 0; i < 4; i++){
 		kindaHelper[i] = answerCount[i];
-	}
+	}*/
 	//console.log("first check "+ kindaHelper); //debug
 	//check to see if any matched *exactly* to answer
 	for (var i = 0; i < ch; i++){
 		if (currentGuess[i] == answer[i]){
 			exact+=1;
-			if (currentGuess[i] == razorfin){
+			/*if (currentGuess[i] == razorfin){
 				kindaHelper[0] -= 1;
 			} else if (currentGuess[i] == ironback){
 				kindaHelper[1] -= 1;
@@ -138,12 +139,13 @@ function makeGuess(){
 				kindaHelper[2] -= 1;
 			} else if (currentGuess[i] == ocklepod){
 				kindaHelper[3] -= 1;
-			}
+			}*/
 		}
 	}
 	//console.log("second check "+kindaHelper); //debug
 	//check to see if any are correct but in the wrong place
-	for (var i = 0; i < ch; i++){
+	//commented out, makes game too easy
+	/*for (var i = 0; i < ch; i++){
 		if (currentGuess[i] == razorfin && kindaHelper[0] > 0){
 			kindaHelper[0] -= 1;
 			kinda += 1;
@@ -161,13 +163,16 @@ function makeGuess(){
 			kinda += 1;
 			//console.log(i + ", kinda 4");
 		}
-	}
+	}*/
 	//calculate the ones that were completely wrong
-	lolno = ch - (exact + kinda); //why is it easier to find out how many is wrong :3
+	//lolno = ch - (exact + kinda); //why is it easier to find out how many is wrong :3
 	
+	//make this game harder, "kinda" makes game too easy
+	lolno = ch - exact;
 	
 	//update on findings:
-	previousGuessHtml += 'Right Place: <span style="color:#006400;font-size:16px">' + exact + '</span>; Right Brawler, Wrong Place: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Wrong Brawler: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
+	//previousGuessHtml += 'Right Place: <span style="color:#006400;font-size:16px">' + exact + '</span>; Right Brawler, Wrong Place: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Wrong Brawler: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
+	previousGuessHtml += 'Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
 	
 	//YOU WIN
 	if (exact == ch){
