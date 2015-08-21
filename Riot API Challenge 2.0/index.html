@@ -7,8 +7,6 @@
     <title>Brawler Codebreakers</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="champ-brawler-data.js"></script>
-	<script src="champ-pickrate-data.js"></script>
 	<script src="champ-data.js"></script>
 	<script src="gameEngine2.js"></script>
   </head>
@@ -16,7 +14,7 @@
   <body>
   
 	<div id="stickybar" style="position:fixed"></div>
-	<div class="container" style="margin-left:0px">
+	<div class="container" id="contains" style="margin-left:0px">
 		<div id="loading">
 			<h1>Loading Brawler Codebreakers...</h1>
 			<h6>while waiting feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh</h6>
@@ -35,10 +33,15 @@
 		</script>
 	
 		<script>
-			var fillerSize = (window.innerWidth * 9 / 100) - 4;
+			//formatting + utility
+			var w = window.innerWidth;
+			var imgborder = 2;
+			var imagewidth = (w * 9 / 100) - (imgborder * 2);
+			var ch = 10;
 			init();
 			var displayContainer2 = document.getElementById("loading"); //remove loading stuff
-			displayContainer2.innerHTML='<img src="filler.png" alt="" style="width:' + fillerSize + 'px;height:' + fillerSize + 'px" />';
+			displayContainer2.innerHTML='<img src="filler.png" alt="" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px" />';
+			document.getElementById("contains").style.marginLeft=(imagewidth/2)+"px";
 		</script>
 	
 	
@@ -46,10 +49,14 @@
 	
 	<footer>
 	<br/><br/><br/>
-	<p style="font-size:8px;margin:15px">
+	<div id="disclaimer">
 	"Brawler Codebreakers" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
-	</p>
+	</div>
 	</footer>
+	<script>
+		document.getElementById("disclaimer").style.marginLeft=(imagewidth/2)+"px";
+		document.getElementById("disclaimer").style.fontSize="10px";
+	</script>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

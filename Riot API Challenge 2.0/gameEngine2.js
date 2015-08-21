@@ -17,12 +17,6 @@ var ironback = "3612";
 var pluncrab = "3613";
 var ocklepod = "3614";
 
-//formatting + utility
-var w = window.innerWidth;
-var imgborder = 2;
-var imagewidth = (w * 9 / 100) - (imgborder * 2);
-var ch = 10;
-
 function init(){
 	//generateTeams();
 	//generateAnswer();
@@ -31,6 +25,25 @@ function init(){
 	drawCurrentGuesses();
 }
 
+function reset(){
+	
+	previousGuessHtml = '';
+	currentGuessHtml = '';
+	navbarHtml = '';
+
+	champs = []; 
+	currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
+	answer = [];
+	answerCount = [0, 0, 0, 0]; 
+	noOfGuesses = 0;
+	win = false;
+	
+	document.getElementById("previous_guess").innerHTML='';
+	document.getElementById("current_guess").innerHTML='';
+	
+	init();
+}
+/*
 function generateTeams(){
 	
 	//fuck jquery
@@ -112,7 +125,7 @@ function generateAnswer(){
 		}
 	}	
 };
-
+*/
 function setUp(){
 	//for both red and blue team
 	for (var a = 0; a < 2; a++){
@@ -156,7 +169,7 @@ function drawStickyHeader(champURL){ //"champURL" is an ARRAY
 	//this is like the worst way to do things
 	navbarHtml = '';
 
-	navbarHtml += '<nav class="navbar navbar-static-top" style="margin-left:0px">';
+	navbarHtml += '<nav class="navbar navbar-static-top" style="margin-left:' + imagewidth/2 + 'px">';
 	navbarHtml += '  <div class="container-fluid">';
 
 
@@ -182,12 +195,8 @@ function drawStickyHeader(champURL){ //"champURL" is an ARRAY
 	
 };
 
-function drawPreviousGuesses(){
-	var displayContainer = document.getElementById("previous_guess");
-	displayContainer.innerHTML=previousGuessHtml;
-}
-
 function drawCurrentGuesses(){
+	if (!win){
 	//empty
 	currentGuessHtml = '';
 	
@@ -205,22 +214,19 @@ function drawCurrentGuesses(){
 	//output
 	var displayContainer = document.getElementById("current_guess");
 	displayContainer.innerHTML=currentGuessHtml;
+	}
 };
 
 function makeGuess(){
-	if (!win){
-		noOfGuesses += 1;
-	}
+	//if you already, you shouldn't run this function
+	if (win) {return;}
+	noOfGuesses += 1;
+		
+	solidifyPreviousGuess();
 	
-	//solidify previous guess
-	for (var i = 0; i < ch; i++){
-		previousGuessHtml += '<img src="Brawlers/' + currentGuess[i] + '.png" alt="' + idToBrawler(currentGuess[i]) + '" style="width:'+imagewidth+'px;height:'+imagewidth+'px">'
-	}
-	currentGuessHtml = '';
-	
+	//count how close the current guess is
 	var exact = 0;
 	var lolno = 0;
-
 	for (var i = 0; i < ch; i++){
 		if (currentGuess[i] == answer[i]){
 			exact+=1;
@@ -235,18 +241,27 @@ function makeGuess(){
 	//YOU WIN
 	if (exact == ch){
 		//console.log("winner");
-		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " guesses.\nRefresh the page to try again!\n";
+		var guessText = "guess";
+		if (noOfGuesses > 1){
+			guessText += "es";
+		}
+		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " " + guessText + ".\nRefresh the page to try again!\n";
 		alert(text);
 		win = true;
-		return;
 	} else {
 		//something was supposed to go here but i forgot
 	}
 	
 	// //clear out the current guess "cache"
 	//generateNewGuess();
-	//I don't actually want to clear it
+	//I changed my mind, I don't actually want to clear it. that's why it's commented out.
+	
 	drawCurrentGuesses();
+	
+	if (win){
+		//solidifyPreviousGuess();
+		currentGuessHtml = '<button type="button" class="btn btn-info" onclick="reset();">Reset Game</button>';
+	}
 	
 	//output
 	var displayContainer2 = document.getElementById("previous_guess");
@@ -258,6 +273,14 @@ function makeGuess(){
 	window.scrollTo(0,document.body.scrollHeight);
 	
 };
+
+function solidifyPreviousGuess(){
+	//solidify previous guess
+	for (var i = 0; i < ch; i++){
+		previousGuessHtml += '<img src="Brawlers/' + currentGuess[i] + '.png" alt="' + idToBrawler(currentGuess[i]) + '" style="width:'+imagewidth+'px;height:'+imagewidth+'px">'
+	}
+	currentGuessHtml = '';
+}
 
 function cycleInput(id, current){ //a button will send a call to cycle. this will do it.
 	//console.log("cycleInput " + id + ", " + current);

@@ -45,7 +45,7 @@ var champdata = {
     },
     "jug": {
         "XinZhao": [34, 65, 22, 10],
-        "Fiddlesticks": [11, 12, 14, 7],
+        "FiddleSticks": [11, 12, 14, 7],
         "Kayle": [41, 31, 11, 9],
         "MasterYi": [46, 51, 33, 14],
         "Warwick": [64, 27, 21, 8],
