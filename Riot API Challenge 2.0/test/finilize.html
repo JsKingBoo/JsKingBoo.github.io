@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Brawler Codebreakers</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="merge1.js"></script>
+	<script src="../champ-data.js"></script>	
+  </head>
+  
+  <body>
+  
+	<div id="result"></div>
+
+	<script>
+		var html = 'var champdata = {<br/>';
+		var topp = '&nbsp;&nbsp;&nbsp;&nbsp;"top": {<br/>';
+		var jug = '&nbsp;&nbsp;&nbsp;&nbsp;},<br/>&nbsp;&nbsp;&nbsp;&nbsp;"jug": {<br/>';
+		var mid = '&nbsp;&nbsp;&nbsp;&nbsp;},<br/>&nbsp;&nbsp;&nbsp;&nbsp;"mid": {<br/>';
+		var sup = '&nbsp;&nbsp;&nbsp;&nbsp;},<br/>&nbsp;&nbsp;&nbsp;&nbsp;"sup": {<br/>';
+		var adc = '&nbsp;&nbsp;&nbsp;&nbsp;},<br/>&nbsp;&nbsp;&nbsp;&nbsp;"adc": {<br/>';
+		
+		for (var i = 1; i <= 432; i++){
+			var cnam = null;
+			switch(i){
+				case 266: cnam="Aatrox"; break;
+				case 103: cnam="Ahri"; break;
+				case 84: cnam="Akali"; break;
+				case 12: cnam="Alistar"; break;
+				case 32: cnam="Amumu"; break;
+				case 34: cnam="Anivia"; break;
+				case 1: cnam="Annie"; break;
+				case 22: cnam="Ashe"; break;
+				case 268: cnam="Azir"; break;
+				case 432: cnam="Bard"; break;
+				case 53: cnam="Blitzcrank"; break;
+				case 63: cnam="Brand"; break;
+				case 201: cnam="Braum"; break;
+				case 51: cnam="Caitlyn"; break;
+				case 69: cnam="Cassiopeia"; break;
+				case 31: cnam="Chogath"; break;
+				case 42: cnam="Corki"; break;
+				case 122: cnam="Darius"; break;
+				case 131: cnam="Diana"; break;
+				case 36: cnam="DrMundo"; break;
+				case 119: cnam="Draven"; break;
+				case 245: cnam="Ekko"; break;
+				case 60: cnam="Elise"; break;
+				case 28: cnam="Evelynn"; break;
+				case 81: cnam="Ezreal"; break;
+				case 9: cnam="Fiddlesticks"; break;
+				case 114: cnam="Fiora"; break;
+				case 105: cnam="Fizz"; break;
+				case 3: cnam="Galio"; break;
+				case 41: cnam="Gangplank"; break;
+				case 86: cnam="Garen"; break;
+				case 150: cnam="Gnar"; break;
+				case 79: cnam="Gragas"; break;
+				case 104: cnam="Graves"; break;
+				case 120: cnam="Hecarim"; break;
+				case 74: cnam="Heimerdinger"; break;
+				case 39: cnam="Irelia"; break;
+				case 40: cnam="Janna"; break;
+				case 59: cnam="JarvanIV"; break;
+				case 24: cnam="Jax"; break;
+				case 126: cnam="Jayce"; break;
+				case 222: cnam="Jinx"; break;
+				case 429: cnam="Kalista"; break;
+				case 43: cnam="Karma"; break;
+				case 30: cnam="Karthus"; break;
+				case 38: cnam="Kassadin"; break;
+				case 55: cnam="Katarina"; break;
+				case 10: cnam="Kayle"; break;
+				case 85: cnam="Kennen"; break;
+				case 121: cnam="Khazix"; break;
+				case 96: cnam="KogMaw"; break;
+				case 7: cnam="Leblanc"; break;
+				case 64: cnam="LeeSin"; break;
+				case 89: cnam="Leona"; break;
+				case 127: cnam="Lissandra"; break;
+				case 236: cnam="Lucian"; break;
+				case 117: cnam="Lulu"; break;
+				case 99: cnam="Lux"; break;
+				case 54: cnam="Malphite"; break;
+				case 90: cnam="Malzahar"; break;
+				case 57: cnam="Maokai"; break;
+				case 11: cnam="MasterYi"; break;
+				case 21: cnam="MissFortune"; break;
+				case 82: cnam="Mordekaiser"; break;
+				case 25: cnam="Morgana"; break;
+				case 267: cnam="Nami"; break;
+				case 75: cnam="Nasus"; break;
+				case 111: cnam="Nautilus"; break;
+				case 76: cnam="Nidalee"; break;
+				case 56: cnam="Nocturne"; break;
+				case 20: cnam="Nunu"; break;
+				case 2: cnam="Olaf"; break;
+				case 61: cnam="Orianna"; break;
+				case 80: cnam="Pantheon"; break;
+				case 78: cnam="Poppy"; break;
+				case 133: cnam="Quinn"; break;
+				case 33: cnam="Rammus"; break;
+				case 421: cnam="RekSai"; break;
+				case 58: cnam="Renekton"; break;
+				case 107: cnam="Rengar"; break;
+				case 92: cnam="Riven"; break;
+				case 68: cnam="Rumble"; break;
+				case 13: cnam="Ryze"; break;
+				case 113: cnam="Sejuani"; break;
+				case 35: cnam="Shaco"; break;
+				case 98: cnam="Shen"; break;
+				case 102: cnam="Shyvana"; break;
+				case 27: cnam="Singed"; break;
+				case 14: cnam="Sion"; break;
+				case 15: cnam="Sivir"; break;
+				case 72: cnam="Skarner"; break;
+				case 37: cnam="Sona"; break;
+				case 16: cnam="Soraka"; break;
+				case 50: cnam="Swain"; break;
+				case 134: cnam="Syndra"; break;
+				case 223: cnam="TahmKench"; break;
+				case 91: cnam="Talon"; break;
+				case 44: cnam="Taric"; break;
+				case 17: cnam="Teemo"; break;
+				case 412: cnam="Thresh"; break;
+				case 18: cnam="Tristana"; break;
+				case 48: cnam="Trundle"; break;
+				case 23: cnam="Tryndamere"; break;
+				case 4: cnam="TwistedFate"; break;
+				case 29: cnam="Twitch"; break;
+				case 77: cnam="Udyr"; break;
+				case 6: cnam="Urgot"; break;
+				case 110: cnam="Varus"; break;
+				case 67: cnam="Vayne"; break;
+				case 45: cnam="Veigar"; break;
+				case 161: cnam="Velkoz"; break;
+				case 254: cnam="Vi"; break;
+				case 112: cnam="Viktor"; break;
+				case 8: cnam="Vladimir"; break;
+				case 106: cnam="Volibear"; break;
+				case 19: cnam="Warwick"; break;
+				case 62: cnam="MonkeyKing"; break;
+				case 101: cnam="Xerath"; break;
+				case 5: cnam="XinZhao"; break;
+				case 157: cnam="Yasuo"; break;
+				case 83: cnam="Yorick"; break;
+				case 154: cnam="Zac"; break;
+				case 238: cnam="Zed"; break;
+				case 115: cnam="Ziggs"; break;
+				case 26: cnam="Zilean"; break;
+				case 143: cnam="Zyra"; break;
+			}
+			if (cnam != null){
+				if (champdata['top'].hasOwnProperty(cnam)){
+					topp += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"' + cnam + '": [' + merge1[i][0] + ', ' + merge1[i][1] + ', ' + merge1[i][2] + ', ' + merge1[i][3] + '],<br/>';
+				} else if (champdata['jug'].hasOwnProperty(cnam)){
+					jug += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"' + cnam + '": [' + merge1[i][0] + ', ' + merge1[i][1] + ', ' + merge1[i][2] + ', ' + merge1[i][3] + '],<br/>';
+				} else if (champdata['mid'].hasOwnProperty(cnam)){
+					mid += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"' + cnam + '": [' + merge1[i][0] + ', ' + merge1[i][1] + ', ' + merge1[i][2] + ', ' + merge1[i][3] + '],<br/>';
+				} else if (champdata['sup'].hasOwnProperty(cnam)){
+					sup += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"' + cnam + '": [' + merge1[i][0] + ', ' + merge1[i][1] + ', ' + merge1[i][2] + ', ' + merge1[i][3] + '],<br/>';
+				} else if (champdata['adc'].hasOwnProperty(cnam)){
+					adc += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"' + cnam + '": [' + merge1[i][0] + ', ' + merge1[i][1] + ', ' + merge1[i][2] + ', ' + merge1[i][3] + '],<br/>';
+				}
+				
+			}
+
+			//html += '"' + cnam + '": [' + merge1[i][0] + ', ' + merge1[i][1] + ', ' + merge1[i][2] + ', ' + merge1[i][3] + '],<br/>';
+		}
+		html += topp + jug + mid + sup + adc;
+		html += '}';
+		var displayContainer = document.getElementById("result"); 
+		displayContainer.innerHTML=html;
+	</script>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

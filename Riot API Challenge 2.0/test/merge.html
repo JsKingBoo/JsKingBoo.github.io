@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Brawler Codebreakers</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="merge1.js"></script>
+	<script src="merge2.js"></script>
+  </head>
+  
+  <body>
+  
+	<div id="result"></div>
+
+	<script>
+		var merge3 = {};
+		for (var i = 1; i <= 432; i++){
+			var temparray = [];
+			for (var j = 0; j < 4; j++){
+				temparray.push(merge1[i][j] + merge2[i][j]);
+			}
+			merge3[i] = temparray;
+			//console.log(temparray);
+		}
+		console.log(merge3);
+		var html = 'var merge1 = {<br/>';
+		for (var i = 1; i <= 432; i++){
+			html += '"' + i + '": [' + merge3[i][0] + ', ' + merge3[i][1] + ', ' + merge3[i][2] + ', ' + merge3[i][3] + '],<br/>';
+		}
+		html += '}';
+		var displayContainer = document.getElementById("result"); //remove loading stuff
+		displayContainer.innerHTML=html;
+	</script>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
