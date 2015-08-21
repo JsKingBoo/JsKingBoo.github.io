@@ -4,9 +4,10 @@ var currentGuessHtml = '';
 var navbarHtml = ''; //technically it isn't a navbar but ok
 
 //gameplay handlers
-var currentGuess = ["", "", "", "", "", "", "", "", "", ""];
+var champs = []; //random top jug mid sup adc top jug mid sup adc
+var currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
 var answer = []; //convenience
-var answerCount = [0, 0, 0, 0]; //convenience; counts number of times [razor, iron, plun, ockl] appears in ansewr
+var answerCount = [0, 0, 0, 0]; //convenience; counts number of times [razor, iron, plun, ockl] appears in answer
 var noOfGuesses = 0;
 var win = false;
 
@@ -21,38 +22,134 @@ var w = window.innerWidth;
 var imgborder = 2;
 var imagewidth = (w * 9 / 100) - (imgborder * 2);
 var ch = 10;
-var bozoForgot = false;
-var rreg = "";
 
-function dreg(r){
-	rreg = r;
+function init(){
+	//generateTeams();
+	//generateAnswer();
+	setUp();
+	drawStickyHeader(champs);
+	drawCurrentGuesses();
 }
 
-//store the answer here for convenience
-function storeAnswer(get){
-	//if some bozo didn't buy a brawler, treat is as a razorfin
-	for (var i = 0; i < ch; i++){
-		if (get[i]=="0"){
-			answer[i] = razorfin;
-			bozoForgot = true;
-		} else {
-			answer[i] = get[i];
+function generateTeams(){
+	
+	//fuck jquery
+	
+	//ASSERT (json[x]'s subvalues add up to 1.0)
+	
+	//for both red team and blue team
+	for (var i = 0; i < 2; i++){
+		
+		//cycle through all positions
+		for (var j in pickrates){
+			
+			//generate random number
+			var rand = Math.random();
+			var currentCum = 0;
+			
+			//cycle through all possible champs in said positions
+			for (var k in pickrates[j]){
+				
+				//add champ's value to currentCum. if currentCum is now greater than rand, push that champ to the champs array
+				currentCum += pickrates[j][k];
+				if (currentCum >= rand){
+					//champs.push("http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/"+k+".png");
+					champs.push(k);
+					console.log(k);
+					break;
+				}
+			}
 		}
 	}
-	//prerequisite: answer.length = 10
+};
+
+function generateAnswer(){
+	//ASSERT champs is filled with 10 entries
+	//cycle through all champs in champarray
+	
 	for (var i = 0; i < ch; i++){
-		//sloppy but w/e
-		if (answer[i] == razorfin){
-			answerCount[0] += 1;
-		} else if (answer[i] == ironback){
-			answerCount[1] += 1;
-		} else if (answer[i] == pluncrab){
-			answerCount[2] += 1;
-		} else { //ocklepod
-			answerCount[3] += 1;
+
+		//locate their entry
+		var position = i % (ch/2);
+		
+		if (position == 0){
+			//coordinated teams
+			var coor = Math.random();
+			if (coor < 0.005){
+				//coordinated
+				var temp = Math.floor(Math.random() * 3);
+				for (var k = 0; k < ch/2; k++){
+					answer.push(temp+3611);
+				}
+				i += ch/2;
+			}			
+		}	
+		
+		var poskey = '';
+		if (position == 0){poskey = 'top';}
+		else if (position == 1){poskey = 'jug';}
+		else if (position == 2){poskey = 'mid';}
+		else if (position == 3){poskey = 'sup';}
+		else if (position == 4){poskey = 'adc';}
+		for (var j in brawlerrates[poskey]){
+			if (j == champs[i]){
+				//weighted random to find their brawler
+				var rand = Math.random();
+				var currentCum = 0;
+				
+				//cycle through brawler probabilities
+				for (var k = 0; k < 4; k++){
+					
+					//add brawler's value to currentCum. if currentCum is now greater than rand, push that to the answer array
+					currentCum += brawlerrates[poskey][j][k];
+					if (currentCum >= rand){
+						answer.push(k+3611);
+						console.log(k+3611);
+						break;
+					}
+				}				
+			}
+		}
+	}	
+};
+
+function setUp(){
+	//for both red and blue team
+	for (var a = 0; a < 2; a++){
+		
+		//for each position (top jug mid sup bot etc...)
+		for (var i in champdata){
+			
+			//first, add up all numbers in the subarray
+			var totalsum = 0;
+			for (var j in champdata[i]){
+				for (var k in champdata[i][j]){
+					totalsum += champdata[i][j][k];
+				}
+			}
+			
+			//generate a random number
+			var rand = Math.floor(Math.random() * totalsum);
+			var currentCum = 0;
+			
+			//add brawler values to currentCum. if currentCum > rand then push that champ with that brawler to the array
+			loop1: for (var j in champdata[i]){
+				for (var k = 0; k < 4; k++){
+					currentCum += champdata[i][j][k];
+					if (currentCum > rand){
+						champs.push(j);
+						//console.log(j);
+						answer.push(k+3611);
+						//console.log(k+3611);
+						break loop1;
+					}
+				}
+			}			
+			
 		}
 	}
 }
+
 
 function drawStickyHeader(champURL){ //"champURL" is an ARRAY
 
@@ -71,7 +168,7 @@ function drawStickyHeader(champURL){ //"champURL" is an ARRAY
 		var color;
 		if (i < 5){color = "blue"} else {color = "red"} //red team blue team ;d
 		
-		navbarHtml += '       <li><img src="' + champURL[i] + '" alt="' + champURL[i] + '" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px;border:' + imgborder + 'px solid ' + color +'"></li>';
+		navbarHtml += '       <li><img src="http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/' + champURL[i] + '.png" alt="' + champURL[i] + '" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px;border:' + imgborder + 'px solid ' + color +'"></li>';
 	}
 
 	navbarHtml += '      </ul>';
@@ -83,7 +180,7 @@ function drawStickyHeader(champURL){ //"champURL" is an ARRAY
 	displayContainer.innerHTML=navbarHtml;
 	
 	
-}
+};
 
 function drawPreviousGuesses(){
 	var displayContainer = document.getElementById("previous_guess");
@@ -108,7 +205,7 @@ function drawCurrentGuesses(){
 	//output
 	var displayContainer = document.getElementById("current_guess");
 	displayContainer.innerHTML=currentGuessHtml;
-}
+};
 
 function makeGuess(){
 	if (!win){
@@ -121,56 +218,14 @@ function makeGuess(){
 	}
 	currentGuessHtml = '';
 	
-	//comment out "kinda", makes game too easy
 	var exact = 0;
-	//var kinda = 0;
 	var lolno = 0;
-	//var kindaHelper = [0,0,0,0];
-	/*for (var i = 0; i < 4; i++){
-		kindaHelper[i] = answerCount[i];
-	}*/
-	//console.log("first check "+ kindaHelper); //debug
-	//check to see if any matched *exactly* to answer
+
 	for (var i = 0; i < ch; i++){
 		if (currentGuess[i] == answer[i]){
 			exact+=1;
-			/*if (currentGuess[i] == razorfin){
-				kindaHelper[0] -= 1;
-			} else if (currentGuess[i] == ironback){
-				kindaHelper[1] -= 1;
-			} else if (currentGuess[i] == pluncrab){
-				kindaHelper[2] -= 1;
-			} else if (currentGuess[i] == ocklepod){
-				kindaHelper[3] -= 1;
-			}*/
 		}
 	}
-	//console.log("second check "+kindaHelper); //debug
-	//check to see if any are correct but in the wrong place
-	//commented out, makes game too easy
-	/*for (var i = 0; i < ch; i++){
-		if (currentGuess[i] == razorfin && kindaHelper[0] > 0){
-			kindaHelper[0] -= 1;
-			kinda += 1;
-			//console.log(i + ",kinda 1");
-		} else if (currentGuess[i] == ironback && kindaHelper[1] > 0){
-			kindaHelper[1] -= 1;
-			kinda += 1;
-			//console.log(i + ", kinda 2");
-		} else if (currentGuess[i] == pluncrab && kindaHelper[2] > 0){
-			kindaHelper[2] -= 1;
-			kinda += 1;
-			//console.log(i + ", kinda 3");
-		} else if (currentGuess[i] == ocklepod && kindaHelper[3] > 0){
-			kindaHelper[3] -= 1;
-			kinda += 1;
-			//console.log(i + ", kinda 4");
-		}
-	}*/
-	//calculate the ones that were completely wrong
-	//lolno = ch - (exact + kinda); //why is it easier to find out how many is wrong :3
-	
-	//make this game harder, "kinda" makes game too easy
 	lolno = ch - exact;
 	
 	//update on findings:
@@ -179,10 +234,8 @@ function makeGuess(){
 	
 	//YOU WIN
 	if (exact == ch){
-		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " guesses.\nThis match took place in the " + rreg + " region. \nRefresh the page to try again!\n";
-		if (bozoForgot){
-			text += "At least one person in this match forgot to buy a brawler! Instead, a placeholder Razorfin was put in that place. Can you guess who forgot?\n";
-		}
+		//console.log("winner");
+		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " guesses.\nRefresh the page to try again!\n";
 		alert(text);
 		win = true;
 		return;
@@ -204,7 +257,7 @@ function makeGuess(){
 	//scroll to bottom of page
 	window.scrollTo(0,document.body.scrollHeight);
 	
-}
+};
 
 function cycleInput(id, current){ //a button will send a call to cycle. this will do it.
 	//console.log("cycleInput " + id + ", " + current);
@@ -218,21 +271,21 @@ function cycleInput(id, current){ //a button will send a call to cycle. this wil
 		currentGuess[id] = razorfin;
 	}
 	drawCurrentGuesses();
-}
+};
 
 function generateNewGuess(){
 	for (var i = 0; i < ch; i++){
 		currentGuess[i] = razorfin;
 	}
 	drawCurrentGuesses();
-}
+};
 
 function idToBrawler(s){
 	if (s == razorfin){ return "razorfin"; }
 	else if (s == ironback){ return "ironback"; }
 	else if (s == pluncrab){ return "plundercrab"; }
 	else if (s == ocklepod){ return "ocklepod"; }
-}
+};
 
 //initial set-up, since currentGuess is empty initially
-generateNewGuess();
+//generateNewGuess();
