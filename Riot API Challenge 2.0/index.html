@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Brawler Codebreakers</title>
+    <title>Brains and Brawlers</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script src="champ-data.js"></script>
@@ -13,30 +13,22 @@
   
   <body>
   
-	<div id="stickybar" style="position:fixed"></div>
-	<div class="container" id="contains" style="margin-left:0px">
-		<div id="loading">
-			<h1>Loading Brawler Codebreakers...</h1>
-			<h6>while waiting feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh</h6>
-			<p>"Brawler Codebreakers" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p><br/>
-		</div>
-		<div id="previous_guess">
-			.
-		</div>
-		<div id="current_guess">
-			.
-		</div>
-	  
-
+	<div class="container" id="contains" style="width:9999px;margin-left:0px">
 	
-		<script>
-		</script>
+		<div id="stickybar" style="position:fixed"></div>
+		<div id="loading">
+			<h1>Loading Brains and Brawlers...</h1>
+			<h6>while waiting feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh</h6>
+			<p>"Brains and Brawlers" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p><br/>
+		</div>
+		<div id="previous_guess" style="float:none;"></div>
+		<div id="current_guess" style="float:none;"></div>
 	
 		<script>
 			//formatting + utility
 			var w = window.innerWidth;
-			var imgborder = 2;
-			var imagewidth = (w * 9 / 100) - (imgborder * 2);
+			var imgborder = 2; //px
+			var imagewidth = (w * 9 / 100) - (imgborder * 2); //px
 			var ch = 10;
 			init();
 			var displayContainer2 = document.getElementById("loading"); //remove loading stuff
@@ -46,16 +38,28 @@
 	
 	
 	</div>
-	
 	<footer>
+	<br/>
+
+	<div id="howplay">
+	<h3>How to play:</h3>
+	<ul>
+		<li>The aim of the game is to match every champion with the brawler she, he, or it bought.</li>
+		<li>Cycle through guess choices by clicking on the brawler icons above.</li>
+		<li>The brawlers' cycle is Razorfin >> Ironback >> Plundercrab >> Ocklepod.</li>
+		<li>Submit your guess by clicking "Submit Guess". Clear your guess to default by clicking on "Clear Guess".</li>
+		<li>After you guess, the number of correct and incorrect brawlers will appear. Use this information to make your guesses more accurate.</li>
+	</ul>
+	</div>
 	<br/><br/><br/>
 	<div id="disclaimer">
-	"Brawler Codebreakers" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+	"Brains and Brawlers" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
 	</div>
 	</footer>
 	<script>
 		document.getElementById("disclaimer").style.marginLeft=(imagewidth/2)+"px";
 		document.getElementById("disclaimer").style.fontSize="10px";
+		document.getElementById("howplay").style.marginLeft=(imagewidth/2)+"px";
 	</script>
 
 

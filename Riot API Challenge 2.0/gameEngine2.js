@@ -6,7 +6,7 @@ var navbarHtml = ''; //technically it isn't a navbar but ok
 //gameplay handlers
 var champs = []; //random top jug mid sup adc top jug mid sup adc
 var currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
-var answer = []; //convenience
+var answer = [];
 var answerCount = [0, 0, 0, 0]; //convenience; counts number of times [razor, iron, plun, ockl] appears in answer
 var noOfGuesses = 0;
 var win = false;
@@ -21,7 +21,7 @@ function init(){
 	//generateTeams();
 	//generateAnswer();
 	setUp();
-	drawStickyHeader(champs);
+	drawStickyHeader();
 	drawCurrentGuesses();
 }
 
@@ -126,6 +126,7 @@ function generateAnswer(){
 	}	
 };
 */
+//get a random champ+brawler simultaneously
 function setUp(){
 	//for both red and blue team
 	for (var a = 0; a < 2; a++){
@@ -158,36 +159,22 @@ function setUp(){
 					}
 				}
 			}			
-			
 		}
 	}
 }
 
 
-function drawStickyHeader(champURL){ //"champURL" is an ARRAY
+function drawStickyHeader(){ //"champs" is an ARRAY
 
-	//this is like the worst way to do things
 	navbarHtml = '';
 
-	navbarHtml += '<nav class="navbar navbar-static-top" style="margin-left:' + imagewidth/2 + 'px">';
-	navbarHtml += '  <div class="container-fluid">';
-
-
-	navbarHtml += '    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">';
-	navbarHtml += '      <ul class="nav navbar-nav">';
-
-	//adding the images (finally)
-	for (var i = 0; i < 10; i++){ //magic numbers lololol
+	//adding the images
+	for (var i = 0; i < ch; i++){
 		var color;
 		if (i < 5){color = "blue"} else {color = "red"} //red team blue team ;d
 		
-		navbarHtml += '       <li><img src="http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/' + champURL[i] + '.png" alt="' + champURL[i] + '" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px;border:' + imgborder + 'px solid ' + color +'"></li>';
+		navbarHtml += '<img src="http://ddragon.leagueoflegends.com/cdn/5.15.1/img/champion/' + champs[i] + '.png" alt="' + champs[i] + '" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px;border:' + imgborder + 'px solid ' + color +';">';
 	}
-
-	navbarHtml += '      </ul>';
-	navbarHtml += '    </div><!-- /.navbar-collapse -->';
-	navbarHtml += '  </div><!-- /.container-fluid -->';
-	navbarHtml += '</nav> ';
 	
 	var displayContainer = document.getElementById("stickybar");
 	displayContainer.innerHTML=navbarHtml;
@@ -202,11 +189,11 @@ function drawCurrentGuesses(){
 	
 	//cycle through the guess data
 	for (var i = 0; i < ch; i++){
-		currentGuessHtml += '<input type="image" src="Brawlers/' + currentGuess[i] + '.png" alt="' + idToBrawler(currentGuess[i]) + '" style="width:'+imagewidth+'px;height:'+imagewidth+'px" onclick="cycleInput('+i+','+currentGuess[i]+')"/>';
+		currentGuessHtml += '<input type="image" src="Brawlers/' + currentGuess[i] + '.png" alt="' + idToBrawler(currentGuess[i]) + '" style="width:'+imagewidth+'px;height:'+imagewidth+'px;" onclick="cycleInput('+i+','+currentGuess[i]+')"/>';
 	}
 	
 	//draw the submit button
-	currentGuessHtml += '<button type="button" class="btn btn-success" onclick="makeGuess();">Submit Guess</button>';
+	currentGuessHtml += '<br/><button type="button" class="btn btn-success" onclick="makeGuess();">Submit Guess</button>';
 	
 	//draw the clear button
 	currentGuessHtml += '<button type="button" class="btn btn-danger" onclick="generateNewGuess();">Clear Guess</button>';
@@ -218,7 +205,7 @@ function drawCurrentGuesses(){
 };
 
 function makeGuess(){
-	//if you already, you shouldn't run this function
+	//if you already won, you shouldn't run this function
 	if (win) {return;}
 	noOfGuesses += 1;
 		
@@ -236,7 +223,7 @@ function makeGuess(){
 	
 	//update on findings:
 	//previousGuessHtml += 'Right Place: <span style="color:#006400;font-size:16px">' + exact + '</span>; Right Brawler, Wrong Place: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Wrong Brawler: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
-	previousGuessHtml += 'Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
+	previousGuessHtml += '<br/>Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
 	
 	//YOU WIN
 	if (exact == ch){
@@ -245,7 +232,7 @@ function makeGuess(){
 		if (noOfGuesses > 1){
 			guessText += "es";
 		}
-		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " " + guessText + ".\nRefresh the page to try again!\n";
+		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " " + guessText + ".";
 		alert(text);
 		win = true;
 	} else {
@@ -260,7 +247,8 @@ function makeGuess(){
 	
 	if (win){
 		//solidifyPreviousGuess();
-		currentGuessHtml = '<button type="button" class="btn btn-info" onclick="reset();">Reset Game</button>';
+		currentGuessHtml = '<button type="button" class="btn btn-primary" onclick="reset();">Reset Game</button>';
+		currentGuessHtml += '<button type="button" class="btn btn-info" onclick="redirect();">Read the Dossier</button>';
 	}
 	
 	//output
@@ -309,6 +297,10 @@ function idToBrawler(s){
 	else if (s == pluncrab){ return "plundercrab"; }
 	else if (s == ocklepod){ return "ocklepod"; }
 };
+
+function redirect(){
+window.location.href = "documentation.html";
+}
 
 //initial set-up, since currentGuess is empty initially
 //generateNewGuess();
