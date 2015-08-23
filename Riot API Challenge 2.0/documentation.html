@@ -160,7 +160,7 @@
 	var ocklepod = "3614";
 		</div>		
 		<p>
-			We have already gone over the group of variables labelled "formatting + utility". Although these variables are not defined in <b>gameEngine2.js</b>, they are notable global variables that are heavily utilized in the dynamic formatting.
+			The group of variables labelled "formatting + utility" should already be familiar to you. Although these variables are not defined in <b>gameEngine2.js</b>, they are notable global variables that are heavily utilized in the dynamic formatting.
 		</p>
 		<p>
 			The next group of variables (labelled "output variables") are strings that are assigned to the relevant division. <code>previousGuessHtml</code> is assigned to the <code>previous_guess</code> element, <code>currentGuessHtml</code> is assigned to the <code>current_guess</code> element, and <code>navbarHtml</code> is assigned to the <code>stickybar</code> element. Also, as my comment states, the <code>navbarHtml</code> technically isn't a navigation bar. It originally was, but halfway through the project I changed it to the current <code>stickybar</code> holder.
@@ -187,7 +187,7 @@ function init(){
 			<code>setUp();</code> generates both the champion and answer data to be used during a game session. <code>champs</code> and <code>answer</code> used to be created separately, which is why <code>generateTeams();</code> and <code>generateAnswer();</code> are commented out. <code>setUp();</code> combines those two functions together. Then, the sticky header and the current guess UI is drawn.
 		</p>
 		<p>
-			Speaking of <code>setUp();</code>, that function uses <b>champ-data.js</b> to pick a random champion/brawler pair. In the data set, every position contains a list of champions and the amount of times said champion has purchased X brawler. For example, if <code>champ-data.js</code> contained the following data:
+			Speaking of <code>setUp();</code>, that function uses <b>champ-data.js</b> to pick a random champion/brawler pair. In the data set, every position contains a list of champions and the amount of times said champion has purchased X brawler. For example, if <b>champ-data.js</b> contained the following data:
 		</p>
 		<div class="well well-sm">		
 "adc": {

@@ -17,6 +17,7 @@ var ironback = "3612";
 var pluncrab = "3613";
 var ocklepod = "3614";
 
+//run this function to initialize the game
 function init(){
 	//generateTeams();
 	//generateAnswer();
@@ -25,6 +26,7 @@ function init(){
 	drawCurrentGuesses();
 }
 
+//run this function to, uh, RESET the game
 function reset(){
 	
 	previousGuessHtml = '';
@@ -126,6 +128,7 @@ function generateAnswer(){
 	}	
 };
 */
+
 //get a random champ+brawler simultaneously
 function setUp(){
 	//for both red and blue team
@@ -151,9 +154,10 @@ function setUp(){
 				for (var k = 0; k < 4; k++){
 					currentCum += champdata[i][j][k];
 					if (currentCum > rand){
-						champs.push(j);
+						champs.push(j); 
 						//console.log(j);
 						answer.push(k+3611);
+						answerCount[k] += 1; 
 						//console.log(k+3611);
 						break loop1;
 					}
@@ -163,8 +167,8 @@ function setUp(){
 	}
 }
 
-
-function drawStickyHeader(){ //"champs" is an ARRAY
+//Draws the champion portraits at the top of the screen
+function drawStickyHeader(){
 
 	navbarHtml = '';
 
@@ -182,6 +186,7 @@ function drawStickyHeader(){ //"champs" is an ARRAY
 	
 };
 
+//Draws the images for the "current_guess" division based off of the currentGuess[] array
 function drawCurrentGuesses(){
 	if (!win){
 	//empty
@@ -204,26 +209,55 @@ function drawCurrentGuesses(){
 	}
 };
 
+//compares currentGuess[] with answer[] and marks how close the user was to the actual answer
 function makeGuess(){
 	//if you already won, you shouldn't run this function
 	if (win) {return;}
 	noOfGuesses += 1;
 		
+	//refill answerCount
+	answerCount = [0, 0, 0, 0];
+	for (var i = 0; i < ch; i++){
+		answerCount[answer[i]-3611]++;
+	}
+	
 	solidifyPreviousGuess();
 	
 	//count how close the current guess is
 	var exact = 0;
+	var kinda = 0;
 	var lolno = 0;
 	for (var i = 0; i < ch; i++){
 		if (currentGuess[i] == answer[i]){
 			exact+=1;
+			answerCount[answer[i]-3611]--;
 		}
 	}
-	lolno = ch - exact;
+	for (var i = 0; i < ch; i++){
+		if (currentGuess[i] == razorfin && answerCount[0] > 0){
+			answerCount[0] -= 1;
+			kinda += 1;
+			//console.log(i + ",kinda 1");
+		} else if (currentGuess[i] == ironback && answerCount[1] > 0){
+			answerCount[1] -= 1;
+			kinda += 1;
+			//console.log(i + ", kinda 2");
+		} else if (currentGuess[i] == pluncrab && answerCount[2] > 0){
+			answerCount[2] -= 1;
+			kinda += 1;
+			//console.log(i + ", kinda 3");
+		} else if (currentGuess[i] == ocklepod && answerCount[3] > 0){
+			answerCount[3] -= 1;
+			kinda += 1;
+			//console.log(i + ", kinda 4");
+		}
+	}
+	console.log(kinda);
+	lolno = ch - exact - kinda;
 	
 	//update on findings:
-	//previousGuessHtml += 'Right Place: <span style="color:#006400;font-size:16px">' + exact + '</span>; Right Brawler, Wrong Place: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Wrong Brawler: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
-	previousGuessHtml += '<br/>Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
+	previousGuessHtml += '<br/>Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Misplaced: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
+	//previousGuessHtml += '<br/>Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
 	
 	//YOU WIN
 	if (exact == ch){
@@ -262,6 +296,7 @@ function makeGuess(){
 	
 };
 
+//add the relevant images from currentGuess[] to the previous_guess HTML division
 function solidifyPreviousGuess(){
 	//solidify previous guess
 	for (var i = 0; i < ch; i++){
@@ -270,6 +305,7 @@ function solidifyPreviousGuess(){
 	currentGuessHtml = '';
 }
 
+//edits an element of currentGuess[]
 function cycleInput(id, current){ //a button will send a call to cycle. this will do it.
 	//console.log("cycleInput " + id + ", " + current);
 	if (currentGuess[id] == razorfin){
@@ -284,6 +320,7 @@ function cycleInput(id, current){ //a button will send a call to cycle. this wil
 	drawCurrentGuesses();
 };
 
+//resets currentGuess[]
 function generateNewGuess(){
 	for (var i = 0; i < ch; i++){
 		currentGuess[i] = razorfin;
@@ -291,6 +328,7 @@ function generateNewGuess(){
 	drawCurrentGuesses();
 };
 
+//unused helper function
 function idToBrawler(s){
 	if (s == razorfin){ return "razorfin"; }
 	else if (s == ironback){ return "ironback"; }
@@ -301,6 +339,3 @@ function idToBrawler(s){
 function redirect(){
 window.location.href = "documentation.html";
 }
-
-//initial set-up, since currentGuess is empty initially
-//generateNewGuess();
