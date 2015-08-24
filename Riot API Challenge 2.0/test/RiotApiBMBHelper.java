@@ -137,7 +137,7 @@ public class RiotApiBMBHelper {
         JSONParser parser = new JSONParser();   
         try {
  
-            Object obj = parser.parse(new FileReader("C:\\Users\\kids\\Documents\\GitHub\\JsKingBoo.github.io\\Riot API Challenge 2.0\\BILGEWATER\\NA.json"));
+            Object obj = parser.parse(new FileReader("NA.json"));
  
             JSONArray jsonObject = (JSONArray) obj;
             
