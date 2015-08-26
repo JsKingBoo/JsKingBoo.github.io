@@ -23,7 +23,7 @@
 		</div>
 		<div id="previous_guess" style="float:none;"></div>
 		<div id="current_guess" style="float:none;"></div>
-	
+		<noscript>ERROR: Javascript does not seem to be enabled. You need Javascript to play this game!</noscript>
 		<script>
 			//formatting + utility
 			var w = window.innerWidth;
@@ -41,7 +41,7 @@
 	<footer>
 	<br/>
 
-	<div id="howplay">
+	<div class="collapse" id="howplay">
 	<h3>How to play:</h3>
 	<ul>
 		<li>The aim of the game is to match every champion with the brawler she, he, or it bought.</li>
@@ -51,6 +51,9 @@
 		<li>After you guess, the number of correct, misplaced, and incorrect brawlers will appear. Use this information to make your guesses more accurate.</li>
 	</ul>
 	</div>
+	<a id="collapsing" class="btn btn-primary" role="button" data-toggle="collapse" href="#howplay" aria-expanded="false" aria-controls="howplay">
+		Show How to Play
+	</a>
 	<br/><br/><br/>
 	<div id="disclaimer">
 	"Brains and Brawlers" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
@@ -60,6 +63,7 @@
 		document.getElementById("disclaimer").style.marginLeft=(imagewidth/2)+"px";
 		document.getElementById("disclaimer").style.fontSize="10px";
 		document.getElementById("howplay").style.marginLeft=(imagewidth/2)+"px";
+		document.getElementById("collapsing").style.marginLeft=(imagewidth/2)+"px";
 	</script>
 
 
