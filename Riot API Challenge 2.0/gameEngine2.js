@@ -217,6 +217,8 @@ function makeGuess(){
 		
 	//refill answerCount
 	answerCount = [0, 0, 0, 0];
+	//if answer is used, can't use it again for kinda count
+	var usedAnswer = [];
 	for (var i = 0; i < ch; i++){
 		answerCount[answer[i]-3611]++;
 	}
@@ -231,32 +233,37 @@ function makeGuess(){
 		if (currentGuess[i] == answer[i]){
 			exact+=1;
 			answerCount[answer[i]-3611]--;
+			usedAnswer.push(true);
+		} else {
+			usedAnswer.push(false);
 		}
 	}
 	for (var i = 0; i < ch; i++){
-		if (currentGuess[i] == razorfin && answerCount[0] > 0){
-			answerCount[0] -= 1;
-			kinda += 1;
-			//console.log(i + ",kinda 1");
-		} else if (currentGuess[i] == ironback && answerCount[1] > 0){
-			answerCount[1] -= 1;
-			kinda += 1;
-			//console.log(i + ", kinda 2");
-		} else if (currentGuess[i] == pluncrab && answerCount[2] > 0){
-			answerCount[2] -= 1;
-			kinda += 1;
-			//console.log(i + ", kinda 3");
-		} else if (currentGuess[i] == ocklepod && answerCount[3] > 0){
-			answerCount[3] -= 1;
-			kinda += 1;
-			//console.log(i + ", kinda 4");
+		if (usedAnswer[i] == false){
+			if (currentGuess[i] == razorfin && answerCount[0] > 0){
+				answerCount[0] -= 1;
+				kinda += 1;
+				//console.log(i + ",kinda 1");
+			} else if (currentGuess[i] == ironback && answerCount[1] > 0){
+				answerCount[1] -= 1;
+				kinda += 1;
+				//console.log(i + ", kinda 2");
+			} else if (currentGuess[i] == pluncrab && answerCount[2] > 0){
+				answerCount[2] -= 1;
+				kinda += 1;
+				//console.log(i + ", kinda 3");
+			} else if (currentGuess[i] == ocklepod && answerCount[3] > 0){
+				answerCount[3] -= 1;
+				kinda += 1;
+				//console.log(i + ", kinda 4");
+			}
 		}
 	}
-	console.log(kinda);
+	//console.log(kinda);
 	lolno = ch - exact - kinda;
 	
 	//update on findings:
-	previousGuessHtml += '<br/>Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Misplaced: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
+	previousGuessHtml += '<br/>Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Misplaced: <span style="color:#db8d00;font-size:16px">' + kinda + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span>;<br/>';
 	//previousGuessHtml += '<br/>Correct: <span style="color:#006400;font-size:16px">' + exact + '</span>; Incorrect: <span style="color:#800000;font-size:16px">' + lolno + '</span><br/>';
 	
 	//YOU WIN
@@ -319,6 +326,13 @@ function cycleInput(id, current){ //a button will send a call to cycle. this wil
 	}
 	drawCurrentGuesses();
 };
+
+function copyGuess(guess){ //guess is an ARRAY with 10 elements
+	for (var i = 0; i < ch; i++){
+		currentGuess[i] = guess[i];
+	}
+	drawCurrentGuesses();
+}
 
 //resets currentGuess[]
 function generateNewGuess(){
