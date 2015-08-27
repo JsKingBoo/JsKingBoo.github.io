@@ -7,7 +7,6 @@ var navbarHtml = ''; //technically it isn't a navbar but ok
 var champs = []; //random top jug mid sup adc top jug mid sup adc
 var currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
 var answer = [];
-var answerCount = [0, 0, 0, 0]; //convenience; counts number of times [razor, iron, plun, ockl] appears in answer
 var noOfGuesses = 0;
 var win = false;
 
@@ -36,7 +35,6 @@ function reset(){
 	champs = []; 
 	currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
 	answer = [];
-	answerCount = [0, 0, 0, 0]; 
 	noOfGuesses = 0;
 	win = false;
 	
@@ -157,7 +155,6 @@ function setUp(){
 						champs.push(j); 
 						//console.log(j);
 						answer.push(k+3611);
-						answerCount[k] += 1; 
 						//console.log(k+3611);
 						break loop1;
 					}
@@ -189,8 +186,8 @@ function drawStickyHeader(){
 //Draws the images for the "current_guess" division based off of the currentGuess[] array
 function drawCurrentGuesses(){
 	if (!win){
-	//empty
-	currentGuessHtml = '';
+	//reset
+	currentGuessHtml = '<img src="filler.png" style="opacity:0;filter:alpha(opacity=0);height:' + (imagewidth/2) + 'px" /><br/>';
 	
 	//cycle through the guess data
 	for (var i = 0; i < ch; i++){
@@ -215,8 +212,8 @@ function makeGuess(){
 	if (win) {return;}
 	noOfGuesses += 1;
 		
-	//refill answerCount
-	answerCount = [0, 0, 0, 0];
+	//fill answerCount
+	var answerCount = [0, 0, 0, 0];
 	//if answer is used, can't use it again for kinda count
 	var usedAnswer = [];
 	for (var i = 0; i < ch; i++){
@@ -270,19 +267,19 @@ function makeGuess(){
 	if (exact == ch){
 		//console.log("winner");
 		var guessText = "guess";
-		if (noOfGuesses > 1){
+		if (noOfGuesses > 1){ //if you win in 1 guess, you are a cheater who uses Firebug or something to check the answer values.
 			guessText += "es";
 		}
 		var text = "Congrats! You've solved the code! You took " + noOfGuesses + " " + guessText + ".";
 		alert(text);
 		win = true;
 	} else {
-		//something was supposed to go here but i forgot
+		//something was supposed to go here but I forgot :3
 	}
 	
 	// //clear out the current guess "cache"
 	//generateNewGuess();
-	//I changed my mind, I don't actually want to clear it. that's why it's commented out.
+	//I changed my mind, I don't actually want to clear it. that's why the code is commented out.
 	
 	drawCurrentGuesses();
 	
@@ -297,6 +294,9 @@ function makeGuess(){
 	displayContainer2.innerHTML=previousGuessHtml;
 	var displayContainer = document.getElementById("current_guess");
 	displayContainer.innerHTML=currentGuessHtml;
+	//current guess transition (test)
+	displayContainer.style.display = "none";
+	$("#current_guess").fadeIn();
 	
 	//scroll to bottom of page
 	window.scrollTo(0,document.body.scrollHeight);

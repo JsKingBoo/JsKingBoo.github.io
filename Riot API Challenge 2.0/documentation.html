@@ -131,7 +131,7 @@
 			Now we move on to the real meat of the game. Opening <b>gameEngine2.js</b>, you'll see a lot of commented-out <code>console.log</code>s, a huge block of commented-out functions, and various comments that aren't exactly the best explanations for the code they pertain to.
 		</p>
 		<p>
-			To begin, let's first look at the old and new variables and their declarations:
+			To begin, let's first look at the old and new variables and their purpose:
 		</p>
 		<div class="well well-sm">
 	//formatting + utility 
@@ -149,7 +149,6 @@
 	var champs = []; //random top jug mid sup adc top jug mid sup adc
 	var currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
 	var answer = [];
-	var answerCount = [0, 0, 0, 0]; //convenience; counts number of times [razor, iron, plun, ockl] appears in answer
 	var noOfGuesses = 0;
 	var win = false;
 
@@ -166,7 +165,7 @@
 			The next group of variables (labelled "output variables") are strings that are assigned to the relevant division. <code>previousGuessHtml</code> is assigned to the <code>previous_guess</code> element, <code>currentGuessHtml</code> is assigned to the <code>current_guess</code> element, and <code>navbarHtml</code> is assigned to the <code>stickybar</code> element. Also, as my comment states, the <code>navbarHtml</code> technically isn't a navigation bar. It originally was, but halfway through the project I changed it to the current <code>stickybar</code> holder.
 		</p>
 		<p>
-			Thirdly, we come to the "gameplay handlers". The <code>champs</code> array holds the IDs of the champions in the <code>stickybar</code> in order. <code>currentGuess</code> holds the brawler IDs of the <code>current_guess</code> element. <code>answer</code> contains the correct brawlers in order. If <code>currentGuess</code> and <code>answer</code> match, the user wins. <code>answerCount</code> counts and stores the number of Razorfins, Ironbacks, Plundercrabs, and Ocklepods. <code>noOfGuesses</code> counts the number of guesses that the player has made, and <code>win</code> is a boolean flag to see whether the player has won or not.
+			Thirdly, we come to the "gameplay handlers". The <code>champs</code> array holds the IDs of the champions in the <code>stickybar</code> in order. <code>currentGuess</code> holds the brawler IDs of the <code>current_guess</code> element. <code>answer</code> contains the correct brawlers in order. If <code>currentGuess</code> and <code>answer</code> match, the user wins. <code>noOfGuesses</code> counts the number of guesses that the player has made, and <code>win</code> is a boolean (true/false) flag to see whether the player has won or not.
  		</p>
 		<p>
 			The final set of variables are the item IDs of the brawlers except they are stored as strings. Actually, I think these variables are unused.
@@ -229,18 +228,51 @@ Add [1][2] (7); Current sum: 28 STOP
 		
 		<h2 id="ingine">The Game Engine</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			Alright, the game has just finished setting up, the <code>current_guess</code> array has been drawn, and now it's time to get to the meat of this game. Unfortunately, the mechanics of the game is surprisingly simple. (I still can't show off all my sorting algorithms, I'm so sad) In fact, the game engine mostly revolves around the <code>makeGuess();</code> function.
+			Alright, the game has just finished setting up, the <code>current_guess</code> array has been drawn, and now it's time to get to the meat of this game. Unfortunately, the mechanics of the game is surprisingly simple. (I still can't show off all my sorting algorithms; I'm so sad) In fact, the game engine mostly revolves around the <code>makeGuess();</code> function.
 		</p>
 		<p>
-			Predictably, the <code>makeGuess();</code> function is called when the button labelled "Submit Guess" is pressed. First, the variable <code>noOfGuesses</code> is increased by one. Then, the current guess is "solidified"; in other words, the content in <code>current_guess</code> is passed to <code>previous_guess</code>. Note that when the data is passed, the cycle functionality of the buttons is removed. Finally, the number of correct and incorrect entries is presented. If the number of correct entries is equal to ten, then the game is won, and <code>win</code> is set to <code>true</code>. The next buttons presented is determined whether the player has won yet: if the player has not won yet, then "Submit Guess" and "Clear Guess" are re-presented. If the player has won, then "Reset Game" and "View Dossier" appears. The HTML is updated, and the windows will automatically scroll to the bottom of the page. 
+			Predictably, the <code>makeGuess();</code> function is called when the button labelled "Submit Guess" is pressed. First, the variable <code>noOfGuesses</code> is increased by one. Then, the current guess is "solidified"; in other words, the content in <code>current_guess</code> is passed to <code>previous_guess</code>. Note that when the data has been solidified, the cycle functionality of the buttons is removed. Finally, the number of correct and incorrect entries is calculated and presented. If the number of correct entries is equal to ten, then the game is won, and <code>win</code> is set to <code>true</code>. The next buttons presented is determined whether the player has won yet: if the player has not won yet, then "Submit Guess" and "Clear Guess" are re-presented. If the player has won, then "Reset Game" and "View Dossier" appears. The HTML is updated, and the windows will automatically scroll to the bottom of the page. 
 		</p>
 		<p>
 			And that's pretty much it. No fancy concepts are involved, everything is boringly simple.
 		</p>
+		<p>
+			The theory behind the engine is fairly straightforward, but when coding this I realized that checking a guess for correctness is actually slightly more complicated than I originally thought. So of course, I have to devote a few paragraphs elaborating it.
+		</p>
+		<p>
+			When calculating the number of correct, misplaced, and incorrect guess keys, the game first fills a temporary variable <code>answerCount</code> which keeps track of the number of Razorfins, Ironbacks, Plundercrabs, and Ocklepods in the answer key:
+		</p>
+		<div class="well well-sm">		
+//fill answerCount
+var answerCount = [0, 0, 0, 0];
+var usedAnswer = [];
+for (var i = 0; i &lt; ch; i++){
+	answerCount[answer[i]-3611]++; //"3611" is an adjustment to start the answerCount index at 0. also, beware the magic number!
+}		
+//sample result: answerCount = [3, 2, 4, 1] (3 Razorfins, 2 Ironbacks, 4 Plundercrabs, and 1 Ocklepod in the answer key)
+		</div>			
+		<p>
+			You may have noticed that another variable called <code>usedAnswer</code> is declared. This helps count the number of misplaced brawlers.
+		</p>
+		<p>
+			The game first finds the number of correct answers by simply comparing <code>answer</code> to <code>currentGuess</code>. It accumulates the number in a counter variable. When it finds a match, it also fills <code>usedAnswer</code> with a value of <code>true</code> and depletes the relevant <code>answerCount</code> value by one.
+		</p>
+		<a href="#thumb5" class="thumbnail" id="#thumb5">
+			<img src="documentation_images/documentation5.png" alt="Visualization of finding correct guesses" />
+		</a>
+		<p>
+			Then, the game engine moves on to calculate the number of misplaced elements. The engine no longer relies on <code>answer</code> directly but instead on <code>answerCount</code>: It cycles through the <code>currentGuess</code> array again, but ignores entries marked by <code>usedAnswer[]</code> and brawlers when its relevant <code>answerCount</code> stack is empty. In the example used above, the first and fourth brawlers will be ignored because <code>usedAnswer[]</code> has marked them while the second and fifth brawlers will be ignored because the <code>answerCount</code> stack is empty; only the 3rd brawler is misplaced.
+		</p>
+		<a href="#thumb6" class="thumbnail" id="#thumb6">
+			<img src="documentation_images/documentation6.png" alt="Visualization of finding misplaced guesses" />
+		</a>
+		<p>
+			Finally, the number of incorrect brawler keys is calculated using the simple formula:
+		</p>
+		<div class="well well-sm">		
+incorrect = 10 - (correct + misplaced);
+		</div>
 		
-		
-		
-	
 		<h2 id="idataprocessing">Data Processing</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
 			While technically not part of the code, the <b>champ-data.js</b> took about 1000 games from NA to fill the data set. Obviously, filling <b>champ-data.js</b> by hand is not a feasible option; instead, I wrote the program <b>RiotApiBMBHelper.java</b> in Java to do it for me. You can find the program's source inside the <b>test</b> folder. The program relies on <a href="https://github.com/rithms/riot-api-java">rithms's Riot API Java wrapper</a>, <a href="https://github.com/google/gson">google-gson</a>, and <a href="https://github.com/fangyidong/json-simple">json-simple</a>. (Yes, I used two different JSON libraries; bite me.)
