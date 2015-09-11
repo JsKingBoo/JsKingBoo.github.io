@@ -29,20 +29,11 @@ function drawNavbar(){
 	html += '        <li><a href="/index.html">Home</a></li>';		
 	html += '        <li><a href="/news/main.html">News</a></li>';			
 	html += '        <li><a href="/League of Legends Hide and Seek/main.html">LoL Hide and Seek</a></li>';
-	html += '        <li><a href="/Countdown/main.html">Countdown</a></li>';			
-	html += '        <li><a href="/PokeLeague/home/index.html">PokéLeague</a></li>';	
-	html += '        <li><a href="/Riot API Challenge 2.0/index.html">Riot API Challenge</a></li>';		
+	html += '        <li><a href="/Riot API Challenge 2.0/index.html">Brains and Brawlers</a></li>';		
 	html += '        <li><a href="/gallery.html">Misc Things</a></li>';	
 
 	///////////////////////////THIS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
-	
-	html += '      <form class="navbar-form navbar-left" role="search">';
-	html += '        <div class="form-group">';
-	html += '          <input type="text" class="form-control" placeholder="Search">';
-	html += '        </div>';
-	html += '        <button type="submit" class="btn btn-default">Submit</button>';
-	html += '      </form>';
 	html += '    </div>     <!-- /.navbar-collapse -->';
 	html += '  </div>       <!-- /.container-fluid -->';
 	html += '</nav>';
