@@ -16,6 +16,9 @@ var offset = 0.001
 //determines whether the second number is added or subtracted to the first. can only equal -1 or 1
 var multiplier = 1;
 
+//correct streak
+var correct = 0;
+
 function generateNumbers() {
 	coefficient1 = randomIntFromInterval(1, 99)/10;
 	coefficient2 = randomIntFromInterval(1, 98)/10;
@@ -68,11 +71,14 @@ function submitAnswer(){
 	if (str == '-'){negative = true};
 	if ((coefficient3 > 0 && negative) || (coefficient3 < 0 && !negative)){
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#E68A00">Incorrect<h3>';
+		correct = 0;
 	} else if (isOffset(coefficient3, coefficientAnswer, offset) && exponent3 == exponentAnswer){
-		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct<h3>';
+		correct++;
+		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct<h3><p>Current streak: ' + correct;
 		generateNumbers();
 	} else {
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect<h3>';
+		correct = 0;
 	}
 
 }
