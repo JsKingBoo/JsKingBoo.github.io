@@ -7,10 +7,7 @@ value: ignored if recursion exists
 recursion: array that holds two (trees or values) recursively.
 */
 
-var tree = 
-{
-	
-}
+var tree = {};
 
 //keeps track of the current number of elements inside tree
 var size = 0;
@@ -24,24 +21,37 @@ var maxValue = 9;
 var answer = 0;
 
 function generateTree(){
+	//initialize tree
+	tree["level"] = 0;
+	tree["operator"] = generateOperator();
+	tree["value"] = Math.floor(Math.random() * (maxValue - minValue + 1) + minValue);
+	tree["recursion"] = [{}, {}];
+	
 	//generate branches
 	for (var i = 0; i < maxSize; i++){
 		//find a place grow the branch
 		var pootDispenserHere = exploreTree();
 		
-		//declare branch
+		//declare and build the branch
 		var newBranch = {};
+		if (tree["recursion"] == null){
+			tree = newBranch;
+		}
+		
 		newBranch["level"] = pootDispenserHere.length;
-		newBranch["operator"] = getOperator();
-		newBranch["value"] = Math.floor(Math.random() * (maxValue - minValue + 1) * minValue);
+		newBranch["operator"] = generateOperator();
+		newBranch["value"] = Math.floor(Math.random() * (maxValue - minValue + 1) + minValue);
 		newBranch["recursion"] = [{}, {}];
+		
+		//add to tree (call by pointer pls)
+		appendBranch(newBranch, pootDispenserHere, Math.floor(Math.random() * 2), 0, tree["recursion"]);
 		
 	}
 	console.log(tree);
 }
 
 //get a random branch
-function exploreTree(){ //path is an int array
+function exploreTree(){
 	var objectPath = tree;
 	var currentPath = [];
 	while (objectPath['recursion'] != null){
@@ -49,11 +59,29 @@ function exploreTree(){ //path is an int array
 		objectPath = objectPath['recursion'][random];
 		currentPath.push(random);
 	}
-	console.log(currentPath);
+	//console.log(currentPath);
 	return currentPath;
 }
 
-function getOperator(){
+
+function appendBranch(branch, path, isZ, level, current){ 	//branch path isZ are static. 
+															//branch is the branch being appended. path is the parent. isZ = 0 or 1, which determines whether to place the new branch on the left or right
+															//level and current should always be 0, tree when called outside
+															
+	console.log(path);
+	
+	//done
+	if (current[path[level]]["recursion"] == null){
+		current[isZ] = branch;
+		console.log("added");
+		console.log(tree);
+		return;
+	}
+	//not done
+	appendBranch(branch, path, isZ, level+1, current[path[level]]["recursion"]);
+}
+
+function generateOperator(){
 	var random = Math.floor(Math.random() * 5);
 	if (random == 0){
 		return "^";
