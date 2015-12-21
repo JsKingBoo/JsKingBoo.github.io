@@ -45,8 +45,8 @@ function drawQuestion(){
 	var term22 = Math.abs(const2).toString();
 	if (const1 < 0) { sign1 = '- '; }
 	if (const2 < 0) { sign2 = '- '; }
-	if (term11 == '0x ') { term11 = ''; sign1 = ''; }
-	if (term21 == '0x ') { term21 = ''; sign2 = ''; }
+	if (term11 == '0x ' && const1 >= 0) { term11 = ''; sign1 = ''; }
+	if (term21 == '0x ' && const2 >= 0) { term21 = ''; sign2 = ''; }
 	
 	
 	//draw question
