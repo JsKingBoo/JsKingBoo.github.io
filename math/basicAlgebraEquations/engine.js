@@ -14,6 +14,9 @@ var efMax = 9;
 var stMin = -13;
 var stMax = 13;
 
+//fully simplified answer?
+var fullySimp = false;
+
 //correct streak
 var correct = 0;
 
@@ -59,12 +62,20 @@ function drawQuestion(){
 	//draw submit button
 	html += '<button type="button" class="btn btn-primary btn-lg" onclick="submitAnswer();">Submit Answer</button>'
 	
+	//selected?
+	var ischek = 'checked';
+	if (fullySimp == false){
+		ischek = '';
+	}
+	html += ' <label class="checkbox-inline"><input id="chicks" type="checkbox" ' + ischek + '> Mark unsimplified answers as incorrect </label>';
+	
 	displayContainer.innerHTML = html;
 }
 
 function submitAnswer(){
 	var numum = parseInt(document.getElementById("text1").value)
 	var denom = parseInt(document.getElementById("text2").value)
+	fullySimp = document.getElementById("chicks").value
 	
 	if (!numum && numum != 0){
 		alert("Error: numum=" + numum);
@@ -75,7 +86,7 @@ function submitAnswer(){
 		return;
 	}
 	
-	if ((numum/denom) == (frac1/frac2)){
+	if ((numum/denom) == (frac1/frac2) && !(fullySimp && (gcd(Math.abs(numum), Math.abs(denom)) != 1 || denom == 1))){
 		correct++;
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct<h3><p>Current streak: ' + correct;
 		generateEquation();
@@ -97,3 +108,10 @@ function calculateAnswer(){
 	//frac1/frac2
 }
 
+function gcd(a, b) {
+    if (b) {
+        return gcd(b, a % b);
+    } else {
+        return Math.abs(a);
+    }
+}
