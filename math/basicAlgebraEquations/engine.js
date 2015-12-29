@@ -64,7 +64,7 @@ function drawQuestion(){
 	
 	//selected?
 	var ischek = 'checked';
-	if (fullySimp == false){
+	if (fullySimp == 'off'){
 		ischek = '';
 	}
 	html += ' <label class="checkbox-inline"><input id="chicks" type="checkbox" ' + ischek + '> Mark unsimplified answers as incorrect </label>';
@@ -75,7 +75,7 @@ function drawQuestion(){
 function submitAnswer(){
 	var numum = parseInt(document.getElementById("text1").value)
 	var denom = parseInt(document.getElementById("text2").value)
-	fullySimp = document.getElementById("chicks").value
+	fullySimp = document.getElementById("chicks").checked
 	
 	if (!numum && numum != 0){
 		alert("Error: numum=" + numum);
@@ -86,7 +86,7 @@ function submitAnswer(){
 		return;
 	}
 	
-	if ((numum/denom) == (frac1/frac2) && !(fullySimp && (gcd(Math.abs(numum), Math.abs(denom)) != 1 || denom == 1))){
+	if ((numum/denom) == (frac1/frac2) && !(fullySimp && gcd(Math.abs(numum), Math.abs(denom)) != 1)){
 		correct++;
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct<h3><p>Current streak: ' + correct;
 		generateEquation();
