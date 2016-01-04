@@ -72,17 +72,27 @@ var answers = [
 ["ぽ","po"]
 ];
 
+var takenChar = [];
+
+for (var i = 0; i < answers.length; i++){
+	takenChar.push(false);
+}
+
 var store;
 var correct = 0;
 
-function generateQuestion(){
+function generateQuestion(erase){
 	//clear
+	if (erase){
+		document.getElementById('incorrect').innerHTML = '';
+	}
 	var html = '';
 	var displayContainer = document.getElementById('holder');
 
-	var id = randomIntFromInterval(0, answers.length)
+	var id = randomValidID(0, answers.length)
 	var jpnchar = answers[id][0];
-	store = answers[id][1];
+	store = id;
+	//store = answers[id][1];
 	
 	//draw question
 	html += '<h1>' + jpnchar + '</h1><br/>';
@@ -95,27 +105,49 @@ function generateQuestion(){
 	html += '<button type="button" class="btn btn-primary btn-lg" onclick="submitAnswer();">Submit Answer</button>'
 	
 	displayContainer.innerHTML = html;
+	resetGame();
 }
 
 function submitAnswer(){
 	var answer = document.getElementById("text1").value
 
-	if (answer == store){
+	if (answer == answers[store][1]){
 		correct++;
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct<h3><p>Current streak: ' + correct;
+		takenChar[store] = true;
 		generateQuestion();
 	} else {
-		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect<h3>';
+		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect<h3><button type="button" class="btn btn-primary btn-lg" onclick="generateQuestion(true);">Skip?</button>';
 		correct = 0;
 	}
 
 }
 
-function calculateAnswer(){
-	num3 = num1 + (num2 * multiplier);
-}
-
 //helper
 function randomIntFromInterval(min,max) {
     return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+function randomValidID(){
+	var s;
+	do {
+		s = randomIntFromInterval(0, answers.length);
+	} while (takenChar[s]);
+	return s;
+}
+
+function resetGame(){
+	var thresh = 2;
+	//check
+	for (var i = 0; i < answers.length; i++){
+		if (takenChar[i] == false){
+			thresh--;
+		}
+	}
+	
+	if (thresh < 0){
+		for (var i = 0; i < answers.length; i++){
+			takenChar[i] = false;
+		}
+	}
 }

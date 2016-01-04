@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Single Character Hiragana</title>
+    <link href="../..//bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="engine.js"></script>
+  </head>
+  
+  <body>
+    <div id="navbar-holder"></div>
+    <script src="../../template/navbar.js"></script>	
+    <script>
+	  drawNavbar();
+    </script>	
+	
+	<div class="container">
+		Answers are based off the chart found <a href="http://www.guidetojapanese.org/learn/grammar/hiragana">here</a>. This page is built as a personal study tool.
+		<div class="jumbotron" id="holder">
+
+		</div>
+		<div class="run-animation" id="incorrect"></div>
+		<div class="checkbox" id="checkboxes">
+		    <label>
+				<input type="checkbox" id="HconNon"> Hiragana vowels
+			</label>
+		    <label>
+				<input type="checkbox" id="HconK"> Hiragana K
+			</label>
+		    <label>
+				<input type="checkbox" id="HconS"> Hiragana S
+			</label>
+		    <label>
+				<input type="checkbox" id="HconT"> Hiragana T
+			</label>
+		    <label>
+				<input type="checkbox" id="HconN"> Hiragana N
+			</label>
+		    <label>
+				<input type="checkbox" id="HconH"> Hiragana H
+			</label>
+		    <label>
+				<input type="checkbox" id="HconM"> Hiragana M
+			</label>
+		    <label>
+				<input type="checkbox" id="HconY"> Hiragana Y
+			</label>
+		    <label>
+				<input type="checkbox" id="HconR"> Hiragana R
+			</label>
+		    <label>
+				<input type="checkbox" id="HconK"> Hiragana K
+			</label>
+		    <label>
+				<input type="checkbox" id="HconW"> Hiragana W
+			</label>
+		    <label>
+				<input type="checkbox" id="HconNNN"> Hiragana N
+			</label>
+		    <label>
+				<input type="checkbox" id="HconG"> Hiragana G (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="HconZ"> Hiragana Z (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="HconD"> Hiragana D (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="HconB"> Hiragana B (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="HconP"> Hiragana P (半濁点, handakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="HconVVV"> Hiragana V character
+			</label>
+		    <label>
+				<input type="checkbox" id="Hyoon"> Hiragana - include yōon
+			</label>		
+			<label>
+				<input type="checkbox" id="KconNon"> Katakana vowels
+			</label>
+		    <label>
+				<input type="checkbox" id="KconK"> Katakana K
+			</label>
+		    <label>
+				<input type="checkbox" id="KconS"> Katakana S
+			</label>
+		    <label>
+				<input type="checkbox" id="KconT"> Katakana T
+			</label>
+		    <label>
+				<input type="checkbox" id="KconN"> Katakana N
+			</label>
+		    <label>
+				<input type="checkbox" id="KconH"> Katakana H
+			</label>
+		    <label>
+				<input type="checkbox" id="KconM"> Katakana M
+			</label>
+		    <label>
+				<input type="checkbox" id="KconY"> Katakana Y
+			</label>
+		    <label>
+				<input type="checkbox" id="KconR"> Katakana R
+			</label>
+		    <label>
+				<input type="checkbox" id="KconK"> Katakana K
+			</label>
+		    <label>
+				<input type="checkbox" id="KconW"> Katakana W
+			</label>
+		    <label>
+				<input type="checkbox" id="KconNNN"> Katakana N
+			</label>
+		    <label>
+				<input type="checkbox" id="KconG"> Katakana G (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="KconZ"> Katakana Z (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="KconD"> Katakana D (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="KconB"> Katakana B (濁点, dakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="KconP"> Katakana P (半濁点, handakuten)
+			</label>
+		    <label>
+				<input type="checkbox" id="Kyoon"> Katakana - include yōon
+			</label>						
+		</div>
+	</div>
+  
+	<script>
+	    generateQuestion(false);
+	</script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
