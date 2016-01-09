@@ -268,6 +268,8 @@ var KconP = [
 ];
 var KconPd = [["ピャ", "pya"], ["ピュ", "pyu"], ["ピョ", "pyo"]];
 
+var store = 0;
+var prevStore = 0;
 var correct = 0;
 var incorrect = 0;
 
@@ -278,7 +280,7 @@ function generateQuestion(erase){
 	}
 	var html = '';
 	var displayContainer = document.getElementById('holder');
-
+	answers = [];
 	
 	var hYoon = document.getElementById('Hyoon').checked;
 	//HconNon
@@ -490,8 +492,12 @@ function generateQuestion(erase){
 		}
 	}
 	
+	prevStore = store;
+	do {
+		store = randomIntFromInterval(0, answers.length - 1);
+	} while (store == prevStore);
+	var jpnchar = answers[store][0];
 	
-
 	
 	
 	//draw question
@@ -505,7 +511,6 @@ function generateQuestion(erase){
 	html += '<button type="button" class="btn btn-primary btn-lg" onclick="submitAnswer();">Submit Answer</button>'
 	
 	displayContainer.innerHTML = html;
-	resetGame();
 }
 
 function submitAnswer(){
@@ -513,15 +518,17 @@ function submitAnswer(){
 
 	if (answer == answers[store][1]){
 		correct++;
-		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct<h3><p>Current streak: ' + correct;
-		takenChar[store] = true;
+		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct<h3>';
 		generateQuestion();
 	} else {
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect<h3><button type="button" class="btn btn-primary btn-lg" onclick="generateQuestion(true);">Skip?</button>';
-		correct = 0;
+		incorrect++;
 	}
+	document.getElementById('incorrect').innerHTML += '<p> Correct: ' + correct + '</p><p> Incorrect: ' + incorrect;
 
 }
+
+
 
 //helper
 function randomIntFromInterval(min,max) {
