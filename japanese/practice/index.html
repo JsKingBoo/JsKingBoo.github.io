@@ -52,9 +52,6 @@
 				<input type="checkbox" id="HconR"> Hiragana R
 			</label>
 		    <label>
-				<input type="checkbox" id="HconK"> Hiragana K
-			</label>
-		    <label>
 				<input type="checkbox" id="HconW"> Hiragana W
 			</label>
 		    <label>
@@ -109,9 +106,6 @@
 				<input type="checkbox" id="KconR"> Katakana R
 			</label>
 		    <label>
-				<input type="checkbox" id="KconK"> Katakana K
-			</label>
-		    <label>
 				<input type="checkbox" id="KconW"> Katakana W
 			</label>
 		    <label>
@@ -135,7 +129,11 @@
 		    <label>
 				<input type="checkbox" id="Kyoon"> Katakana - include yōon
 			</label>			
-			
+		</div>
+		<div id="presets">
+			<button type="button" class="btn btn-primary" onclick="selectAllHiragana();">Select all Hiragana</button>
+			<button type="button" class="btn btn-primary" onclick="selectNonDakutenHiragana();">Select Hiragana monographs</button>
+			<button type="button" class="btn btn-primary" onclick="selectDakutenHiragana();">Select Hiragana diacritics</button>
 		</div>
 	</div>
   

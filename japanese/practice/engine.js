@@ -492,6 +492,11 @@ function generateQuestion(erase){
 		}
 	}
 	
+	if (answers.length <= 2){
+		alert('Error: too few choices selected');
+		return;
+	}
+	
 	prevStore = store;
 	do {
 		store = randomIntFromInterval(0, answers.length - 1);
@@ -533,4 +538,139 @@ function submitAnswer(){
 //helper
 function randomIntFromInterval(min,max) {
     return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+//presets
+function selectAllHiragana(){
+	document.getElementById("HconNon").checked = true;
+	document.getElementById("HconK").checked = true;
+	document.getElementById("HconS").checked = true;
+	document.getElementById("HconT").checked = true;
+	document.getElementById("HconN").checked = true;
+	document.getElementById("HconH").checked = true;
+	document.getElementById("HconM").checked = true;
+	document.getElementById("HconY").checked = true;
+	document.getElementById("HconR").checked = true;
+	document.getElementById("HconW").checked = true;
+	document.getElementById("HconNNN").checked = true;
+	document.getElementById("HconG").checked = true;
+	document.getElementById("HconZ").checked = true;
+	document.getElementById("HconD").checked = true;
+	document.getElementById("HconB").checked = true;
+	document.getElementById("HconP").checked = true;
+	document.getElementById("HconVVV").checked = true;
+	document.getElementById("Hyoon").checked = true;
+	document.getElementById("KconNon").checked = false;
+	document.getElementById("KconK").checked = false;
+	document.getElementById("KconS").checked = false;
+	document.getElementById("KconT").checked = false;
+	document.getElementById("KconN").checked = false;
+	document.getElementById("KconH").checked = false;
+	document.getElementById("KconM").checked = false;
+	document.getElementById("KconY").checked = false;
+	document.getElementById("KconR").checked = false;
+	document.getElementById("KconW").checked = false;
+	document.getElementById("KconNNN").checked = false;
+	document.getElementById("KconG").checked = false;
+	document.getElementById("KconZ").checked = false;
+	document.getElementById("KconD").checked = false;
+	document.getElementById("KconB").checked = false;
+	document.getElementById("KconP").checked = false;
+	document.getElementById("Kyoon").checked = false;
+}
+
+function selectNonDakutenHiragana(){
+	document.getElementById("HconNon").checked = true;
+	document.getElementById("HconK").checked = true;
+	document.getElementById("HconS").checked = true;
+	document.getElementById("HconT").checked = true;
+	document.getElementById("HconN").checked = true;
+	document.getElementById("HconH").checked = true;
+	document.getElementById("HconM").checked = true;
+	document.getElementById("HconY").checked = true;
+	document.getElementById("HconR").checked = true;
+	document.getElementById("HconW").checked = true;
+	document.getElementById("HconNNN").checked = true;
+	document.getElementById("HconG").checked = false;
+	document.getElementById("HconZ").checked = false;
+	document.getElementById("HconD").checked = false;
+	document.getElementById("HconB").checked = false;
+	document.getElementById("HconP").checked = false;
+	document.getElementById("HconVVV").checked = false;
+	document.getElementById("Hyoon").checked = true;
+	document.getElementById("KconNon").checked = false;
+	document.getElementById("KconK").checked = false;
+	document.getElementById("KconS").checked = false;
+	document.getElementById("KconT").checked = false;
+	document.getElementById("KconN").checked = false;
+	document.getElementById("KconH").checked = false;
+	document.getElementById("KconM").checked = false;
+	document.getElementById("KconY").checked = false;
+	document.getElementById("KconR").checked = false;
+	document.getElementById("KconW").checked = false;
+	document.getElementById("KconNNN").checked = false;
+	document.getElementById("KconG").checked = false;
+	document.getElementById("KconZ").checked = false;
+	document.getElementById("KconD").checked = false;
+	document.getElementById("KconB").checked = false;
+	document.getElementById("KconP").checked = false;
+	document.getElementById("Kyoon").checked = false;
+}
+
+function selectDakutenHiragana(){
+	document.getElementById("HconNon").checked = false;
+	document.getElementById("HconK").checked = false;
+	document.getElementById("HconS").checked = false;
+	document.getElementById("HconT").checked = false;
+	document.getElementById("HconN").checked = false;
+	document.getElementById("HconH").checked = false;
+	document.getElementById("HconM").checked = false;
+	document.getElementById("HconY").checked = false;
+	document.getElementById("HconR").checked = false;
+	document.getElementById("HconW").checked = false;
+	document.getElementById("HconNNN").checked = false;
+	document.getElementById("HconG").checked = true;
+	document.getElementById("HconZ").checked = true;
+	document.getElementById("HconD").checked = true;
+	document.getElementById("HconB").checked = true;
+	document.getElementById("HconP").checked = true;
+	document.getElementById("HconVVV").checked = true;
+	document.getElementById("Hyoon").checked = true;
+	document.getElementById("KconNon").checked = false;
+	document.getElementById("KconK").checked = false;
+	document.getElementById("KconS").checked = false;
+	document.getElementById("KconT").checked = false;
+	document.getElementById("KconN").checked = false;
+	document.getElementById("KconH").checked = false;
+	document.getElementById("KconM").checked = false;
+	document.getElementById("KconY").checked = false;
+	document.getElementById("KconR").checked = false;
+	document.getElementById("KconW").checked = false;
+	document.getElementById("KconNNN").checked = false;
+	document.getElementById("KconG").checked = false;
+	document.getElementById("KconZ").checked = false;
+	document.getElementById("KconD").checked = false;
+	document.getElementById("KconB").checked = false;
+	document.getElementById("KconP").checked = false;
+	document.getElementById("Kyoon").checked = false;
+}
+
+function selectAllKatakana(){
+	
+}
+
+function selectNonDakutenKatakana(){
+	
+}
+
+function selectDakutenKatakana(){
+	
+}
+
+function selectAll(){
+	
+}
+
+function deselectAll(){
+
 }
