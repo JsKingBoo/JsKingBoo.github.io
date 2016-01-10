@@ -22,6 +22,7 @@
 		<div class="jumbotron" id="holder">
 
 		</div>
+		<div id="error"></div>
 		<div class="run-animation" id="incorrect"></div>
 		<div class="checkbox" id="checkboxes">
 		    <label>
@@ -131,9 +132,23 @@
 			</label>			
 		</div>
 		<div id="presets">
-			<button type="button" class="btn btn-primary" onclick="selectAllHiragana();">Select all Hiragana</button>
-			<button type="button" class="btn btn-primary" onclick="selectNonDakutenHiragana();">Select Hiragana monographs</button>
-			<button type="button" class="btn btn-primary" onclick="selectDakutenHiragana();">Select Hiragana diacritics</button>
+			<div class="row">
+				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectAllHiragana();">Select all Hiragana</button></div>
+				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectNonDakutenHiragana();">Select Hiragana monographs</button></div>
+				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectDakutenHiragana();">Select Hiragana diacritics</button></div>
+			</div>
+			<br />
+			<div class="row">
+				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectAllKatakana();">Select all Katakana</button></div>
+				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectNonDakutenKatakana();">Select Katakana monographs</button></div>
+				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectDakutenKatakana();">Select Katakana diacritics</button></div>
+			</div>
+			<br />
+				<div class="row">
+				<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="selectAll();">Select all</button></div>
+				<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="deselectAll();">Deelect all</button></div>
+
+			</div>
 		</div>
 	</div>
   
