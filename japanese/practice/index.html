@@ -24,130 +24,140 @@
 		</div>
 		<div id="error"></div>
 		<div class="run-animation" id="incorrect"></div>
-		<div class="checkbox" id="checkboxes">
-		    <label>
-				<input type="checkbox" id="HconNon" checked> Hiragana vowels
-			</label>
-		    <label>
-				<input type="checkbox" id="HconK"> Hiragana K
-			</label>
-		    <label>
-				<input type="checkbox" id="HconS"> Hiragana S
-			</label>
-		    <label>
-				<input type="checkbox" id="HconT"> Hiragana T
-			</label>
-		    <label>
-				<input type="checkbox" id="HconN"> Hiragana N
-			</label>
-		    <label>
-				<input type="checkbox" id="HconH"> Hiragana H
-			</label>
-		    <label>
-				<input type="checkbox" id="HconM"> Hiragana M
-			</label>
-		    <label>
-				<input type="checkbox" id="HconY"> Hiragana Y
-			</label>
-		    <label>
-				<input type="checkbox" id="HconR"> Hiragana R
-			</label>
-		    <label>
-				<input type="checkbox" id="HconW"> Hiragana W
-			</label>
-		    <label>
-				<input type="checkbox" id="HconNNN"> Hiragana N
-			</label>
-		    <label>
-				<input type="checkbox" id="HconG"> Hiragana G (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="HconZ"> Hiragana Z (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="HconD"> Hiragana D (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="HconB"> Hiragana B (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="HconP"> Hiragana P (半濁点, handakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="HconVVV"> Hiragana V character
-			</label>
-		    <label>
-				<input type="checkbox" id="Hyoon"> Hiragana - include yōon
-			</label>		
-			<label>
-				<input type="checkbox" id="KconNon"> Katakana vowels
-			</label>
-		    <label>
-				<input type="checkbox" id="KconK"> Katakana K
-			</label>
-		    <label>
-				<input type="checkbox" id="KconS"> Katakana S
-			</label>
-		    <label>
-				<input type="checkbox" id="KconT"> Katakana T
-			</label>
-		    <label>
-				<input type="checkbox" id="KconN"> Katakana N
-			</label>
-		    <label>
-				<input type="checkbox" id="KconH"> Katakana H
-			</label>
-		    <label>
-				<input type="checkbox" id="KconM"> Katakana M
-			</label>
-		    <label>
-				<input type="checkbox" id="KconY"> Katakana Y
-			</label>
-		    <label>
-				<input type="checkbox" id="KconR"> Katakana R
-			</label>
-		    <label>
-				<input type="checkbox" id="KconW"> Katakana W
-			</label>
-		    <label>
-				<input type="checkbox" id="KconNNN"> Katakana N
-			</label>
-		    <label>
-				<input type="checkbox" id="KconG"> Katakana G (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="KconZ"> Katakana Z (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="KconD"> Katakana D (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="KconB"> Katakana B (濁点, dakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="KconP"> Katakana P (半濁点, handakuten)
-			</label>
-		    <label>
-				<input type="checkbox" id="Kyoon"> Katakana - include yōon
-			</label>			
-		</div>
-		<div id="presets">
-			<div class="row">
-				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectAllHiragana();">Select all Hiragana</button></div>
-				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectNonDakutenHiragana();">Select Hiragana monographs</button></div>
-				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectDakutenHiragana();">Select Hiragana diacritics</button></div>
+		<br/>
+		<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#options" aria-expanded="false" aria-controls="options"> Show/Hide options</button>
+		<div class="collapse" id="options">
+			<div class="checkbox" id="other-options">
+				<label>
+					<input type="checkbox" id="show-answer" checked> Show answer to previous question
+				</label>			
 			</div>
-			<br />
-			<div class="row">
-				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectAllKatakana();">Select all Katakana</button></div>
-				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectNonDakutenKatakana();">Select Katakana monographs</button></div>
-				<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectDakutenKatakana();">Select Katakana diacritics</button></div>
+			<hr>
+			<div class="checkbox" id="checkboxes">
+				<label>
+					<input type="checkbox" id="HconNon" checked> Hiragana vowels
+				</label>
+				<label>
+					<input type="checkbox" id="HconK" checked> Hiragana K
+				</label>
+				<label>
+					<input type="checkbox" id="HconS" checked> Hiragana S
+				</label>
+				<label>
+					<input type="checkbox" id="HconT" checked> Hiragana T
+				</label>
+				<label>
+					<input type="checkbox" id="HconN" checked> Hiragana N
+				</label>
+				<label>
+					<input type="checkbox" id="HconH" checked> Hiragana H
+				</label>
+				<label>
+					<input type="checkbox" id="HconM" checked> Hiragana M
+				</label>
+				<label>
+					<input type="checkbox" id="HconY" checked> Hiragana Y
+				</label>
+				<label>
+					<input type="checkbox" id="HconR" checked> Hiragana R
+				</label>
+				<label>
+					<input type="checkbox" id="HconW" checked> Hiragana W
+				</label>
+				<label>
+					<input type="checkbox" id="HconNNN" checked> Hiragana N
+				</label>
+				<label>
+					<input type="checkbox" id="HconG" checked> Hiragana G (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="HconZ" checked> Hiragana Z (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="HconD" checked> Hiragana D (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="HconB" checked> Hiragana B (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="HconP" checked> Hiragana P (半濁点, handakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="HconVVV" checked> Hiragana V character
+				</label>
+				<label>
+					<input type="checkbox" id="Hyoon" checked> Hiragana - include yōon
+				</label>		
+				<label>
+					<input type="checkbox" id="KconNon"> Katakana vowels
+				</label>
+				<label>
+					<input type="checkbox" id="KconK"> Katakana K
+				</label>
+				<label>
+					<input type="checkbox" id="KconS"> Katakana S
+				</label>
+				<label>
+					<input type="checkbox" id="KconT"> Katakana T
+				</label>
+				<label>
+					<input type="checkbox" id="KconN"> Katakana N
+				</label>
+				<label>
+					<input type="checkbox" id="KconH"> Katakana H
+				</label>
+				<label>
+					<input type="checkbox" id="KconM"> Katakana M
+				</label>
+				<label>
+					<input type="checkbox" id="KconY"> Katakana Y
+				</label>
+				<label>
+					<input type="checkbox" id="KconR"> Katakana R
+				</label>
+				<label>
+					<input type="checkbox" id="KconW"> Katakana W
+				</label>
+				<label>
+					<input type="checkbox" id="KconNNN"> Katakana N
+				</label>
+				<label>
+					<input type="checkbox" id="KconG"> Katakana G (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="KconZ"> Katakana Z (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="KconD"> Katakana D (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="KconB"> Katakana B (濁点, dakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="KconP"> Katakana P (半濁点, handakuten)
+				</label>
+				<label>
+					<input type="checkbox" id="Kyoon"> Katakana - include yōon
+				</label>			
 			</div>
-			<br />
+			<div id="presets">
 				<div class="row">
-				<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="selectAll();">Select all</button></div>
-				<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="deselectAll();">Deelect all</button></div>
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectAllHiragana();">Select all Hiragana</button></div>
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectNonDakutenHiragana();">Select Hiragana monographs</button></div>
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectDakutenHiragana();">Select Hiragana diacritics</button></div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectAllKatakana();">Select all Katakana</button></div>
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectNonDakutenKatakana();">Select Katakana monographs</button></div>
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectDakutenKatakana();">Select Katakana diacritics</button></div>
+				</div>
+				<br />
+					<div class="row">
+					<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="selectAll();">Select all</button></div>
+					<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="deselectAll();">Deelect all</button></div>
 
+				</div>
 			</div>
 		</div>
 	</div>

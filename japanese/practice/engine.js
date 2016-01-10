@@ -268,8 +268,8 @@ var KconP = [
 ];
 var KconPd = [["ピャ", "pya"], ["ピュ", "pyu"], ["ピョ", "pyo"]];
 
-var store = 0;
-var prevStore = 0;
+var store = -1;
+var prevStore = -1;
 var correct = 0;
 var incorrect = 0;
 
@@ -499,11 +499,17 @@ function generateQuestion(erase){
 		return;
 	}
 	
+	//generate new solution (store)
 	prevStore = store;
 	do {
 		store = randomIntFromInterval(0, answers.length - 1);
 	} while (store == prevStore);
 	var jpnchar = answers[store][0];
+	
+	//show previous solution (if possible)
+	if (prevStore >= 0 && document.getElementById("show-answer").checked){
+		html += '<p> Previous solution: ' + answers[prevStore][1] + '</p>';
+	}
 	
 	//draw question
 	html += '<h1>' + jpnchar + '</h1><br/>';
@@ -521,8 +527,8 @@ function generateQuestion(erase){
 function submitAnswer(){
 	var answer = document.getElementById("text1").value
 	
+	//clear error and put something in if if something is wrong
 	document.getElementById('error').innerHTML = '';
-	
 	if (answer == ''){
 		document.getElementById('error').innerHTML = '<h3 style="color:#990000">Error: empty answer</h3>';
 		return;
@@ -536,7 +542,7 @@ function submitAnswer(){
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect</h3><button type="button" class="btn btn-primary btn-lg" onclick="generateQuestion(true);">Skip?</button>';
 		incorrect++;
 	}
-	document.getElementById('incorrect').innerHTML += '<p> Correct: ' + correct + '</p><p> Incorrect: ' + incorrect;
+	//document.getElementById('incorrect').innerHTML += '<p> Correct: ' + correct + '</p><p> Incorrect: ' + incorrect;
 
 }
 
