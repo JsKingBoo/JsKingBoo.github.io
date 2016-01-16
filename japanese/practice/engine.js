@@ -542,11 +542,12 @@ function submitAnswer(){
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect</h3><button type="button" class="btn btn-primary btn-lg" onclick="generateQuestion(true);">Skip?</button>';
 		incorrect++;
 	}
-	//document.getElementById('incorrect').innerHTML += '<p> Correct: ' + correct + '</p><p> Incorrect: ' + incorrect;
+	var kda;
+	if (incorrect == 0) {kda = 'Perfect'; } else {kda = (correct / incorrect).toFixed(2); }
+	
+	document.getElementById('incorrect').innerHTML += '<p> Score: ' + correct + '/' + incorrect + ' (' + kda + ')';
 
 }
-
-
 
 //helper
 function randomIntFromInterval(min,max) {
