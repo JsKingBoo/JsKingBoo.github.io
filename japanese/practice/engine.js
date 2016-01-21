@@ -273,6 +273,11 @@ var prevStore = -1;
 var correct = 0;
 var incorrect = 0;
 
+if (getCookieValue("exists")!=""){
+	readCookies();
+}
+//console.log("document.cookie:::"+ document.cookie);
+
 function generateQuestion(erase){
 	//clear
 	if (erase){
@@ -290,42 +295,42 @@ function generateQuestion(erase){
 	//HconK
 	if (document.getElementById('HconK').checked){
 		answers = answers.concat(HconK);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconKd);
 		}
 	}
 	//HconS
 	if (document.getElementById('HconS').checked){
 		answers = answers.concat(HconS);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconSd);
 		}
 	}
 	//HconT
 	if (document.getElementById('HconT').checked){
 		answers = answers.concat(HconT);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconTd);
 		}
 	}
 	//HconN
 	if (document.getElementById('HconN').checked){
 		answers = answers.concat(HconN);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconNd);
 		}
 	}	
 	//HconH
 	if (document.getElementById('HconH').checked){
 		answers = answers.concat(HconH);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconHd);
 		}
 	}	
 	//HconM
 	if (document.getElementById('HconM').checked){
 		answers = answers.concat(HconM);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconMd);
 		}
 	}	
@@ -336,7 +341,7 @@ function generateQuestion(erase){
 	//HconR
 	if (document.getElementById('HconR').checked){
 		answers = answers.concat(HconR);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconRd);
 		}
 	}
@@ -351,35 +356,35 @@ function generateQuestion(erase){
 	//HconG
 	if (document.getElementById('HconG').checked){
 		answers = answers.concat(HconG);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconGd);
 		}
 	}
 	//HconZ
 	if (document.getElementById('HconZ').checked){
 		answers = answers.concat(HconZ);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconZd);
 		}
 	}
 	//HconD
 	if (document.getElementById('HconD').checked){
 		answers = answers.concat(HconD);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconDd);
 		}
 	}
 	//HconB
 	if (document.getElementById('HconB').checked){
 		answers = answers.concat(HconB);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconBd);
 		}
 	}
 	//HconP
 	if (document.getElementById('HconP').checked){
 		answers = answers.concat(HconP);
-		if (kYoon){
+		if (hYoon){
 			answers = answers.concat(HconPd);
 		}
 	}
@@ -545,6 +550,7 @@ function submitAnswer(){
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct</h3>';
 		generateQuestion();
 	} else {
+		document.getElementById("text1").value = '';
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect</h3><button type="button" class="btn btn-primary btn-lg" onclick="generateQuestion(true);">Skip?</button>';
 		incorrect++;
 	}
@@ -563,6 +569,19 @@ function randomIntFromInterval(min,max) {
 function isHiragana(a){
 	var allHiragana = ["あ","い","う","え","お","か","き","く","け","こ","きゃ","きゅ","きょ","さ","し","す","せ","そ","しゃ","しゅ","しょ","た","ち","つ","て","と","ちゃ","ちゅ","ちょ","な","に","ぬ","ね","の","ちゃ","ちゅ","ちょ","は","ひ","ふ","へ","ほ","ひゃ","ひゅ","ひょ","ま","み","む","め","も","みゃ","みゅ","みょ","や","ゆ","よ","ら","り","る","れ","ろ","りゃ","りゅ","りょ","わ","を","ん","が","ぎ","ぐ","げ","ご","ぎゃ","ぎゅ","ぎょ","ざ","じ","ず","ぜ","ぞ","じゃ","じゅ","じょ","だ","ぢ","づ","で","ど","ぢゃ","ぢゅ","ぢょ","ば","び","ぶ","べ","ぼ","びゃ","びゅ","びょ","ぱ","ぴ","ぷ","ぺ","ぽ","ぴゃ","ぴゅ","ぴょ","ゔ"];
 	return allHiragana.indexOf(a) > -1;
+}
+
+function softReset(){
+	document.getElementById('incorrect').innerHTML = '';
+	generateQuestion();
+}
+
+function hardReset(){
+	store = -1;
+	prevStore = -1;
+	correct = 0;
+	incorrect = 0;
+	softReset();
 }
 
 //presets
@@ -869,3 +888,179 @@ function deselectAll(){
 	document.getElementById("KconP").checked = false;
 	document.getElementById("Kyoon").checked = false;
 }
+
+//cookies
+function saveCookies(){
+	//console.log("running saveCookies()");
+	var d = new Date();
+	//will expire in 365 days
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = "show-answer=" + document.getElementById("show-answer").checked + "; " + expires;
+	////////
+    document.cookie = "HconNon=" + document.getElementById("HconNon").checked + "; " + expires;
+    document.cookie = "HconK=" + document.getElementById("HconK").checked + "; " + expires;
+    document.cookie = "HconS=" + document.getElementById("HconS").checked + "; " + expires;
+    document.cookie = "HconT=" + document.getElementById("HconT").checked + "; " + expires;
+    document.cookie = "HconN=" + document.getElementById("HconN").checked + "; " + expires;
+    document.cookie = "HconH=" + document.getElementById("HconH").checked + "; " + expires;
+    document.cookie = "HconM=" + document.getElementById("HconM").checked + "; " + expires;
+    document.cookie = "HconY=" + document.getElementById("HconY").checked + "; " + expires;
+    document.cookie = "HconR=" + document.getElementById("HconR").checked + "; " + expires;
+    document.cookie = "HconW=" + document.getElementById("HconW").checked + "; " + expires;
+    document.cookie = "HconNNN=" + document.getElementById("HconNNN").checked + "; " + expires;
+    document.cookie = "HconG=" + document.getElementById("HconG").checked + "; " + expires;
+    document.cookie = "HconZ=" + document.getElementById("HconZ").checked + "; " + expires;
+    document.cookie = "HconD=" + document.getElementById("HconD").checked + "; " + expires;
+    document.cookie = "HconB=" + document.getElementById("HconB").checked + "; " + expires;
+    document.cookie = "HconP=" + document.getElementById("HconP").checked + "; " + expires;
+    document.cookie = "HconVVV=" + document.getElementById("HconVVV").checked + "; " + expires;
+    document.cookie = "Hyoon=" + document.getElementById("Hyoon").checked + "; " + expires;
+	///////
+	document.cookie = "KconNon=" + document.getElementById("KconNon").checked + "; " + expires;
+    document.cookie = "KconK=" + document.getElementById("KconK").checked + "; " + expires;
+    document.cookie = "KconS=" + document.getElementById("KconS").checked + "; " + expires;
+    document.cookie = "KconT=" + document.getElementById("KconT").checked + "; " + expires;
+    document.cookie = "KconN=" + document.getElementById("KconN").checked + "; " + expires;
+    document.cookie = "KconH=" + document.getElementById("KconH").checked + "; " + expires;
+    document.cookie = "KconM=" + document.getElementById("KconM").checked + "; " + expires;
+    document.cookie = "KconY=" + document.getElementById("KconY").checked + "; " + expires;
+    document.cookie = "KconR=" + document.getElementById("KconR").checked + "; " + expires;
+    document.cookie = "KconW=" + document.getElementById("KconW").checked + "; " + expires;
+    document.cookie = "KconNNN=" + document.getElementById("KconNNN").checked + "; " + expires;
+    document.cookie = "KconG=" + document.getElementById("KconG").checked + "; " + expires;
+    document.cookie = "KconZ=" + document.getElementById("KconZ").checked + "; " + expires;
+    document.cookie = "KconD=" + document.getElementById("KconD").checked + "; " + expires;
+    document.cookie = "KconB=" + document.getElementById("KconB").checked + "; " + expires;
+    document.cookie = "KconP=" + document.getElementById("KconP").checked + "; " + expires;
+    document.cookie = "Kyoon=" + document.getElementById("Kyoon").checked + "; " + expires;
+	//////////
+    document.cookie = "exists=true; " + expires;
+	
+    //console.log("document.cookie:::"+ document.cookie);
+}
+
+function readCookies(){
+	//console.log("running readCookies()");
+    document.getElementById("show-answer").checked = (getCookieValue("show-answer") == "true")
+	////////
+	document.getElementById("HconNon").checked = (getCookieValue("HconNon") == "true");
+	document.getElementById("HconK").checked = (getCookieValue("HconK") == "true");
+	document.getElementById("HconS").checked = (getCookieValue("HconS") == "true");
+	document.getElementById("HconT").checked = (getCookieValue("HconT") == "true");
+	document.getElementById("HconN").checked = (getCookieValue("HconN") == "true");
+	document.getElementById("HconH").checked = (getCookieValue("HconH") == "true");
+	document.getElementById("HconM").checked = (getCookieValue("HconM") == "true");
+	document.getElementById("HconY").checked = (getCookieValue("HconY") == "true");
+	document.getElementById("HconR").checked = (getCookieValue("HconR") == "true");
+	document.getElementById("HconW").checked = (getCookieValue("HconW") == "true");
+	document.getElementById("HconNNN").checked = (getCookieValue("HconNNN") == "true");
+	document.getElementById("HconG").checked = (getCookieValue("HconG") == "true");
+	document.getElementById("HconZ").checked = (getCookieValue("HconZ") == "true");
+	document.getElementById("HconD").checked = (getCookieValue("HconD") == "true");
+	document.getElementById("HconB").checked = (getCookieValue("HconB") == "true");
+	document.getElementById("HconP").checked = (getCookieValue("HconP") == "true");
+	document.getElementById("HconVVV").checked = (getCookieValue("HconVVV") == "true");
+	document.getElementById("Hyoon").checked = (getCookieValue("Hyoon") == "true");
+	document.getElementById("KconNon").checked = (getCookieValue("KconNon") == "true");
+	document.getElementById("KconK").checked = (getCookieValue("KconK") == "true");
+	document.getElementById("KconS").checked = (getCookieValue("KconS") == "true");
+	document.getElementById("KconT").checked = (getCookieValue("KconT") == "true");
+	document.getElementById("KconN").checked = (getCookieValue("KconN") == "true");
+	document.getElementById("KconH").checked = (getCookieValue("KconH") == "true");
+	document.getElementById("KconM").checked = (getCookieValue("KconM") == "true");
+	document.getElementById("KconY").checked = (getCookieValue("KconY") == "true");
+	document.getElementById("KconR").checked = (getCookieValue("KconR") == "true");
+	document.getElementById("KconW").checked = (getCookieValue("KconW") == "true");
+	document.getElementById("KconNNN").checked = (getCookieValue("KconNNN") == "true");
+	document.getElementById("KconG").checked = (getCookieValue("KconG") == "true");
+	document.getElementById("KconZ").checked = (getCookieValue("KconZ") == "true");
+	document.getElementById("KconD").checked = (getCookieValue("KconD") == "true");
+	document.getElementById("KconB").checked = (getCookieValue("KconB") == "true");
+	document.getElementById("KconP").checked = (getCookieValue("KconP") == "true");
+	document.getElementById("Kyoon").checked = (getCookieValue("Kyoon") == "true");	
+	
+    //console.log("document.cookie:::"+ document.cookie);
+}
+
+//copy pasted from w3schools XDDDDDDD
+function getCookieValue(cname){
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
+function deleteCookies(){
+	if (confirm("Are you sure? Deleting your configuration is undoable!")){
+		var expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
+		
+		document.cookie = "show-answer=;" + expires;
+		///////
+		document.cookie = "HconNon=;" + expires;
+		document.cookie = "HconK=;" + expires;
+		document.cookie = "HconS=;" + expires;
+		document.cookie = "HconT=;" + expires;
+		document.cookie = "HconN=;" + expires;
+		document.cookie = "HconH=;" + expires;
+		document.cookie = "HconM=;" + expires;
+		document.cookie = "HconY=;" + expires;
+		document.cookie = "HconR=;" + expires;
+		document.cookie = "HconW=;" + expires;
+		document.cookie = "HconNNN=;" + expires;
+		document.cookie = "HconG=;" + expires;
+		document.cookie = "HconZ=;" + expires;
+		document.cookie = "HconD=;" + expires;
+		document.cookie = "HconB=;" + expires;
+		document.cookie = "HconP=;" + expires;
+		document.cookie = "HconVVV=;" + expires;
+		document.cookie = "Hyoon=;" + expires;
+		///////
+		document.cookie = "KconNon=;" + expires;
+		document.cookie = "KconK=;" + expires;
+		document.cookie = "KconS=;" + expires;
+		document.cookie = "KconT=;" + expires;
+		document.cookie = "KconN=;" + expires;
+		document.cookie = "KconH=;" + expires;
+		document.cookie = "KconM=;" + expires;
+		document.cookie = "KconY=;" + expires;
+		document.cookie = "KconR=;" + expires;
+		document.cookie = "KconW=;" + expires;
+		document.cookie = "KconNNN=;" + expires;
+		document.cookie = "KconG=;" + expires;
+		document.cookie = "KconZ=;" + expires;
+		document.cookie = "KconD=;" + expires;
+		document.cookie = "KconB=;" + expires;
+		document.cookie = "KconP;" + expires;
+		document.cookie = "Kyoon=;" + expires;
+		//////////
+		document.cookie = "exists=; " + expires;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,10 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Single Character Hiragana</title>
+    <title>Hiragana and Katakana practice</title>
     <link href="../..//bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="engine.js"></script>
   </head>
   
   <body>
@@ -19,6 +18,7 @@
 	
 	<div class="container">
 		Answers are based off the chart found <a href="http://www.guidetojapanese.org/learn/grammar/hiragana">here</a>. This page is built as a personal study tool.
+		<!--<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="softReset();">DEBUG softReset()</button></div>-->
 		<div class="jumbotron" id="holder">
 
 		</div>
@@ -153,15 +153,21 @@
 					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="selectDakutenKatakana();">Select Katakana diacritics</button></div>
 				</div>
 				<br />
-					<div class="row">
+				<div class="row">
 					<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="selectAll();">Select all</button></div>
-					<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="deselectAll();">Deelect all</button></div>
-
+					<div class="col-md-6"><button type="button" class="btn btn-primary btn-block" onclick="deselectAll();">Deselect all</button></div>
 				</div>
+				<br />
+				<div class="row">
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="saveCookies();">Save current configuration (uses cookies)</button></div>
+					<div class="col-md-4"><button type="button" class="btn btn-primary btn-block" onclick="deleteCookies();">DELETE configuration</button></div>
+				</div>
+				<br />
 			</div>
 		</div>
 	</div>
-  
+	
+  	<script src="engine.js"></script>
 	<script>
 	    generateQuestion(false);
 	</script>
