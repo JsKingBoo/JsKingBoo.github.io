@@ -42,7 +42,7 @@ var HconN = [
 ["ね","ne"],
 ["の","no"]
 ];
-var HconNd = [["ちゃ", "nya"], ["ちゅ", "nyu"], ["ちょ", "nyo"]];
+var HconNd = [["にゃ", "nya"], ["にゅ", "nyu"], ["にょ", "nyo"]];
 
 var HconH = [
 ["は","ha"],
