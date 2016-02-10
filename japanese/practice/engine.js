@@ -534,7 +534,11 @@ function generateQuestion(erase){
 	//draw refresh button
 	html += '<button type="button" class="btn btn-primary btn-lg" onclick="softReset();">Refresh Question</button>'
 	
+	//set html
 	displayContainer.innerHTML = html;
+	
+	//focus
+	document.getElementById("text1").focus();
 }
 
 function submitAnswer(){
