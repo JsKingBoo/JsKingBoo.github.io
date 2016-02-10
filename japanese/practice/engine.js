@@ -531,6 +531,8 @@ function generateQuestion(erase){
 	
 	//draw submit button
 	html += '<button type="button" class="btn btn-primary btn-lg" onclick="submitAnswer();">Submit Answer</button>'
+	//draw refresh button
+	html += '<button type="button" class="btn btn-primary btn-lg" onclick="softReset();">Refresh Question</button>'
 	
 	displayContainer.innerHTML = html;
 }
@@ -573,6 +575,9 @@ function isHiragana(a){
 
 function softReset(){
 	document.getElementById('incorrect').innerHTML = '';
+	if (correct > 0){
+		correct--;
+	}
 	generateQuestion();
 }
 
