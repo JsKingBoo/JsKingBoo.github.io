@@ -268,10 +268,11 @@ var KconP = [
 ];
 var KconPd = [["ピャ", "pya"], ["ピュ", "pyu"], ["ピョ", "pyo"]];
 
-var store = -1;
-var prevStore = -1;
+var store = -1; //int ID of answer
+var prevStore = -1; //int ID of previous answer
 var correct = 0;
 var incorrect = 0;
+var invert = false; //boolean of show Romaji or Japanese script
 
 if (getCookieValue("exists")!=""){
 	readCookies();
@@ -286,6 +287,9 @@ function generateQuestion(erase){
 	var html = '';
 	var displayContainer = document.getElementById('holder');
 	answers = [];
+	
+	//parse options
+	invert = document.getElementById('invert').checked;
 	
 	var hYoon = document.getElementById('Hyoon').checked;
 	//HconNon
@@ -509,11 +513,31 @@ function generateQuestion(erase){
 	do {
 		store = randomIntFromInterval(0, answers.length - 1);
 	} while (store == prevStore);
-	var jpnchar = answers[store][0];
+	
+	var jpnchar; //display character
+	if (invert){
+		jpnchar = answers[store][1]; //show romaji
+		if (isHiragana(answers[store][0])){
+			jpnchar += " (Hiragana)";
+		} else {
+			jpnchar += " (Katakana)";
+		}
+	} else {
+		jpnchar = answers[store][0]; //show jpn char
+	}
 	
 	//show previous solution (if possible)
 	if (prevStore >= 0 && document.getElementById("show-answer").checked){
-		html += '<p> Previous solution: ' + answers[prevStore][1] 
+		
+		var tempAnswer; //hrm
+		if (invert){
+			tempAnswer = answers[prevStore][0]; //answer is jpn char
+		} else {
+			tempAnswer = answers[prevStore][1]; //answer is romaji
+		}
+			
+		html += '<p> Previous solution: ' + tempAnswer
+		
 		if (isHiragana(answers[prevStore][0])){
 			html += ' (Hiragana)';
 		} else {
@@ -551,7 +575,11 @@ function submitAnswer(){
 		return;
 	}
 
-	if (answer == answers[store][1]){
+	var intInv = 1; //invert
+	if (invert){
+		intInv = 0;
+	}
+	if (answer == answers[store][intInv]){
 		correct++;
 		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct</h3>';
 		generateQuestion();
@@ -906,6 +934,7 @@ function saveCookies(){
     d.setTime(d.getTime() + (365*24*60*60*1000));
     var expires = "expires="+d.toUTCString();
     document.cookie = "show-answer=" + document.getElementById("show-answer").checked + "; " + expires;
+    document.cookie = "invert=" + document.getElementById("invert").checked + "; " + expires;
 	////////
     document.cookie = "HconNon=" + document.getElementById("HconNon").checked + "; " + expires;
     document.cookie = "HconK=" + document.getElementById("HconK").checked + "; " + expires;
@@ -952,6 +981,7 @@ function saveCookies(){
 function readCookies(){
 	//console.log("running readCookies()");
     document.getElementById("show-answer").checked = (getCookieValue("show-answer") == "true")
+    document.getElementById("invert").checked = (getCookieValue("invert") == "true")
 	////////
 	document.getElementById("HconNon").checked = (getCookieValue("HconNon") == "true");
 	document.getElementById("HconK").checked = (getCookieValue("HconK") == "true");
@@ -1009,6 +1039,7 @@ function deleteCookies(){
 		var expires = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
 		
 		document.cookie = "show-answer=;" + expires;
+		document.cookie = "invert=;" + expires;
 		///////
 		document.cookie = "HconNon=;" + expires;
 		document.cookie = "HconK=;" + expires;

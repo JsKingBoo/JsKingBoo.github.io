@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">	
+  </head>
+  
+  <body> <!-- le copy paste -->
+
+    <div id="navbar-holder"></div>
+    <script src="../template/navbar.js"></script>
+    <script>
+	  drawNavbar();
+    </script>	
+	
+<!-- DO STUFF HERE -->	
+	
+	<div class="container">
+		<label for="sel1" class="col-md-1 control-label">Sort by:</label>
+		<div class="form-group">
+			<!--<label for="sel1" class="col-md-1 control-label">Sort by:</label>-->
+			<span class="col-md-10">
+				<select class="form-control" id="sel1">
+					<option>Filename</option>
+					<option>Tier</option>
+					<option>Date</option>
+					<option>Turns</option>
+				</select>
+			</span>
+			<span class="col-md-1">
+				<button type="button" class="btn btn-primary" onclick="drawTable(document.getElementById('sel1').options[sel1.selectedIndex].text.toLowerCase());">Go</button>			
+			</span>
+		</div>
+		<div class="table-responsive">
+			<table class="table" id="hold">
+				<thead><tr><th>#</th><th>File name</th><th>Tier</th><th>Date</th><th>Turns</th><th>Description</th></tr></thead>
+			</table>
+		</div>
+	</div>
+
+    <script src="replay-metadata.js"></script>
+	<script>
+		var tierEnum = Object.freeze(
+			{
+				OU: 1,
+				Ubers: 2,
+				UU: 3,
+				RU: 4,
+				NU: 5,
+				PU: 6,
+				AG: 7,
+				VGC16: 8,
+				Monotype: 9,
+				BF: 10,
+				Random: 11,
+				Draft: 12
+			}
+		);
+		var propertyEnum = [
+			"fileName",
+			"tier",
+			"date",
+			"turns"
+		]
+		function drawTable(sort){ //string: "filename", "tier", "date", "turns". default prioritized in that order
+			var table = document.getElementById("hold");
+			//delete all rows
+			for (var i = table.rows.length - 1; i > 0; i--){
+				table.deleteRow(i);
+			}
+			
+			//sort replay metadata
+			for (var i = propertyEnum.length - 1; i >= 0; i--){
+				if (sort.toLowerCase().localeCompare(propertyEnum[1].toLowerCase()) == 0){
+					continue;
+				}
+				sortTable(propertyEnum[i], true);
+			}
+			sortTable(sort, true);
+			
+			//add row and cells
+			for (var j = 0; j < replayMetadata.length; j++){
+				var row = table.insertRow();
+				row.insertCell().innerHTML = j;
+				for (var k = 0; k < propertyEnum.length; k++){
+					//console.log("j:" + j + "; k:" + k + "; replay: " + replayMetadata[j][propertyEnum[k]]);
+					//hacky solution LOL
+					var linkjuan = '';
+					var linktoo = '';
+					if (k == 0){
+						linkjuan = '<a href="replays/' + replayMetadata[j][propertyEnum[k].toLowerCase()] + '.html">';
+						linktoo = '</a>';
+					}
+					row.insertCell().innerHTML = linkjuan + replayMetadata[j][propertyEnum[k].toLowerCase()] + linktoo;
+				}
+				row.insertCell().innerHTML = replayMetadata[j]['description'];
+			}
+			
+			
+			//send to thing
+			//displayContainer.innerHTML = html;
+		}
+		function sortTable(prop, asc){
+			replayMetadata = replayMetadata.sort(function(a, b) {
+				if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+				else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+			});	
+		}
+		drawTable("filename");
+	</script>
+	
+<!-- STOP DOING STUFF HERE -->	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

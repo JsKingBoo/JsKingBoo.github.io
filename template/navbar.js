@@ -1,6 +1,6 @@
 function drawNavbar(){ 
 
-	//DON'T EDIT ANYTHING BETWEEN THIS AND THAT
+	//FUTURE ME: DON'T EDIT ANYTHING BETWEEN THIS AND THAT
 
 	////////////////////////////THIS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
@@ -24,8 +24,7 @@ function drawNavbar(){
 	html += '      <ul class="nav navbar-nav">';
 
 	//////////////////////////////////THAT\\\\\\\\\\\\\\\\\\\\\\\\\\
-	
-	
+
 	html += '        <li><a href="/index.html">Home</a></li>';		
 	html += '        <li><a href="/news/main.html">News</a></li>';			
 	html += '        <li><a href="/League of Legends Hide and Seek/main.html">LoL Hide and Seek</a></li>';
