@@ -19,30 +19,42 @@
 <!-- DO STUFF HERE -->	
 	
 	<div class="container">
-		<label for="sel1" class="col-md-1 control-label">Sort by:</label>
-		<div class="form-group">
-			<!--<label for="sel1" class="col-md-1 control-label">Sort by:</label>-->
-			<span class="col-md-10">
+		<div class="form-group row">
+			<label for="sel1" class="col-xs-1 control-label">Sort by:</label>
+			<span class="col-xs-9">
 				<select class="form-control" id="sel1">
 					<option>Filename</option>
 					<option>Tier</option>
+					<option>Elo</option>
 					<option>Date</option>
 					<option>Turns</option>
 				</select>
 			</span>
-			<span class="col-md-1">
-				<button type="button" class="btn btn-primary" onclick="drawTable(document.getElementById('sel1').options[sel1.selectedIndex].text.toLowerCase());">Go</button>			
+			<span class="col-xs-1">
+				<button type="button" class="btn btn-primary" onclick="drawTable(document.getElementById('sel1').options[sel1.selectedIndex].text.toLowerCase());">Sort</button>			
 			</span>
 		</div>
+		
+		<div class="form-group row">
+		<label for="sel2" class="col-xs-1 control-label">Find Battler</label>
+			<span class="col-xs-9">
+				<input type="text" class="form-control" id="sel2" />
+			</span>
+			<span class="col-xs-1">
+				<button type="button" class="btn btn-primary" onclick="findBattler(document.getElementById('sel2').value.toLowerCase());">Find</button>			
+			</span>
+		</div>		
 		<div class="table-responsive">
 			<table class="table" id="hold">
-				<thead><tr><th>#</th><th>File name</th><th>Tier</th><th>Date</th><th>Turns</th><th>Description</th></tr></thead>
+				<thead><tr><th>#</th><th>File name</th><th>Tier</th><th>Elo</th><th>Date</th><th>Turns</th><th>Battler 1</th><th>Battler 2</th><th>Description</th></tr></thead>
 			</table>
 		</div>
+		<div id="no-results-found"></div>
 	</div>
 
     <script src="replay-metadata.js"></script>
 	<script>
+		var latestSort = "filename";
 		var tierEnum = Object.freeze(
 			{
 				OU: 1,
@@ -62,10 +74,13 @@
 		var propertyEnum = [
 			"fileName",
 			"tier",
+			"elo",
 			"date",
 			"turns"
 		]
-		function drawTable(sort){ //string: "filename", "tier", "date", "turns". default prioritized in that order
+		function drawTable(sort){ //string: "filename", "tier", "elo", "date", "turns". default prioritized in that order
+			document.getElementById("no-results-found").innerHTML = "";
+			latestSort = sort;
 			var table = document.getElementById("hold");
 			//delete all rows
 			for (var i = table.rows.length - 1; i > 0; i--){
@@ -96,6 +111,10 @@
 					}
 					row.insertCell().innerHTML = linkjuan + replayMetadata[j][propertyEnum[k].toLowerCase()] + linktoo;
 				}
+				//add battlers and description
+				
+				row.insertCell().innerHTML = replayMetadata[j]['battlers'][0];
+				row.insertCell().innerHTML = replayMetadata[j]['battlers'][1];
 				row.insertCell().innerHTML = replayMetadata[j]['description'];
 			}
 			
@@ -109,7 +128,20 @@
 				else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
 			});	
 		}
-		drawTable("filename");
+		function findBattler(name){
+			drawTable(latestSort);
+			var table = document.getElementById("hold");
+			for (var i = 1; i < table.rows.length; i++){ //i = 1 so it doesn't accidentally delete the table header
+				if (table.rows[i].cells[6].innerHTML.toLowerCase().indexOf(name.toLowerCase()) < 0 && table.rows[i].cells[7].innerHTML.toLowerCase().indexOf(name.toLowerCase()) < 0){
+					table.deleteRow(i);
+					i--;
+				}
+			}
+			if (table.rows.length < 2){
+				document.getElementById("no-results-found").innerHTML = "No results found";
+			}
+		}
+		drawTable(latestSort);
 	</script>
 	
 <!-- STOP DOING STUFF HERE -->	
