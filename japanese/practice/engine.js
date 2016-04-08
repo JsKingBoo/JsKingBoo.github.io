@@ -287,7 +287,134 @@ function generateQuestion(erase){
 	var html = '';
 	var displayContainer = document.getElementById('holder');
 	answers = [];
+	parseOptions();
+
 	
+	if (answers.length <= 2){
+		document.getElementById('error').innerHTML = '<h3 style="color:#990000">Error: too few choices selected</h3><h3>All choices have been automatically re-selected</h3>';
+		selectAll();
+		generateQuestion();
+		return;
+	}
+	
+	//generate new solution (store)
+	prevStore = store;
+	do {
+		store = randomIntFromInterval(0, answers.length - 1);
+	} while (store == prevStore);
+	
+	var jpnchar; //display character
+	if (invert){
+		jpnchar = answers[store][1]; //show romaji
+		if (isHiragana(answers[store][0])){
+			jpnchar += " (Hiragana)";
+		} else {
+			jpnchar += " (Katakana)";
+		}
+	} else {
+		jpnchar = answers[store][0]; //show jpn char
+	}
+	
+	//show previous solution (if possible)
+	if (prevStore >= 0 && document.getElementById("show-answer").checked){
+		
+		var tempAnswer; //hrm
+		if (invert){
+			tempAnswer = answers[prevStore][0]; //answer is jpn char
+		} else {
+			tempAnswer = answers[prevStore][1]; //answer is romaji
+		}
+			
+		html += '<p> Previous solution: ' + tempAnswer
+		
+		if (isHiragana(answers[prevStore][0])){
+			html += ' (Hiragana)';
+		} else {
+			html += ' (Katakana)';
+		}
+		html += '</p>';
+	}
+	
+	//draw question
+	html += '<h1 style="font-family:\'ヒラギノ角ゴ Pro W3\', \'Hiragino Kaku Gothic Pro\',Osaka, \'メイリオ\', Meiryo, \'ＭＳ Ｐゴシック\', \'MS PGothic\', sans-serif">' + jpnchar + '</h1><br/>';
+	
+	//draw inputs
+	//input textfields
+	html += '<h2><input type="text" id="text1" maxlength="3" size="3"></h2>'
+	
+	//draw submit button
+	html += '<button type="button" class="btn btn-primary btn-lg" onclick="submitAnswer();">Submit Answer</button>'
+	//draw refresh button
+	html += '<button type="button" class="btn btn-primary btn-lg" onclick="softReset();">Skip Question</button>'
+	
+	//set html
+	displayContainer.innerHTML = html;
+	
+	//focus
+	document.getElementById("text1").focus();
+}
+
+function submitAnswer(){
+	var answer = document.getElementById("text1").value
+	
+	//clear error and put something in if if something is wrong
+	document.getElementById('error').innerHTML = '';
+	if (answer == ''){
+		document.getElementById('error').innerHTML = '<h3 style="color:#990000">Error: empty answer</h3>';
+		return;
+	}
+
+	var intInv = 1; //invert
+	if (invert){
+		intInv = 0;
+	}
+	if (answer == answers[store][intInv]){
+		correct++;
+		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct</h3>';
+		generateQuestion();
+	} else {
+		document.getElementById("text1").value = '';
+		//document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect</h3><button type="button" class="btn btn-primary btn-lg" onclick="generateQuestion(true);">Skip?</button>';
+		if (document.getElementById('auto-skip').checked){
+			softReset();
+		}
+		
+		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect</h3>';
+
+		incorrect++;
+	}
+	var kda;
+	if (incorrect == 0) {kda = 'Perfect'; } else {kda = (correct / incorrect).toFixed(2); }
+	
+	document.getElementById('incorrect').innerHTML += '<p> Score: ' + correct + '/' + incorrect + ' (' + kda + ')';
+
+}
+
+//helper
+function randomIntFromInterval(min,max) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+function isHiragana(a){
+	var allHiragana = ["あ","い","う","え","お","か","き","く","け","こ","きゃ","きゅ","きょ","さ","し","す","せ","そ","しゃ","しゅ","しょ","た","ち","つ","て","と","ちゃ","ちゅ","ちょ","な","に","ぬ","ね","の","ちゃ","ちゅ","ちょ","は","ひ","ふ","へ","ほ","ひゃ","ひゅ","ひょ","ま","み","む","め","も","みゃ","みゅ","みょ","や","ゆ","よ","ら","り","る","れ","ろ","りゃ","りゅ","りょ","わ","を","ん","が","ぎ","ぐ","げ","ご","ぎゃ","ぎゅ","ぎょ","ざ","じ","ず","ぜ","ぞ","じゃ","じゅ","じょ","だ","ぢ","づ","で","ど","ぢゃ","ぢゅ","ぢょ","ば","び","ぶ","べ","ぼ","びゃ","びゅ","びょ","ぱ","ぴ","ぷ","ぺ","ぽ","ぴゃ","ぴゅ","ぴょ","ゔ"];
+	return allHiragana.indexOf(a) > -1;
+}
+
+function softReset(){
+	document.getElementById('incorrect').innerHTML = '';
+	generateQuestion();
+}
+
+function hardReset(){
+	store = -1;
+	prevStore = -1;
+	correct = 0;
+	incorrect = 0;
+	softReset();
+}
+
+//change answers array
+function parseOptions(){
 	//parse options
 	invert = document.getElementById('invert').checked;
 	
@@ -500,125 +627,6 @@ function generateQuestion(erase){
 			answers = answers.concat(KconPd);
 		}
 	}
-	
-	if (answers.length <= 2){
-		document.getElementById('error').innerHTML = '<h3 style="color:#990000">Error: too few choices selected</h3><h3>All choices have been automatically re-selected</h3>';
-		selectAll();
-		generateQuestion();
-		return;
-	}
-	
-	//generate new solution (store)
-	prevStore = store;
-	do {
-		store = randomIntFromInterval(0, answers.length - 1);
-	} while (store == prevStore);
-	
-	var jpnchar; //display character
-	if (invert){
-		jpnchar = answers[store][1]; //show romaji
-		if (isHiragana(answers[store][0])){
-			jpnchar += " (Hiragana)";
-		} else {
-			jpnchar += " (Katakana)";
-		}
-	} else {
-		jpnchar = answers[store][0]; //show jpn char
-	}
-	
-	//show previous solution (if possible)
-	if (prevStore >= 0 && document.getElementById("show-answer").checked){
-		
-		var tempAnswer; //hrm
-		if (invert){
-			tempAnswer = answers[prevStore][0]; //answer is jpn char
-		} else {
-			tempAnswer = answers[prevStore][1]; //answer is romaji
-		}
-			
-		html += '<p> Previous solution: ' + tempAnswer
-		
-		if (isHiragana(answers[prevStore][0])){
-			html += ' (Hiragana)';
-		} else {
-			html += ' (Katakana)';
-		}
-		html += '</p>';
-	}
-	
-	//draw question
-	html += '<h1>' + jpnchar + '</h1><br/>';
-	
-	//draw inputs
-	//input textfields
-	html += '<h2><input type="text" id="text1" maxlength="3" size="3"></h2>'
-	
-	//draw submit button
-	html += '<button type="button" class="btn btn-primary btn-lg" onclick="submitAnswer();">Submit Answer</button>'
-	//draw refresh button
-	html += '<button type="button" class="btn btn-primary btn-lg" onclick="softReset();">Refresh Question</button>'
-	
-	//set html
-	displayContainer.innerHTML = html;
-	
-	//focus
-	document.getElementById("text1").focus();
-}
-
-function submitAnswer(){
-	var answer = document.getElementById("text1").value
-	
-	//clear error and put something in if if something is wrong
-	document.getElementById('error').innerHTML = '';
-	if (answer == ''){
-		document.getElementById('error').innerHTML = '<h3 style="color:#990000">Error: empty answer</h3>';
-		return;
-	}
-
-	var intInv = 1; //invert
-	if (invert){
-		intInv = 0;
-	}
-	if (answer == answers[store][intInv]){
-		correct++;
-		document.getElementById('incorrect').innerHTML = '<h3 style="color:#00DD00">Correct</h3>';
-		generateQuestion();
-	} else {
-		document.getElementById("text1").value = '';
-		document.getElementById('incorrect').innerHTML = '<h3 style="color:#990000">Incorrect</h3><button type="button" class="btn btn-primary btn-lg" onclick="generateQuestion(true);">Skip?</button>';
-		incorrect++;
-	}
-	var kda;
-	if (incorrect == 0) {kda = 'Perfect'; } else {kda = (correct / incorrect).toFixed(2); }
-	
-	document.getElementById('incorrect').innerHTML += '<p> Score: ' + correct + '/' + incorrect + ' (' + kda + ')';
-
-}
-
-//helper
-function randomIntFromInterval(min,max) {
-    return Math.floor(Math.random()*(max-min+1)+min);
-}
-
-function isHiragana(a){
-	var allHiragana = ["あ","い","う","え","お","か","き","く","け","こ","きゃ","きゅ","きょ","さ","し","す","せ","そ","しゃ","しゅ","しょ","た","ち","つ","て","と","ちゃ","ちゅ","ちょ","な","に","ぬ","ね","の","ちゃ","ちゅ","ちょ","は","ひ","ふ","へ","ほ","ひゃ","ひゅ","ひょ","ま","み","む","め","も","みゃ","みゅ","みょ","や","ゆ","よ","ら","り","る","れ","ろ","りゃ","りゅ","りょ","わ","を","ん","が","ぎ","ぐ","げ","ご","ぎゃ","ぎゅ","ぎょ","ざ","じ","ず","ぜ","ぞ","じゃ","じゅ","じょ","だ","ぢ","づ","で","ど","ぢゃ","ぢゅ","ぢょ","ば","び","ぶ","べ","ぼ","びゃ","びゅ","びょ","ぱ","ぴ","ぷ","ぺ","ぽ","ぴゃ","ぴゅ","ぴょ","ゔ"];
-	return allHiragana.indexOf(a) > -1;
-}
-
-function softReset(){
-	document.getElementById('incorrect').innerHTML = '';
-	if (correct > 0){
-		correct--;
-	}
-	generateQuestion();
-}
-
-function hardReset(){
-	store = -1;
-	prevStore = -1;
-	correct = 0;
-	incorrect = 0;
-	softReset();
 }
 
 //presets

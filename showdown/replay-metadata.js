@@ -11,5 +11,8 @@ var replayMetadata = [
 {filename:"OU-2016-03-14-pancaketherapy-jskingboo",tier:"OU",date:"2016/03/14",battlers:["Pancake Therapy", "JsKingBoo"],turns:111,description:"Scald stall predicts well, but not perfectly, versus a balanced VoltTurn team (top 50 at the time)",victor:1,elo:1800},
 {filename:"OU-2016-03-14-azingu-rea736",tier:"OU",date:"2016/03/14",battlers:["Azingu", "rea736"],turns:24,description:"Outplaying Sceptile's Bisharp, plus a lucky 3-turn Outrage",victor:0,elo:1400},
 {filename:"OU-2016-03-16-azingu-notcute",tier:"OU",date:"2016/03/16",battlers:["Azingu", "Not Cute"],turns:30,description:"Close game between two hyper offensive teams. Also Not Cute is actually a pretty cute guy",victor:0,elo:1500},
+{filename:"OUsuspecttest-2016-04-04-jskingboo-christou",tier:"OU Suspect Test (Hoopa-U)",date:"2016/04/04",battlers:["JsKingBoo", "christou"],turns:33,description:"Hilarious Talonflame predictions",victor:0,elo:1350},
 
 ];
+
+
