@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Masteromino</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="apiHandler.js"></script>
+	<script src="gameEngine.js"></script>
+  </head>
+  
+  <body>
+  
+	<script>
+		function accessMastery(data){
+			return data;
+		}
+	</script>
+  
+	<div class="container-fluid" id="contains">
+		<div id="initial-input-wrapper" style="text-align: center">
+		<div id="initial-input" style="display: inline-block;">
+			TEMP: INPUT DEV KEY
+			<br />
+			<input id="theKey" />
+			<div class="form-group">
+				<label for="userName">Summoner Name</label>
+				<input class="form-control" id="userName" placeholder="Name"/>
+			</div>
+			<div class="form-group">
+				<label for="region">Region</label>
+				<select style="inline" class="form-control" id="region">
+					<option>br</option>
+					<option>eune</option>
+					<option>euw</option>
+					<option>jp</option>
+					<option>kr</option>
+					<option>lan</option>
+					<option>las</option>
+					<option>na</option>
+					<option>oce</option>
+					<option>ru</option>
+					<option>tr</option>
+				</select>
+			</div>
+			<input type="submit" class="btn btn-default" onclick="trigger();" />
+			<br /> 
+		</div>
+		</div>
+	
+		<div id="loading" style="visibility: hidden;">
+			<h1>Loading Masteromino...</h1>
+			<h6>while waiting feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh</h6>
+			<p>"Brains and Brawlers" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p><br/>
+		</div>
+		<noscript>ERROR: Javascript does not seem to be enabled. You need Javascript to play this game!</noscript>
+		
+		<div id="game-wrapper">
+		
+		<div class="row">
+		
+			<div class="col-xs-2 col-md-3">
+				<div id="hints"></div>
+			</div>
+		
+			<div class="col-xs-10 col-md-9">
+				<div id="board"></div>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-xs-2 col-md-3">
+				<div id="current-brush"></div>
+			</div>
+			<div class="col-xs-8 col-md-6">
+				<div id="info"></div>
+			</div>
+			<div class="col-xs-2 col-md-3">
+				<div id="submit-button"></div>
+			</div>
+		</div>
+			
+		</div>
+		
+		
+
+		
+		</div>
+		
+		<hr>
+		<div class="collapse" id="howplay">
+			<h3>How to play:</h3>
+			<ul>
+				<li>The aim of the game is to correctly fill the board according to the hints given.</li>
+				<li>The board must contain the same number of each availible champion and the same number of each availible mastery medal.</li>
+				<li>Select your brush using the panel below the board. Click on the board to apply the brush to the board.</li>
+				<li>Submit your guess by clicking "Submit Guess". Clear your guess by clicking on "Clear Guess".</li>
+			</ul>
+		</div>
+		<a id="collapsing" class="btn btn-primary" role="button" data-toggle="collapse" href="#howplay" aria-expanded="false" aria-controls="howplay">
+			Show How to Play
+		</a>
+	
+	
+	</div>
+	<footer>
+	<br/>
+
+	
+	<br/><br/><br/>
+	<div id="disclaimer" >
+	"Masteromino" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+	</div>
+	</footer>
+	<script>
+		/*document.getElementById("disclaimer").style.marginLeft=(imagewidth/2)+"px";
+		document.getElementById("disclaimer").style.fontSize="10px";
+		document.getElementById("howplay").style.marginLeft=(imagewidth/2)+"px";
+		document.getElementById("collapsing").style.marginLeft=(imagewidth/2)+"px";*/
+	</script>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
