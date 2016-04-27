@@ -38,7 +38,6 @@ function init(){
 	drawBoard();
 	drawInfo();
 	drawHints();
-	
 }
 
 //Resets the game
@@ -57,6 +56,10 @@ function reset(){
 	
 	document.getElementById("board").innerHTML='';
 	document.getElementById("info").innerHTML='';
+	document.getElementById("hints").innerHTML='';
+	document.getElementById("current-brush").innerHTML='';
+	document.getElementById("submit-button").innerHTML='';
+	document.getElementById("alert-holder").innerHTML='';
 	
 	init();
 }
@@ -94,34 +97,22 @@ function createBoard(){
 }
 
 function clearBoard(){
-	board = [];
-	
-	for (var i = 0; i < boardSize; i++){
-		var pushArray = [];
-		for (var j = 0; j < boardSize; j++){
-			pushArray.push('xx');
-		}
-		board.push(pushArray);
-	}
+	board = getBoardSizeBoard('xx');
 }
 
 function buildPolyominos(){
 	var numPolyominos = 0;
 	var sumSquares = 0;
+	var usedBoard = getBoardSizeBoard(0);
+	
 	var done = false;
+	
 	while (!done){
 		//alert('Debug 1');
 		numPolyominos++;
 		var newPolyomino = {};
 		//fill newPolyomino with a bunch of blanks
-		var empty = [];
-		for (var i = 0; i < boardSize; i++){
-			var pushArray = [];
-			for (var j = 0; j < boardSize; j++){
-				pushArray.push("--");
-			}
-			empty.push(pushArray);
-		}
+		var empty = getBoardSizeBoard('--');
 		
 		//alert('Debug 2');
 		
@@ -158,9 +149,24 @@ function buildPolyominos(){
 			var adjRight = (randomX < boardSize - 1) && newPolyomino.monominos[randomX + 1][randomY] != "--";
 			var adjTop = (randomY > 0) && newPolyomino.monominos[randomX][randomY - 1] != "--";
 			var adjBot = (randomY < boardSize - 1) && newPolyomino.monominos[randomX][randomY + 1] != "--";
+			
+			//Attempt to avoid reusing the same piece repeatedly
+			var usedBoardModifier;
+			if (curDifficulty >= 3){
+				//nonreuse grows 3 times faster than normal: 0, (3/4), (6/7), (9/10), etc
+				usedBoardModifier = (Math.random() > (3 * usedBoard[randomX][randomY] / (3 * usedBoard[randomX][randomY] + 1))); 
+			} else if (curDifficulty >= 1){
+				//normal nonreuse growth: (x / (x+1)), e.g. 0, (1/2), (2/3), (3/4), etc...
+				usedBoardModifier = (Math.random() > (usedBoard[randomX][randomY] / (usedBoard[randomX][randomY] + 1)));
+			} else {
+				//no growth
+				usedBoardModifier = true;
+			}
+			
 			//alert('Debug 4.3');
-			if (current || adjLeft || adjRight || adjTop || adjBot){
+			if (!current && (adjLeft || adjRight || adjTop || adjBot) && usedBoardModifier){
 				newPolyomino.monominos[randomX][randomY] = board[randomX][randomY];
+				usedBoard[randomX][randomY]++;
 				randAmount--;
 			}
 			//yknow this was originally a recursive function but it was really annoying to work with
@@ -245,14 +251,11 @@ function buildPolyominos(){
 				}
 			}
 		}
-		
 
 		//DEBUG: Print current polyomino
 		/*for (var i = 0; i < boardSize; i++){
 			console.log(newPolyomino.monominos[i]);
 		}		*/
-
-		
 		
 		//Now look at each monomino and obsfucate some of the hints
 		for (var i = 0; i < newPolyomino.monominos.length; i++){
@@ -261,13 +264,31 @@ function buildPolyominos(){
 					//Nothing to obsfucate here
 					continue;
 				}
-				var char1 = (Math.random()<0.4);
-				var char2 = (Math.random()<0.4);
+				
+				//Threshhold: the more monominos that a polyomino owns, the more likely that it would be obsfucated
+				//At difficulties 0 and 1, this is a flat value
+				var threshHold;
+				if (curDifficulty >= 2) {
+					threshHold = (newPolyomino.size / (boardSize*boardSize));
+				} else if (curDifficulty >= 1) {
+					threshHold = 0.4;
+				} else {
+					threshHold = 0.2;
+				}
+				
+				var char1 = (Math.random()< threshHold);
+				var char2 = (Math.random()< threshHold);
+				
 				if (char1){
 					newPolyomino.monominos[i][j] = 'x' + newPolyomino.monominos[i][j].charAt(1);
 				}
 				if (char2){
 					newPolyomino.monominos[i][j] = newPolyomino.monominos[i][j].charAt(0) + 'x';
+				}
+				
+				//alleviate in the case of a useless or almost useless hint, such as 8 squares with 0 data
+				if (char1 && char2){
+					sumSquares-=boardSize*boardSize;
 				}
 			}
 		}
@@ -275,7 +296,7 @@ function buildPolyominos(){
 		polyominos.push(newPolyomino);
 		
 		//Check if sumSquares reaches a certain threshhold. If so, finish
-		if (sumSquares > 72){
+		if (sumSquares > boardSize * boardSize * boardSize * boardSize){
 			done = true;
 		}
 	}
@@ -373,20 +394,27 @@ function drawInfo(){
 	}
 	
 	cbHtml += '<img src="' + champSrc + '" style="position: relative; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
-	cbHtml += '<img src="' + masterySrc + '" style="position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
+	//cbHtml += '<img src="' + masterySrc + '" style="position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
+	cbHtml += '<input type="image" src="' + masterySrc + '" style="position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px; width:' + imageWidth + 'px;height:' + imageWidth + 'px;" onclick="changeBrush(\'mastery\', -1); changeBrush(\'champion\', -1);"/>';
 	
 	cbHtml += '</div>';
 	
 	document.getElementById("current-brush").innerHTML = cbHtml;
 	
-	document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; font-size: ' + (imageWidth/2) + 'px; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; line-height: ' + imageWidth + 'px; position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="makeGuess();" value="&gt;&gt;" />';
+	if (!win){
+		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; font-size: ' + (imageWidth/2) + 'px; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; line-height: ' + imageWidth + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="makeGuess();" value="&gt;&gt;" />';
+	} else {
+		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="reset();" value="Play again" /><input type="submit" class="btn btn-info" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth) + 'px; left: 0px;" onclick="redirect();" value="Read the Dossier" />';
+		
+	}
 	
 }
 
 function drawHints(){
 	hintsHtml = '';
-	hintsHtml += '<div style="position: relative; left: 0; top: 0; display: inline-block">'
-	hintsHtml += '<div class="btn-group-vertical" role="group" aria-label="???">'
+	hintsHtml += '<div style="width: 100%; text-align: center;">'
+	hintsHtml += '<div class="btn-group-vertical" role="group" aria-label="???" style="display: inline-block; vertical-align: middle">'
+	hintsHtml += '???';
 	
 	for (var i = 0; i < polyominos.length; i++){
 		hintsHtml += '<input type="submit" class="btn btn-info" style="" onclick="drawPolyomino(' + i + ');" value="' + romanize(i+1) + '" />';
@@ -508,6 +536,7 @@ function drawOnBoard(array, clickMode){
 
 //I think I made the applyBrush algorithm way too complicated
 function applyBrush(x, y){
+	if (!win){
 	/*var left = 'x';
 	var right = 'x';
 	if (currentBrush[0] >= 0){
@@ -557,6 +586,7 @@ function applyBrush(x, y){
 	//board[x][y] = construct;
 	
 	drawBoard();
+	}
 }
 
 function changeBrush(type, id){
@@ -593,10 +623,18 @@ function makeGuess(){
 		for (var j = 0; j < boardSize; j++){
 			if (allPairs.indexOf(board[i][j]) < 0){
 				correct = false; 
-				alert('incorrect');
+				//alert('incorrect');
 				//do something here
+				var alertHtml = '';
+				alertHtml += '<div class="alert alert-danger alert-dismissible" role="alert">';
+				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+				alertHtml += '<strong>✘</strong>';
+				alertHtml += '</div>';
+				document.getElementById("alert-holder").innerHTML = alertHtml;
+				
 				return;
 			}
+			allPairs[allPairs.indexOf(board[i][j])] = '--';
 		}
 	}
 	
@@ -625,10 +663,11 @@ function makeGuess(){
 						var boardPiece = board[x + mx][y + my];
 						//mismatch
 						if ((monoPiece.charAt(0) != boardPiece.charAt(0)) && monoPiece.charAt(0) != 'x' || ((monoPiece.charAt(1) != boardPiece.charAt(1)) && monoPiece.charAt(1) != 'x')){
-							console.log('failed');
+							//DEBUG
+							/*console.log('failed');
 							console.log('polyomino ' + i);
 							console.log('board position (' + x + ', ' + y + ') value: ' + boardPiece);
-							console.log('polyomino position (' + mx + ', ' + my + ') value: ' + monoPiece);
+							console.log('polyomino position (' + mx + ', ' + my + ') value: ' + monoPiece);*/
 							correctPosition = false;
 						}
 					}
@@ -650,19 +689,36 @@ function makeGuess(){
 		
 		if (!found){
 			correct = false;
-			alert('incorrect: check polyomino ' + (i + 1));
+			var alertHtml = '';
+			alertHtml += '<div class="alert alert-danger alert-dismissible" role="alert">';
+			alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+			alertHtml += '<strong>✘</strong>';
+			alertHtml += '</div>';
+			document.getElementById("alert-holder").innerHTML = alertHtml;
 			return;
 		}
 		
 	}
 	
 	//Passed both tests
-	alert('Congratulations! You win!');
+	win = true;
 	
+	//the things I do to myself
+	if (win){
+		curDifficulty++;
+		var alertHtml = '';
+		alertHtml += '<div class="alert alert-success alert-dismissible" role="alert">';
+		alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+		alertHtml += '<strong>✔</strong>';
+		alertHtml += '</div>';
+		document.getElementById("alert-holder").innerHTML = alertHtml;
+		drawInfo();
+	}
 	
 }
 
 //I overcomplicated this, I think
+//distrubution lol
 function randomAmountDistrubution(){
 	var array = [];
 	for (var i = 0; i < boardSize * boardSize; i++){
@@ -710,6 +766,19 @@ function romanize (num) {
 	while (i--)
 		roman = (key[+digits.pop() + (i * 10)] || "") + roman;
 	return Array(+digits.join("") + 1).join("M") + roman;
+}
+
+function getBoardSizeBoard(fill){
+	var arr = [];
+	for (var i = 0; i < boardSize; i++){
+		var arra = [];
+		for (var j = 0; j < boardSize; j++){
+			arra.push(fill);
+		}
+		arr.push(arra);
+	}
+	return arr;
+		
 }
 
 //Go to the documentation page

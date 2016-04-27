@@ -19,33 +19,55 @@ var key;
 //http://stackoverflow.com/questions/24931115/jquery-execute-array-of-functions-sequentially-both-deferreds-and-non-deferred
 var stepArray = [step0, step1, step2, step3, step4];
 
-function trigger(){
-	clearQueue(stepArray).then(function() {
-		//Finished with all async calls
-		//console.log("All done");
-		
-		function finishInitialization(){
-		
-			if (done){
-				//console.log('done is true');
-				
-				document.getElementById("loading").innerHTML = '';
-				document.getElementById("initial-input").innerHTML = '';
-				
-				init();
-				
-			} else {
-				setTimeout(function(){finishInitialization();}, 1000);
+function trigger(usingApi){
+
+	curDifficulty = parseInt(document.getElementById("start-difficulty").value);
+	if (!usingApi){
+		var tempArray = [];
+		for (var i = 0; i < boardSize; i++){
+			if (tempArray.indexOf(document.getElementById("champion" + i).value) >= 0){
+				alert('error: duplicate champions');
+				return;
 			}
+			tempArray.push(document.getElementById("champion" + i).value);
+			champImages[i] = 'http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + document.getElementById("champion" + i).value + '.png';
 		}
 		
-		finishInitialization();
+		document.getElementById("loading").innerHTML = '';
+		document.getElementById("initial-input").innerHTML = '';
 		
-	});
+		init();	
+	}
+
+	if (usingApi) {
+		clearQueue(stepArray).then(function() {
+			//Finished with all async calls
+			//console.log("All done");
+			
+			function finishInitialization(){
+			
+				if (done){
+					//console.log('done is true');
+					
+					document.getElementById("loading").innerHTML = '';
+					document.getElementById("initial-input").innerHTML = '';
+					
+					init();
+					
+				} else {
+					setTimeout(function(){finishInitialization();}, 1000);
+				}
+			}
+			
+			finishInitialization();
+			
+		});
+	}
 	
 	//Everything here immediately goes into effect BEFORE async calls are finished
 	document.getElementById("loading").style.visibility='visible';
 	document.getElementById("initial-input").style.visibility = 'hidden';
+	
 }
 
 function clearQueue(q) {
@@ -152,10 +174,7 @@ function step3(){
 					champImages[i] = 'http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + json.key + '.png';
 				},
 				error: function (XMLHttpRequest, textStatus, errorThrown) {
-					if (getImagesErrorMessageNotSent){
-						alert("Error getting champion images.");
-						getImagesErrorMessageNotSent = false;
-					}
+					//alert("Error getting champion images.");
 				}
 			
 			});	

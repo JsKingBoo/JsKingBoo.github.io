@@ -13,18 +13,25 @@
   
   <body>
   
-	<script>
-		function accessMastery(data){
-			return data;
-		}
-	</script>
-  
 	<div class="container-fluid" id="contains">
+		<div id="alert-holder" style="margin-top: 1em; text-align: center;">
+
+		</div>
+		
 		<div id="initial-input-wrapper" style="text-align: center">
 		<div id="initial-input" style="display: inline-block;">
 			TEMP: INPUT DEV KEY
 			<br />
 			<input id="theKey" />
+			<div class="form-group">
+				<label for="start-difficulty">Start Difficulty</label>
+				<select style="inline" class="form-control" id="start-difficulty">
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+				</select>
+			</div>
 			<div class="form-group">
 				<label for="userName">Summoner Name</label>
 				<input class="form-control" id="userName" placeholder="Name"/>
@@ -45,10 +52,167 @@
 					<option>tr</option>
 				</select>
 			</div>
-			<input type="submit" class="btn btn-default" onclick="trigger();" />
+			<input type="submit" class="btn btn-default" onclick="trigger(true);" value="Submit" />
 			<br /> 
+			Select your top champions if the API connection is broken (it probably is):
+			<div class="form-group">
+				<label for="champion0" id="forchamp0"></label>
+				<select style="inline" class="form-control" id="champion0">
+					<option>Aatrox</option>
+					<option>Ahri</option>
+					<option>Akali</option>
+					<option>Alistar</option>
+					<option>Amumu</option>
+					<option>Anivia</option>
+					<option>Annie</option>
+					<option>Ashe</option>
+					<option>AurelionSol</option>
+					<option>Azir</option>
+					<option>Bard</option>
+					<option>Blitzcrank</option>
+					<option>Brand</option>
+					<option>Braum</option>
+					<option>Caitlyn</option>
+					<option>Cassiopeia</option>
+					<option>Chogath</option>
+					<option>Corki</option>
+					<option>Darius</option>
+					<option>Diana</option>
+					<option>DrMundo</option>
+					<option>Draven</option>
+					<option>Ekko</option>
+					<option>Elise</option>
+					<option>Evelynn</option>
+					<option>Ezreal</option>
+					<option>FiddleSticks</option>
+					<option>Fiora</option>
+					<option>Fizz</option>
+					<option>Galio</option>
+					<option>Gangplank</option>
+					<option>Garen</option>
+					<option>Gnar</option>
+					<option>Gragas</option>
+					<option>Graves</option>
+					<option>Hecarim</option>
+					<option>Heimerdinger</option>
+					<option>Illaoi</option>
+					<option>Irelia</option>
+					<option>Janna</option>
+					<option>JarvanIV</option>
+					<option>Jax</option>
+					<option>Jayce</option>
+					<option>Jhin</option>
+					<option>Jinx</option>
+					<option>Kalista</option>
+					<option>Karma</option>
+					<option>Karthus</option>
+					<option>Kassadin</option>
+					<option>Katarina</option>
+					<option>Kayle</option>
+					<option>Kennen</option>
+					<option>Khazix</option>
+					<option>Kindred</option>
+					<option>KogMaw</option>
+					<option>Leblanc</option>
+					<option>LeeSin</option>
+					<option>Leona</option>
+					<option>Lissandra</option>
+					<option>Lucian</option>
+					<option>Lulu</option>
+					<option>Lux</option>
+					<option>Malphite</option>
+					<option>Malzahar</option>
+					<option>Maokai</option>
+					<option>MasterYi</option>
+					<option>MissFortune</option>
+					<option>Mordekaiser</option>
+					<option>Morgana</option>
+					<option>Nami</option>
+					<option>Nasus</option>
+					<option>Nautilus</option>
+					<option>Nidalee</option>
+					<option>Nocturne</option>
+					<option>Nunu</option>
+					<option>Olaf</option>
+					<option>Orianna</option>
+					<option>Pantheon</option>
+					<option>Poppy</option>
+					<option>Quinn</option>
+					<option>Rammus</option>
+					<option>RekSai</option>
+					<option>Renekton</option>
+					<option>Rengar</option>
+					<option>Riven</option>
+					<option>Rumble</option>
+					<option>Ryze</option>
+					<option>Sejuani</option>
+					<option>Shaco</option>
+					<option>Shen</option>
+					<option>Shyvana</option>
+					<option>Singed</option>
+					<option>Sion</option>
+					<option>Sivir</option>
+					<option>Skarner</option>
+					<option>Sona</option>
+					<option>Soraka</option>
+					<option>Swain</option>
+					<option>Syndra</option>
+					<option>TahmKench</option>
+					<option>Talon</option>
+					<option>Taric</option>
+					<option>Teemo</option>
+					<option>Thresh</option>
+					<option>Tristana</option>
+					<option>Trundle</option>
+					<option>Tryndamere</option>
+					<option>TwistedFate</option>
+					<option>Twitch</option>
+					<option>Udyr</option>
+					<option>Urgot</option>
+					<option>Varus</option>
+					<option>Vayne</option>
+					<option>Veigar</option>
+					<option>Velkoz</option>
+					<option>Vi</option>
+					<option>Viktor</option>
+					<option>Vladimir</option>
+					<option>Volibear</option>
+					<option>Warwick</option>
+					<option>MonkeyKing</option>
+					<option>Xerath</option>
+					<option>XinZhao</option>
+					<option>Yasuo</option>
+					<option>Yorick</option>
+					<option>Zac</option>
+					<option>Zed</option>
+					<option>Ziggs</option>
+					<option>Zilean</option>
+					<option>Zyra</option>
+				</select>
+				<label for="champion1" id="forchamp1"></label>
+				<select style="inline" class="form-control" id="champion1">
+				</select>
+				<label for="champion2" id="forchamp2"></label>
+				<select style="inline" class="form-control" id="champion2">
+				</select>
+				<label for="champion3" id="forchamp3"></label>
+				<select style="inline" class="form-control" id="champion3">
+				</select>
+				<label for="champion4" id="forchamp4"></label>
+				<select style="inline" class="form-control" id="champion4">
+				</select>		
+				<input type="submit" class="btn btn-default" onclick="trigger(false);" value="Submit" />		
+			</div>			
 		</div>
 		</div>
+		<script>
+			for (var i = 0; i < boardSize; i++){
+				document.getElementById("forchamp" + i).innerHTML = "Champion " + (i+1);
+			}
+			for (var i = 1; i < boardSize; i++){
+				document.getElementById("champion" + i).innerHTML = document.getElementById("champion0").innerHTML; 
+			}
+		</script>
 	
 		<div id="loading" style="visibility: hidden;">
 			<h1>Loading Masteromino...</h1>
@@ -90,37 +254,37 @@
 		</div>
 		
 		<hr>
+		
+		<div class="container">
 		<div class="collapse" id="howplay">
 			<h3>How to play:</h3>
 			<ul>
 				<li>The aim of the game is to correctly fill the board according to the hints given.</li>
+				<li>Hints cannot rotate, flip, nor cycle back to the other side of the board.</li>
 				<li>The board must contain the same number of each availible champion and the same number of each availible mastery medal.</li>
 				<li>Select your brush using the panel below the board. Click on the board to apply the brush to the board.</li>
 				<li>Submit your guess by clicking "Submit Guess". Clear your guess by clicking on "Clear Guess".</li>
+				<li>There may be more than one possible answer.</li>
 			</ul>
 		</div>
 		<a id="collapsing" class="btn btn-primary" role="button" data-toggle="collapse" href="#howplay" aria-expanded="false" aria-controls="howplay">
 			Show How to Play
 		</a>
 	
+		<footer>
+			<br/><br/><br/><br/>
+			<div id="disclaimer" style="font-size:10px">
+			"Masteromino" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+			</div>
+		</footer>
+		</div>
 	
-	</div>
-	<footer>
-	<br/>
-
-	
-	<br/><br/><br/>
-	<div id="disclaimer" >
-	"Masteromino" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
-	</div>
-	</footer>
-	<script>
-		/*document.getElementById("disclaimer").style.marginLeft=(imagewidth/2)+"px";
-		document.getElementById("disclaimer").style.fontSize="10px";
-		document.getElementById("howplay").style.marginLeft=(imagewidth/2)+"px";
-		document.getElementById("collapsing").style.marginLeft=(imagewidth/2)+"px";*/
-	</script>
-
+		<script>
+			/*document.getElementById("disclaimer").style.marginLeft=(imagewidth/2)+"px";
+			document.getElementById("disclaimer").style.fontSize="10px";
+			document.getElementById("howplay").style.marginLeft=(imagewidth/2)+"px";
+			document.getElementById("collapsing").style.marginLeft=(imagewidth/2)+"px";*/
+		</script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

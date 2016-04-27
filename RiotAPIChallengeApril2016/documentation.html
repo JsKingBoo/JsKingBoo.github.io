@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Masteromino Dossier</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="champ-data.js"></script>
+	<style>
+		h2 {
+			display: inline;
+			padding: 1em;
+		}
+		p {
+			text-indent: 2em;
+		}
+		img {
+			padding: 4em;
+		}
+		div .well {
+			font-family: "Courier New", Courier, monospace;
+			white-space: pre-wrap;
+		}
+		div .totop { 
+			text-align: right;
+			float: right;
+		}
+	</style>
+  </head>
+  
+  <body>
+	<div class="container">
+		<h4><a href="index.html">&lt;&lt; Back to game</a></h4>
+		<h1 id="backtotop" style="text-align:center">The Masteromino Dossier</h1>
+		<h3 style="text-align:right"><a href="BAD LINK">Github Repo</a></h3>
+		<ol class="breadcrumb">
+			<li><a href="#introduction">Introduction</a></li>
+			<li><a href="#interface">Interface</a></li>
+			<li><a href="#initialize">Initializing the Game</a></li>
+			<li><a href="#ingine">Game Engine</a></li>
+			<li><a href="#idataprocessing">API Requests</a></li>
+		</ol>
+		<h2 id="introduction">Introduction</h2><div class="totop"><a href="#backtotop">Back to top</a></div>
+		<p>
+			If you've played this game already (you probably have; winning gives you a link here) you'd probably notice that "Brains and Brawlers" is similar to a game named "Bulls and Cows", modernized into "Mastermind" by a certain Mordecai Meirowitz. The basis of this game is simple: the game master generates a secret code, and the player must guess it. Keys in the correct slots are "bulls" (or black pegs), and keys in the incorrect slot are "cows" (or white pegs).
+		</p>
+		<p>
+			For example, lets say the code is <b>1234</b>. If the opponent guesses <b>4235</b>, then the outcome would be two bulls and one cow: the bull is the "2" and the "3", while the cow is the "4". Because "5" is a completely wrong key, neither a bull nor a cow is assigned to it.
+		</p>
+		<p>
+			Implementation with a pencil and paper is relatively straightforward since humans can perceive basic instruction easily; a computer, however, must be carefully instructed. If you look at the github repo, you'll find a few files relevant to this project:
+		</p>
+		<a href="#thumb1" class="thumbnail" id="#thumb1">
+			<img src="documentation_images/documentation1.png" alt="File structure of B&B" />
+		</a>
+		<p>
+			The game code is stored in the files <b>index.html</b>, <b>gameEngine2.js</b>, and <b>champ-data.js</b>. The folder <b>Brawlers</b> and the file <b>filler.png</b> are utilized in the game as well; they are images of the brawlers and a formatting helper, respectively. 
+		</p>
+		
+		
+		
+		
+		<h2 id="interface">The Interface</h2><div class="totop"><a href="#backtotop">Back to top</a></div>
+		<p>
+			Although throwing code everywhere is harshly looked down upon, I found that the game engine's code was easier to install by starting at the user interface: the <b>index.html</b> file. Just like Riot's code, B&B's code is as messy as a ball of tangled yarn (though I have recently spent time tidying everything up). Fortunately for my own (and probably others') sanity, the code in <b>index.html</b> is trivial and simply sets up the GUI. Here is the relevant code:
+		</p>
+		<div class="well well-sm">
+&lt;div class="container" id="contains" style="width:9999px;margin-left:0px"&gt;
+	&lt;div id="stickybar" style="position:fixed"&gt;&lt;/div&gt;
+	&lt;div id="loading"&gt;
+		&lt;h1&gt;Loading Brains and Brawlers...&lt;/h1&gt;
+	&lt;/div&gt;
+	&lt;div id="previous_guess"&gt;&lt;/div&gt;
+	&lt;div id="current_guess"&gt;&lt;/div&gt;
+	&lt;script&gt;
+		//See below
+	&lt;/script&gt;
+&lt;/div&gt;
+		</div>
+		<p>
+			The <code>container</code> division holds everything, and is mainly responsible for the whitespace on the left side of the screen. <code>width:9999px</code> is a hack to prevent image wrapping; <code>margin-left:0px</code> is a placeholder element and is eventually changed via Javascript.
+		</p>
+		<p>
+			Inside <code>container</code> are the divisions <code>stickybar</code>, <code>loading</code>, <code>previous_guess</code>, and <code>current_guess</code>:
+		</p>
+		<ul>
+			<li><code>stickybar</code> holds the champion portrait data, and this bar never moves. Scrolling will have no effect on the position of the champion portraits relative to the window.</li>
+			<li>The <code>loading</code> container simply contains a loading message that eventually gets deleted.</li>
+			<li>The <code>previous_guess</code> container holds the "guess history" of the current game session. The images in <code>previous_guess</code> are unchangeable.</li>
+			<li><code>current_guess</code> holds the user's -- you guessed it -- current guess. Unlike <code>previous_guess</code>, the images in it are changeable on click, and the images cycle from Razorfion >> Ironback >> Plundercrab >> Ocklepod >> Razorfin. <code>current_guess</code> also contains the "Submit Guess" and "Clear Guess" buttons which do exactly as their name says.</li>
+		</ul>
+		<p>	
+			Here is a visual guide on which division relates to what game element:
+		</p>
+		<a href="#thumb2" class="thumbnail" id="#thumb2">
+			<img src="documentation_images/documentation2.png" alt="Div ID to GUI guide" />
+		</a>
+		<p>
+			Note that <code>stickybar</code> has the <code>position:fixed</code> property. As a result, scrolling will not move the contents in the <code>stickybar</code> container.
+		</p>
+		<p>
+			<b>index.html</b> also initiates the code in <b>gameEngine2.js</b> by setting up several global variables, calling the initiate function, then clearing placeholders once loading is finished:
+		</p>
+		<div class="well well-sm">
+&lt;script&gt;
+	//formatting + utility
+	var w = window.innerWidth;
+	var imgborder = 2; //px
+	var imagewidth = (w * 9 / 100) - (imgborder * 2); //px
+	var ch = 10;
+	init();
+	var displayContainer2 = document.getElementById("loading");
+	displayContainer2.innerHTML='&lt;img src="filler.png" alt="" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px" /&gt;';
+	document.getElementById("contains").style.marginLeft=(imagewidth/2)+"px";
+&lt;/script&gt;
+		</div>
+		<p>
+			The variables <code>w</code>, <code>imgborder</code>, and <code>imagewidth</code> are used to format the game. I soft-split the interface into eleven vertical columns. Each column, except for the last, is 9/100 of the total screen width (The final column is sized at 10/100, or 1/10, of the total screen width). Except for the eleventh column, every column holds a champion and the user's guess on the brawler that said champion bought. <code>ch</code> is a constant to keep track of the number of champions in an average game of Summoner's Rift. The <code>init();</code> function loads the game.
+		</p>
+		<p>
+			The final three lines of code completes the alignment of the game elements. The <code>loading</code> container's contents is replaced with an image behind the <code>stickybar</code> header so that the first guess isn't hidden. Then, the game container is center-aligned. The eleventh column is split into two columns of 5/100 (or 1/20) each, and these columns are softly placed on the left and right sides of the interface.
+		</p>
+		
+		
+		
+		<h2 id="initialize">Initializing the Game</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
+		<p>
+			Now we move on to the real meat of the game. Opening <b>gameEngine2.js</b>, you'll see a lot of commented-out <code>console.log</code>s, a huge block of commented-out functions, and various comments that aren't exactly the best explanations for the code they pertain to.
+		</p>
+		<p>
+			To begin, let's first look at the old and new variables and their purpose:
+		</p>
+		<div class="well well-sm">
+	//formatting + utility 
+	var w = window.innerWidth; 
+	var imgborder = 2; //px 
+	var imagewidth = (w * 9 / 100) - (imgborder * 2); //px 
+	var ch = 10;
+	
+	//output variables
+	var previousGuessHtml = '';
+	var currentGuessHtml = '';
+	var navbarHtml = ''; //technically it isn't a navbar but ok
+
+	//gameplay handlers
+	var champs = []; //random top jug mid sup adc top jug mid sup adc
+	var currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
+	var answer = [];
+	var noOfGuesses = 0;
+	var win = false;
+
+	//item ID
+	var razorfin = "3611";
+	var ironback = "3612";
+	var pluncrab = "3613";
+	var ocklepod = "3614";
+		</div>		
+		<p>
+			The group of variables labelled "formatting + utility" should already be familiar to you. Although these variables are not defined in <b>gameEngine2.js</b>, they are notable global variables that are heavily utilized in the dynamic formatting.
+		</p>
+		<p>
+			The next group of variables (labelled "output variables") are strings that are assigned to the relevant division. <code>previousGuessHtml</code> is assigned to the <code>previous_guess</code> element, <code>currentGuessHtml</code> is assigned to the <code>current_guess</code> element, and <code>navbarHtml</code> is assigned to the <code>stickybar</code> element. Also, as my comment states, the <code>navbarHtml</code> technically isn't a navigation bar. It originally was, but halfway through the project I changed it to the current <code>stickybar</code> holder.
+		</p>
+		<p>
+			Thirdly, we come to the "gameplay handlers". The <code>champs</code> array holds the IDs of the champions in the <code>stickybar</code> in order. <code>currentGuess</code> holds the brawler IDs of the <code>current_guess</code> element. <code>answer</code> contains the correct brawlers in order. If <code>currentGuess</code> and <code>answer</code> match, the user wins. <code>noOfGuesses</code> counts the number of guesses that the player has made, and <code>win</code> is a boolean (true/false) flag to see whether the player has won or not.
+ 		</p>
+		<p>
+			The final set of variables are the item IDs of the brawlers except they are stored as strings. Actually, I think these variables are unused.
+		</p>
+		<p>
+			Anyways, enough with variables; now it's time to look at the actual initiation functions. The game begins with a call to <code>init();</code>; however, the funny thing is <code>init();</code> is simply a redirection to other functions.
+		</p>
+		<div class="well well-sm">		
+function init(){
+	//generateTeams();
+	//generateAnswer();
+	setUp();
+	drawStickyHeader();
+	drawCurrentGuesses();
+}
+		</div>
+		<p>
+			<code>setUp();</code> generates both the champion and answer data to be used during a game session. <code>champs</code> and <code>answer</code> used to be created separately, which is why <code>generateTeams();</code> and <code>generateAnswer();</code> are commented out. <code>setUp();</code> combines those two functions together. Then, the sticky header and the current guess UI is drawn.
+		</p>
+		<p>
+			Speaking of <code>setUp();</code>, that function uses <b>champ-data.js</b> to pick a random champion/brawler pair. In the data set, every position contains a list of champions and the amount of times said champion has purchased X brawler. For example, if <b>champ-data.js</b> contained the following data:
+		</p>
+		<div class="well well-sm">		
+"adc": {
+	Ashe:[1, 2, 3, 4],
+	Vayne:[5, 6, 7, 8],
+	Malzahar:[0, 0, 0, 1],
+}
+		</div>
+		<p>
+			then the game engine would know that Ashe has bought a Razorfin once, an Ironback twice, a Plundercrab three times, and an Ocklepod four times. Vayne has bought a Razorfin five times, etc. 
+		</p>
+		<p>
+			Note that <code>setUp();</code> random champ/brawler picker is weighted: using the above data set, Vayne would be the most likely ADC that the computer will pick, followed by Ashe. Champion weights are determined by the sum of their brawlers; Ashe would have a weight of 10, while Vayne would have a weight of 26. 
+		</p>
+		<p>
+			<code>setUp();</code> also does not first find the champion, then the brawler; the implementation finds both at the same time. A random number is uniformly chosen between 0 (inclusive) and the sum of all weights, exclusive (in this case, 0 &lt;= random number &lt; 37). Let's say the number chosen is 21. Then, the weights are gradually added in order until the sum is strictly greater than the random number:
+		</p>
+		<div class="well well-sm">		
+Current sum: 0; 
+Add [0][0] (1); Current sum: 1; 
+Add [0][1] (2); Current sum: 3; 
+Add [0][2] (3); Current sum: 6; 
+Add [0][3] (4); Current sum: 10; 
+Add [1][0] (5); Current sum: 15; 
+Add [1][1] (6); Current sum: 21; 
+Add [1][2] (7); Current sum: 28 STOP
+		</div>		
+		<p>
+			In my example, the chosen index would be [1][2], or Vayne/Plundercrab.
+		</p>
+		<p>
+			You can also visualize my random weighted champ/brawler picker as a large scale (god bless my MSPaint skills):
+		</p>
+		<a href="#thumb3" class="thumbnail" id="#thumb3">
+			<img src="documentation_images/documentation3.png" alt="Weighted random number generator visualized" />
+		</a>
+		
+		
+		
+		<h2 id="ingine">The Game Engine</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
+		<p>
+			Alright, the game has just finished setting up, the <code>current_guess</code> array has been drawn, and now it's time to get to the meat of this game. Unfortunately, the mechanics of the game is surprisingly simple. (I still can't show off all my sorting algorithms; I'm so sad) In fact, the game engine mostly revolves around the <code>makeGuess();</code> function.
+		</p>
+		<p>
+			Predictably, the <code>makeGuess();</code> function is called when the button labelled "Submit Guess" is pressed. First, the variable <code>noOfGuesses</code> is increased by one. Then, the current guess is "solidified"; in other words, the content in <code>current_guess</code> is passed to <code>previous_guess</code>. Note that when the data has been solidified, the cycle functionality of the buttons is removed. Finally, the number of correct and incorrect entries is calculated and presented. If the number of correct entries is equal to ten, then the game is won, and <code>win</code> is set to <code>true</code>. The next buttons presented is determined whether the player has won yet: if the player has not won yet, then "Submit Guess" and "Clear Guess" are re-presented. If the player has won, then "Reset Game" and "View Dossier" appears. The HTML is updated, and the windows will automatically scroll to the bottom of the page. 
+		</p>
+		<p>
+			And that's pretty much it. No fancy concepts are involved, everything is boringly simple.
+		</p>
+		<p>
+			The theory behind the engine is fairly straightforward, but when coding this I realized that checking a guess for correctness is actually slightly more complicated than I originally thought. So of course, I have to devote a few paragraphs elaborating it.
+		</p>
+		<p>
+			When calculating the number of correct, misplaced, and incorrect guess keys, the game first fills a temporary variable <code>answerCount</code> which keeps track of the number of Razorfins, Ironbacks, Plundercrabs, and Ocklepods in the answer key:
+		</p>
+		<div class="well well-sm">		
+//fill answerCount
+var answerCount = [0, 0, 0, 0];
+var usedAnswer = [];
+for (var i = 0; i &lt; ch; i++){
+	answerCount[answer[i]-3611]++; //"3611" is an adjustment to start the answerCount index at 0. also, beware the magic number!
+}		
+//sample result: answerCount = [3, 2, 4, 1] (3 Razorfins, 2 Ironbacks, 4 Plundercrabs, and 1 Ocklepod in the answer key)
+		</div>			
+		<p>
+			You may have noticed that another variable called <code>usedAnswer</code> is declared. This helps count the number of misplaced brawlers.
+		</p>
+		<p>
+			The game first finds the number of correct answers by simply comparing <code>answer</code> to <code>currentGuess</code>. It accumulates the number in a counter variable. When it finds a match, it also fills <code>usedAnswer</code> with a value of <code>true</code> and depletes the relevant <code>answerCount</code> value by one.
+		</p>
+		<a href="#thumb5" class="thumbnail" id="#thumb5">
+			<img src="documentation_images/documentation5.png" alt="Visualization of finding correct guesses" />
+		</a>
+		<p>
+			Then, the game engine moves on to calculate the number of misplaced elements. The engine no longer relies on <code>answer</code> directly but instead on <code>answerCount</code>: It cycles through the <code>currentGuess</code> array again, but ignores entries marked by <code>usedAnswer[]</code> and brawlers when its relevant <code>answerCount</code> stack is empty. In the example used above, the first and fourth brawlers will be ignored because <code>usedAnswer[]</code> has marked them while the second and fifth brawlers will be ignored because the <code>answerCount</code> stack is empty; only the 3rd brawler is misplaced.
+		</p>
+		<a href="#thumb6" class="thumbnail" id="#thumb6">
+			<img src="documentation_images/documentation6.png" alt="Visualization of finding misplaced guesses" />
+		</a>
+		<p>
+			Finally, the number of incorrect brawler keys is calculated using the simple formula:
+		</p>
+		<div class="well well-sm">		
+incorrect = 10 - (correct + misplaced);
+		</div>
+		
+		<h2 id="idataprocessing">Data Processing</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
+		<p>
+			While technically not part of the code, the <b>champ-data.js</b> took about 1000 games from NA to fill the data set. Obviously, filling <b>champ-data.js</b> by hand is not a feasible option; instead, I wrote the program <b>RiotApiBMBHelper.java</b> in Java to do it for me. You can find the program's source inside the <b>test</b> folder. The program relies on <a href="https://github.com/rithms/riot-api-java">rithms's Riot API Java wrapper</a>, <a href="https://github.com/google/gson">google-gson</a>, and <a href="https://github.com/fangyidong/json-simple">json-simple</a>. (Yes, I used two different JSON libraries; bite me.)
+		</p>
+		<p>
+			I would have ran the program overnight for five hours to analyze all 10,000 matches from NA had the Riot API server not randomly return a 429 error. Additionally, because the Riot API library would terminate the program on a RiotApiException, and because I had no patience to implement exception handling (hehe), I could not automatically run it again. Therefore, I quickly coded two scripts to assist in the collection of data:
+		</p>
+		<a href="#thumb4" class="thumbnail" id="#thumb4">
+			<img src="documentation_images/documentation4.png" alt="Test files" />
+		</a>
+		<p>
+			I would take the raw data that I already had and stored it in the file <b>merge1.js</b>. Then, I would run <b>RiotApiBMBHelper.java</b> and let it grab as much match data as it could. After it crashed, the program would spit out the information it managed to get. I stored this second data set in <b>merge2.js</b>. Finally, I would open <b>merge.html</b> in my web browser. The script merged the data from <b>merge1.js</b> and <b>merge2.js</b>, then format the data so I could copy/paste the output back into <b>merge1.js</b>. I repeated this process until I crunched through enough matches. Currently, the count is 1504.
+		</p>
+		<p>
+			You may have noticed another file unfortunately misspelled as "<b>finilize.html</b>". The function of this script is simple: it takes <b>merge1.js</b> and reformats the data so it can be easily copy/pasted into <b>champ-data.js</b>. This was mainly done for convenience; every time I wanted to add more match data, I did not want to reformat everything from my match cruncher by hand.
+		</p>
+		<p>
+			To rephrase: <b>RiotApiBMBHelper</b> would accumulate data and store it in <b>merge1.js</b> with the help of <b>merge2.js</b>. After enough data has been gathered, <b>finilize.html</b> would export it to <b>champ-data.js</b> in the parent directory.
+		</p>
+		
+	</div>
+	
+	<footer>
+	<div id="disclaimer" style="margin-left:15px; font-size:10px">
+	"Brains and Brawlers" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
+	</div>
+	</footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
