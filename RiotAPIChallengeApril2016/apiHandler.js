@@ -10,7 +10,6 @@ var summonerName = '';
 var region = '';
 var summonerId = '';
 var champIds = [];
-var champImages = [];
 var done = false;
 var key;
 
@@ -21,7 +20,7 @@ var stepArray = [step0, step1, step2, step3, step4];
 
 function trigger(usingApi){
 
-	curDifficulty = parseInt(document.getElementById("start-difficulty").value);
+	curDifficulty = parseInt(document.getElementById("start-difficulty").value.charAt(0)) - 1;
 	if (!usingApi){
 		var tempArray = [];
 		for (var i = 0; i < boardSize; i++){

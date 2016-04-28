@@ -34,7 +34,7 @@
 	<div class="container">
 		<h4><a href="index.html">&lt;&lt; Back to game</a></h4>
 		<h1 id="backtotop" style="text-align:center">The Masteromino Dossier</h1>
-		<h3 style="text-align:right"><a href="BAD LINK">Github Repo</a></h3>
+		<h3 style="text-align:right"><a href="https://github.com/JsKingBoo/JsKingBoo.github.io/tree/master/RiotAPIChallengeApril2016">Github Repo</a></h3>
 		<ol class="breadcrumb">
 			<li><a href="#introduction">Introduction</a></li>
 			<li><a href="#interface">Interface</a></li>
@@ -44,43 +44,112 @@
 		</ol>
 		<h2 id="introduction">Introduction</h2><div class="totop"><a href="#backtotop">Back to top</a></div>
 		<p>
-			If you've played this game already (you probably have; winning gives you a link here) you'd probably notice that "Brains and Brawlers" is similar to a game named "Bulls and Cows", modernized into "Mastermind" by a certain Mordecai Meirowitz. The basis of this game is simple: the game master generates a secret code, and the player must guess it. Keys in the correct slots are "bulls" (or black pegs), and keys in the incorrect slot are "cows" (or white pegs).
+			If you've played this game already (you probably have; winning gives you a link here) you may or may not have noticed that "Masteromino" is similar to another game known as [Mysterious Negg Cave](http://www.jellyneo.net/?go=mysterious_negg_cave). (You need a Neopets account to play.) I swear that I didn't completely rip the concept from Mysterious Negg Cave; I did a similar puzzle when I was in third grade, but trying to figure out the name of the original puzzle just led me to Neopets. 
 		</p>
 		<p>
-			For example, lets say the code is <b>1234</b>. If the opponent guesses <b>4235</b>, then the outcome would be two bulls and one cow: the bull is the "2" and the "3", while the cow is the "4". Because "5" is a completely wrong key, neither a bull nor a cow is assigned to it.
+			The concept is somewhat straightforwards. You have a 3x3 board that has to be filled by unique champion/mastery pairs. The final layout of the board should contain all the hints, which are in the shape of a <a href="https://en.wikipedia.org/wiki/Polyomino">polyomino</a>. In a way you can think of this game as "advanced tetris", to an extent.
 		</p>
 		<p>
-			Implementation with a pencil and paper is relatively straightforward since humans can perceive basic instruction easily; a computer, however, must be carefully instructed. If you look at the github repo, you'll find a few files relevant to this project:
+			Playing this game with pencil and paper is very easy, but constantly designing new puzzles and solutions gets somewhat repetative and even downright boring at times. Wouldn't it be nice if you could solve ten of them in a single sitting? (And without logging in and feeling the guilt of leaving your Neopet for the last six years, you sick monster.)
+		</p>
+		<a href="#thumb1" class="thumbnail" id="#thumb1">
+			<img src="documentation_images/documentation1.png" alt="Gameplay image" />
+		</a>
+		<p>
+			The majority game code is stored in the files <b>index.html</b> and <b>gameEngine.js</b>. The folder <b>assets</b> holds all the images utilized in the game; they are images of the brawlers and a formatting helper, respectively. Although the names of the files may seem to be some sort of arcane computer science buzzword, they can be boiled down to "any file ending with .html is a webpage, any file ending with .js holds code, and a folder holds other files."
+		</p>
+		
+		<h2 id="interface">The Interface</h2><div class="totop"><a href="#backtotop">Back to top</a></div>
+		<p>
+			Throwing code everywhere is known as a "special organization scheme" for the programmer and "a huge mess" for everyone else. However, shoving all the necessary code to run a program in a single file can also lead to an organization fiasco: they should be partitioned in some way. In this project, I decided that the <b>index.html</b> should contain the GUI holders, <b>gameEngine.js</b> should contain the code that runs the programs, and that <b>assets</b> holds all non-code items such as images.
+		</p>
+		<p>
+			Here is a brief overview of the interface of Masteromino:
 		</p>
 		<a href="#thumb1" class="thumbnail" id="#thumb1">
 			<img src="documentation_images/documentation1.png" alt="File structure of B&B" />
 		</a>
+		<a href="#thumb1" class="thumbnail" id="#thumb1">
+			<img src="documentation_images/documentation1.png" alt="File structure of B&B" />
+		</a>
 		<p>
-			The game code is stored in the files <b>index.html</b>, <b>gameEngine2.js</b>, and <b>champ-data.js</b>. The folder <b>Brawlers</b> and the file <b>filler.png</b> are utilized in the game as well; they are images of the brawlers and a formatting helper, respectively. 
+			Since there are effectively two "screens" in this application I suppose we look at the first one first. The initial input screen's layout looks something like this:
 		</p>
 		
 		
 		
-		
-		<h2 id="interface">The Interface</h2><div class="totop"><a href="#backtotop">Back to top</a></div>
-		<p>
-			Although throwing code everywhere is harshly looked down upon, I found that the game engine's code was easier to install by starting at the user interface: the <b>index.html</b> file. Just like Riot's code, B&B's code is as messy as a ball of tangled yarn (though I have recently spent time tidying everything up). Fortunately for my own (and probably others') sanity, the code in <b>index.html</b> is trivial and simply sets up the GUI. Here is the relevant code:
-		</p>
 		<div class="well well-sm">
-&lt;div class="container" id="contains" style="width:9999px;margin-left:0px"&gt;
-	&lt;div id="stickybar" style="position:fixed"&gt;&lt;/div&gt;
-	&lt;div id="loading"&gt;
-		&lt;h1&gt;Loading Brains and Brawlers...&lt;/h1&gt;
+&lt;div id="initial-input-wrapper" style="text-align: center"&gt;
+	&lt;div class="form-group"&gt;
+		&lt;label for="start-difficulty"&gt;Start Difficulty&lt;/label&gt;
+		&lt;select style="inline" class="form-control" id="start-difficulty"&gt;
+			&lt;option&gt;0 - Tutorial&lt;/option&gt;
+			&lt;option&gt;1 - Easy&lt;/option&gt;
+			&lt;option&gt;2 - Normal&lt;/option&gt;
+			&lt;option&gt;3 - Hard&lt;/option&gt;
+		&lt;/select&gt;
+		&lt;label for="userName"&gt;Summoner Name&lt;/label&gt;
+		&lt;input class="form-control" id="userName" placeholder="Name"/&gt;
+		&lt;label for="region"&gt;Region&lt;/label&gt;
+		&lt;select style="inline" class="form-control" id="region"&gt;
+			&lt;option&gt;br&lt;/option&gt;
+			&lt;option&gt;eune&lt;/option&gt;
+			&lt;option&gt;euw&lt;/option&gt;
+			&lt;option&gt;jp&lt;/option&gt;
+			&lt;option&gt;kr&lt;/option&gt;
+			&lt;option&gt;lan&lt;/option&gt;
+			&lt;option&gt;las&lt;/option&gt;
+			&lt;option&gt;na&lt;/option&gt;
+			&lt;option&gt;oce&lt;/option&gt;
+			&lt;option&gt;ru&lt;/option&gt;
+			&lt;option&gt;tr&lt;/option&gt;
+		&lt;/select&gt;
 	&lt;/div&gt;
-	&lt;div id="previous_guess"&gt;&lt;/div&gt;
-	&lt;div id="current_guess"&gt;&lt;/div&gt;
-	&lt;script&gt;
-		//See below
-	&lt;/script&gt;
+	&lt;input type="submit" class="btn btn-default" onclick="trigger(true);" value="Submit" /&gt;
+	&lt;br /&gt; 
+	Select your top champions if the API connection is broken (it probably is):
+	&lt;div class="form-group"&gt;
+		&lt;label for="champion0" id="forchamp0"&gt;&lt;/label&gt;
+		&lt;select style="inline" class="form-control" id="champion0"&gt;
+			&lt;option&gt;Aatrox&lt;/option&gt;
+			&lt;option&gt;Ahri&lt;/option&gt;
+			...
+			&lt;option&gt;Zyra&lt;/option&gt;
+		&lt;/select&gt;
+		&lt;label for="champion1" id="forchamp1"&gt;&lt;/label&gt;
+		&lt;select style="inline" class="form-control" id="champion1" disabled&gt;
+		&lt;/select&gt;
+		&lt;label for="champion2" id="forchamp2"&gt;&lt;/label&gt;
+		&lt;select style="inline" class="form-control" id="champion2" disabled&gt;
+		&lt;/select&gt;
+		&lt;label for="champion3" id="forchamp3"&gt;&lt;/label&gt;
+		&lt;select style="inline" class="form-control" id="champion3" disabled&gt;
+		&lt;/select&gt;
+		&lt;label for="champion4" id="forchamp4"&gt;&lt;/label&gt;
+		&lt;select style="inline" class="form-control" id="champion4" disabled&gt;
+		&lt;/select&gt;		
+		&lt;input type="submit" class="btn btn-default" onclick="trigger(false);" value="Submit" /&gt;		
+	&lt;/div&gt;			
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+	for (var i = 0; i &lt; boardSize; i++){
+		document.getElementById("forchamp" + i).innerHTML = "Champion " + (i+1);
+	}
+	for (var i = 1; i &lt; boardSize; i++){
+		document.getElementById("champion" + i).innerHTML = document.getElementById("champion0").innerHTML; 
+		document.getElementById("champion" + i).disabled = false; 
+	}
+&lt;/script&gt;
+
+&lt;div id="loading" style="visibility: hidden;"&gt;
+	&lt;h1&gt;Loading Masteromino...&lt;/h1&gt;
+	&lt;h6&gt;while waiting feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh&lt;/h6&gt;
+	&lt;p&gt;"Brains and Brawlers" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.&lt;/p&gt;&lt;br/&gt;
 &lt;/div&gt;
 		</div>
 		<p>
-			The <code>container</code> division holds everything, and is mainly responsible for the whitespace on the left side of the screen. <code>width:9999px</code> is a hack to prevent image wrapping; <code>margin-left:0px</code> is a placeholder element and is eventually changed via Javascript.
+			Notice how 
 		</p>
 		<p>
 			Inside <code>container</code> are the divisions <code>stickybar</code>, <code>loading</code>, <code>previous_guess</code>, and <code>current_guess</code>:

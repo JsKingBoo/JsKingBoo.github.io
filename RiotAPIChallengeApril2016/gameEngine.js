@@ -9,6 +9,7 @@ var boardSize = 3; //limit = 5
 var board = [];
 var champs = [];
 var polyominos = [];
+var champImages = [];
 var limitPolyomino = 4;
 var curDifficulty = 0;
 var currentBrush = [-1, -1];
@@ -18,6 +19,10 @@ var win = false;
 var windowWidth = window.innerWidth;
 var imageWidth = windowWidth/7;
 var masteryOpacity = 0.7;
+
+//tutorialHandlers
+var tutorialStep = 0;
+var tutorialText = [];
 
 /*
 The following notation will indicate the monomino that should fill a selected slot:
@@ -30,6 +35,47 @@ x, x: Blank tile. Example: "xx" indicates a blank tile
 
 */
 
+/*
+Here is what the tutorial should look like:
+*/
+//0	Launch				
+var tempText = ''; 
+tempText += 'Hello, welcome to Masteromino! Here is a brief run-down of the rules of the game:<br/><br/>';
+tempText += '<ul>';
+tempText += '<li>The aim of the game is to correctly fill the board according to the hints given.</li>';
+tempText += '<li>Every valid solution to the puzzle holds three of each symbol, with each holding a different mastery medal.</li>';
+tempText += '<li>On the left side, you have a series of hints. Click on the light blue buttons to view the hints. Click the board to stop viewing the hints.</li>';
+tempText += '<li>Hints show where colors and symbols should be placed in relation to the grid and each other.<br/>';
+tempText += '<li>The hints may contain tiles with only a champion, only a mastery medal, or neither. The solution will not contain these types of tiles.</li>';
+tempText += '<li>Hints cannot rotate, flip, nor cycle back to the other side of the board.</li>';
+tempText += '<li>Select your brush using the panel below the board. Click on the board to apply the brush to the board. Click on the brush to clear the brush.</li>';
+tempText += '<li>Submit your guess by clicking "Submit Guess".</li>';
+tempText += '<li>There may be more than one possible answer.</li>';
+tempText += '</ul>';
+tempText += 'This may seem complicated, but the rules are actually fairly straightfowards. Let\'s continue.<br/><br/>';
+						
+tempText += 'To begin, click on one of the blue buttons on the left side of the screen.';
+tutorialText.push(tempText);
+tempText = '';			
+			
+//1	Click hint			
+tempText += 'As you can see, clicking on the blue buttons displays a hint. In this tutorial, there are three hints. Each one is unique.<br/><br/>';
+
+tempText += 'Click on the first hint. You will see that your hint will appear on screen. In order to apply this hint, click on the champions on the bottom of the screen. This will change your brush.<br/><br/>';
+						
+tempText += 'Change your current brush into one of the tiles on the hint, then click on the hint board (not the hint buttons!) to go back to the regular board.';
+tutorialText.push(tempText);
+tempText = '';			
+
+//2	Go back to board	
+tempText += 'In order to paint the board, customize your brush to the tile you want to paint with, then click on any of the board tiles to paint that tile.<br/><br/>';
+tempText += 'If you make a mistake, click on the current brush icon to reset your brush, then click on the board tile that you want to clear.<br/><br/>';
+tempText += 'Go back and forth between the hints and the board until every single hint can be found on the board. Additionally, remember that the board should contain three of each champion, and that each champion should have one of each mastery medal.<br/><br/>';
+tempText += 'When you are completely finished, click the submit button on the bottom right of the screen.';
+tutorialText.push(tempText);
+tempText = '';			
+
+
 //Initialize the game
 function init(){
 	createBoard();
@@ -38,6 +84,11 @@ function init(){
 	drawBoard();
 	drawInfo();
 	drawHints();
+	if (tutorialStep == 0 && curDifficulty < 0){
+		$('#tutorial').find('.modal-body').html(tutorialText[0]);
+		$('#tutorial').modal('show');
+		tutorialStep = 1;
+	}	
 }
 
 //Resets the game
@@ -66,6 +117,12 @@ function reset(){
 
 function createBoard(){
 	board = [];
+	
+	//WAIT! Are we in the tutorial?
+	if (curDifficulty < 0){
+		board = [['12', '21', '00'],['10', '22', '02'],['11', '20', '01']];
+		return;
+	}
 	
 	//Randomly fill a [3][3] array with a pair of values from 0 (inclusive) to 3 (exclusive)
 	//Get a list of all possible values
@@ -101,10 +158,20 @@ function clearBoard(){
 }
 
 function buildPolyominos(){
+	//WAIT! Are we in the tutorial?
+	if (curDifficulty < 0){
+		var polyomino1 = {"size":9, monominos:[['1x','xx','0x'],['1x','xx','0x'],['1x','xx','0x']]};
+		var polyomino2 = {"size":9, monominos:[['--','--','x0'],['--','x2','--'],['x1','--','--']]};
+		var polyomino3 = {"size":9, monominos:[['--','x1','--'],['x0','--','x2']]};
+		polyominos.push(polyomino1);
+		polyominos.push(polyomino2);
+		polyominos.push(polyomino3);
+		return;
+	}
+	
 	var numPolyominos = 0;
 	var sumSquares = 0;
 	var usedBoard = getBoardSizeBoard(0);
-	
 	var done = false;
 	
 	while (!done){
@@ -152,7 +219,7 @@ function buildPolyominos(){
 			
 			//Attempt to avoid reusing the same piece repeatedly
 			var usedBoardModifier;
-			if (curDifficulty >= 3){
+			if (curDifficulty >= 2){
 				//nonreuse grows 3 times faster than normal: 0, (3/4), (6/7), (9/10), etc
 				usedBoardModifier = (Math.random() > (3 * usedBoard[randomX][randomY] / (3 * usedBoard[randomX][randomY] + 1))); 
 			} else if (curDifficulty >= 1){
@@ -299,12 +366,27 @@ function buildPolyominos(){
 		if (sumSquares > boardSize * boardSize * boardSize * boardSize){
 			done = true;
 		}
+		//Difficulty 3 - limit to 4 hints
+		if (numPolyominos >= 4 && curDifficulty >= 2){
+			done = true;
+		}
+		//Difficulty 2 - limit to 6
+		if (numPolyominos >= 6 && curDifficulty >= 1){
+			done = true;
+		}
 	}
 }
 
 function drawBoard(){
 	//dear future me: http://stackoverflow.com/questions/48474/how-do-i-position-one-image-on-top-of-another-in-html	
 	//thanks past self
+	
+	//tutorial
+	if (tutorialStep == 2 && curDifficulty < 0){
+		$('#tutorial').find('.modal-body').html(tutorialText[2]);
+		$('#tutorial').modal('show');
+		tutorialStep = 3;
+	}	
 	
 	//DEBUG
 	//console.log('champImages: ' + champImages);
@@ -356,8 +438,7 @@ function drawBoard(){
 }
 
 function drawInfo(){
-	infoHtml = '';
-	
+	infoHtml = '';	
 	//Draw current brush
 	
 	//Draw all champions
@@ -411,6 +492,7 @@ function drawInfo(){
 }
 
 function drawHints(){
+	
 	hintsHtml = '';
 	hintsHtml += '<div style="width: 100%; text-align: center;">'
 	hintsHtml += '<div class="btn-group-vertical" role="group" aria-label="???" style="display: inline-block; vertical-align: middle">'
@@ -428,6 +510,14 @@ function drawHints(){
 
 
 function drawPolyomino(n){
+	
+	//tutorial
+	if (tutorialStep == 1 && curDifficulty < 0){
+		$('#tutorial').find('.modal-body').html(tutorialText[1]);
+		$('#tutorial').modal('show');
+		tutorialStep = 2;
+	}	
+	
 	/*boardHtml = '';
 	var getPolyomino = polyominos[n];
 	for (var i = 0; i < getPolyomino.monominos.length; i++){
@@ -628,7 +718,11 @@ function makeGuess(){
 				var alertHtml = '';
 				alertHtml += '<div class="alert alert-danger alert-dismissible" role="alert">';
 				alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-				alertHtml += '<strong>✘</strong>';
+				if (curDifficulty < 0){
+					alertHtml += '<strong>Hold up!</strong> You don\'t seem to have three of each champion with one of each mastery medal.';
+				} else {
+					alertHtml += '<strong>✘</strong>';
+				}
 				alertHtml += '</div>';
 				document.getElementById("alert-holder").innerHTML = alertHtml;
 				
@@ -692,7 +786,11 @@ function makeGuess(){
 			var alertHtml = '';
 			alertHtml += '<div class="alert alert-danger alert-dismissible" role="alert">';
 			alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-			alertHtml += '<strong>✘</strong>';
+			if (curDifficulty < 0){
+					alertHtml += '<strong>Hold up!</strong> Hint ' + (i+1) + ' does not match!';
+			} else {
+				alertHtml += '<strong>✘</strong>';
+			}
 			alertHtml += '</div>';
 			document.getElementById("alert-holder").innerHTML = alertHtml;
 			return;

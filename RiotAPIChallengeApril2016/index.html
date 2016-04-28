@@ -26,17 +26,13 @@
 			<div class="form-group">
 				<label for="start-difficulty">Start Difficulty</label>
 				<select style="inline" class="form-control" id="start-difficulty">
-					<option>0</option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
+					<option>0 - Tutorial</option>
+					<option>1 - Easy</option>
+					<option>2 - Normal</option>
+					<option>3 - Hard</option>
 				</select>
-			</div>
-			<div class="form-group">
 				<label for="userName">Summoner Name</label>
 				<input class="form-control" id="userName" placeholder="Name"/>
-			</div>
-			<div class="form-group">
 				<label for="region">Region</label>
 				<select style="inline" class="form-control" id="region">
 					<option>br</option>
@@ -190,16 +186,16 @@
 					<option>Zyra</option>
 				</select>
 				<label for="champion1" id="forchamp1"></label>
-				<select style="inline" class="form-control" id="champion1">
+				<select style="inline" class="form-control" id="champion1" disabled>
 				</select>
 				<label for="champion2" id="forchamp2"></label>
-				<select style="inline" class="form-control" id="champion2">
+				<select style="inline" class="form-control" id="champion2" disabled>
 				</select>
 				<label for="champion3" id="forchamp3"></label>
-				<select style="inline" class="form-control" id="champion3">
+				<select style="inline" class="form-control" id="champion3" disabled>
 				</select>
 				<label for="champion4" id="forchamp4"></label>
-				<select style="inline" class="form-control" id="champion4">
+				<select style="inline" class="form-control" id="champion4" disabled>
 				</select>		
 				<input type="submit" class="btn btn-default" onclick="trigger(false);" value="Submit" />		
 			</div>			
@@ -211,6 +207,7 @@
 			}
 			for (var i = 1; i < boardSize; i++){
 				document.getElementById("champion" + i).innerHTML = document.getElementById("champion0").innerHTML; 
+				document.getElementById("champion" + i).disabled = false; 
 			}
 		</script>
 	
@@ -223,12 +220,30 @@
 		
 		<div id="game-wrapper">
 		
-		<div class="row">
+		<div id="tutorial-holder">
+		<div class="modal fade" id="tutorial" tabindex="-1" role="dialog" aria-labelledby="tutorial">
+		<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="tutorial">Tutorial</h4>
+			</div>
+			<div class="modal-body">
+			BLAH BLAH BLAH
+			 </div>
+			 <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Continue</button>
+			</div>
+			</div>
+			</div>
+		</div>
+		</div>
 		
+		
+		<div class="row">
 			<div class="col-xs-2 col-md-3">
 				<div id="hints"></div>
 			</div>
-		
 			<div class="col-xs-10 col-md-9">
 				<div id="board"></div>
 			</div>
@@ -256,20 +271,6 @@
 		<hr>
 		
 		<div class="container">
-		<div class="collapse" id="howplay">
-			<h3>How to play:</h3>
-			<ul>
-				<li>The aim of the game is to correctly fill the board according to the hints given.</li>
-				<li>Hints cannot rotate, flip, nor cycle back to the other side of the board.</li>
-				<li>The board must contain the same number of each availible champion and the same number of each availible mastery medal.</li>
-				<li>Select your brush using the panel below the board. Click on the board to apply the brush to the board.</li>
-				<li>Submit your guess by clicking "Submit Guess". Clear your guess by clicking on "Clear Guess".</li>
-				<li>There may be more than one possible answer.</li>
-			</ul>
-		</div>
-		<a id="collapsing" class="btn btn-primary" role="button" data-toggle="collapse" href="#howplay" aria-expanded="false" aria-controls="howplay">
-			Show How to Play
-		</a>
 	
 		<footer>
 			<br/><br/><br/><br/>
