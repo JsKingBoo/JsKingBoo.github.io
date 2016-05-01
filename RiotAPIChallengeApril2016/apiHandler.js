@@ -13,6 +13,110 @@ var champIds = [];
 var done = false;
 var key;
 
+function trigger(usingApi){
+
+	curDifficulty = parseInt(document.getElementById("start-difficulty").value.charAt(0)) - 1;
+	if (!usingApi){
+		var tempArray = [];
+		for (var i = 0; i < boardSize; i++){
+			if (tempArray.indexOf(document.getElementById("champion" + i).value) >= 0){
+				alert('error: duplicate champions');
+				return;
+			}
+			tempArray.push(document.getElementById("champion" + i).value);
+			champImages[i] = 'http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + document.getElementById("champion" + i).value + '.png';
+		}
+		
+		document.getElementById("loading").innerHTML = '';
+		document.getElementById("initial-input").innerHTML = '';
+		
+		init();	
+	}
+
+	if (usingApi) {
+		//Everything here immediately goes into effect BEFORE async calls are finished
+		document.getElementById("loading").style.visibility='visible';
+		document.getElementById("initial-input").style.visibility = 'hidden';
+
+		summonerName = $("#userName").val();
+		region = $("#region").val().toLowerCase().trim();
+		
+		var gotImages = 0;
+		
+		//I really don't want to do this, but
+		//I'm kinda on a deadline here
+		callAjax(summonerName, region, 0, function(json){	
+			console.log(json.data[0]);
+			champImages.push(json.data[0]);
+			gotImages++;
+			
+			callAjax(summonerName, region, 1, function(json){	
+				console.log(json.data[0]);
+				champImages.push(json.data[0]);
+				gotImages++;
+				
+				callAjax(summonerName, region, 2, function(json){	
+					console.log(json.data[0]);
+					champImages.push(json.data[0]);
+					gotImages++;
+				});
+			});
+		});
+
+		
+		
+		//Finished with all async calls
+		//console.log("All done");
+			
+		function finishInitialization(){
+		
+			if (gotImages == boardSize){
+				//console.log('done is true');
+				
+				document.getElementById("loading").innerHTML = '';
+				document.getElementById("initial-input").innerHTML = '';
+				
+				init();
+				
+			} else {
+				setTimeout(function(){finishInitialization();}, 1000);
+			}
+		}
+		
+		finishInitialization();
+
+	
+	}
+	
+	
+}
+
+function callAjax(summname, reg, num, callback){
+
+	$.ajax({
+		url: 'http://infinite-ocean-43224.herokuapp.com:8811/getData/' + reg + '/' + summname + '/' + num,
+		//url: 'http://127.0.0.1:8811/getData/' + reg + '/' + summname + '/' + num,
+		type: 'GET',
+		contentType: "application/json; charset=utf-8",
+		dataType: 'jsonp',
+		success: callback,
+		//success: jsonpCallback,
+		//jsonpCallback: "callback",
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+			if (textStatus == 'timeout'){
+				alert("Error: request timed out. The server is down and hopefully will be back up soon?");
+			} else {
+				alert("Error " + JSON.stringify(XMLHttpRequest) + ", " + textStatus + ", " + errorThrown);
+			}
+			document.getElementById("loading").style.visibility='hidden';
+			document.getElementById("initial-input").style.visibility = 'visible';
+		},
+		timeout: 10000,
+	});	
+
+}
+
+/*
 //I gotta give props to this guy
 //This is an amazing way to organize deferred processes
 //http://stackoverflow.com/questions/24931115/jquery-execute-array-of-functions-sequentially-both-deferreds-and-non-deferred

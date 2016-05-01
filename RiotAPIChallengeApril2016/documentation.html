@@ -16,6 +16,14 @@
 		p {
 			text-indent: 2em;
 		}
+		p.caption {
+			font-style: italic;
+			font-size: 10px;
+		}
+		a.thumbnail {
+		   pointer-events: none;
+		   cursor: default;
+		}
 		img {
 			padding: 4em;
 		}
@@ -33,18 +41,18 @@
   <body>
 	<div class="container">
 		<h4><a href="index.html">&lt;&lt; Back to game</a></h4>
-		<h1 id="backtotop" style="text-align:center">The Masteromino Dossier</h1>
+		<div class="page-header"><h1 id="backtotop" style="text-align:center">The Masteromino Dossier</h1></div>
 		<h3 style="text-align:right"><a href="https://github.com/JsKingBoo/JsKingBoo.github.io/tree/master/RiotAPIChallengeApril2016">Github Repo</a></h3>
 		<ol class="breadcrumb">
 			<li><a href="#introduction">Introduction</a></li>
 			<li><a href="#interface">Interface</a></li>
 			<li><a href="#initialize">Initializing the Game</a></li>
 			<li><a href="#ingine">Game Engine</a></li>
-			<li><a href="#idataprocessing">API Requests</a></li>
+			<li><a href="#iapirequests">API Requests</a></li>
 		</ol>
 		<h2 id="introduction">Introduction</h2><div class="totop"><a href="#backtotop">Back to top</a></div>
 		<p>
-			If you've played this game already (you probably have; winning gives you a link here) you may or may not have noticed that "Masteromino" is similar to another game known as [Mysterious Negg Cave](http://www.jellyneo.net/?go=mysterious_negg_cave). (You need a Neopets account to play.) I swear that I didn't completely rip the concept from Mysterious Negg Cave; I did a similar puzzle when I was in third grade, but trying to figure out the name of the original puzzle just led me to Neopets. 
+			If you've played this game already (you probably have; winning gives you a link here) you may or may not have noticed that "Masteromino" is similar to another game known as <a href="http://www.jellyneo.net/?go=mysterious_negg_cave">Mysterious Negg Cave</a>. (You need a Neopets account to play.) I swear that I didn't completely rip the concept from Mysterious Negg Cave; I did a similar puzzle when I was in third grade, but trying to figure out the name of the original puzzle just led me to Neopets. 
 		</p>
 		<p>
 			The concept is somewhat straightforwards. You have a 3x3 board that has to be filled by unique champion/mastery pairs. The final layout of the board should contain all the hints, which are in the shape of a <a href="https://en.wikipedia.org/wiki/Polyomino">polyomino</a>. In a way you can think of this game as "advanced tetris", to an extent.
@@ -53,312 +61,304 @@
 			Playing this game with pencil and paper is very easy, but constantly designing new puzzles and solutions gets somewhat repetative and even downright boring at times. Wouldn't it be nice if you could solve ten of them in a single sitting? (And without logging in and feeling the guilt of leaving your Neopet for the last six years, you sick monster.)
 		</p>
 		<a href="#thumb1" class="thumbnail" id="#thumb1">
-			<img src="documentation_images/documentation1.png" alt="Gameplay image" />
+			<img src="documentation_images/image1.png" alt="Gameplay image" style="height: 480px; width: auto;" />
+			<p class="caption">Partially completed puzzle</p>
 		</a>
 		<p>
-			The majority game code is stored in the files <b>index.html</b> and <b>gameEngine.js</b>. The folder <b>assets</b> holds all the images utilized in the game; they are images of the brawlers and a formatting helper, respectively. Although the names of the files may seem to be some sort of arcane computer science buzzword, they can be boiled down to "any file ending with .html is a webpage, any file ending with .js holds code, and a folder holds other files."
+			The majority game code is stored in the files <b>index.html</b> and <b>gameEngine.js</b>. The folder <b>assets</b> holds all the images utilized in the game; they are images of the brawlers and a formatting helper, respectively. Although the names of the files may seem to be some sort of arcane computer science buzzword, they can be boiled down to "any file ending with .html is a webpage, any file ending with .js holds code, and a folder holds other files." During the last API contest in August 2015, I included documentation that was code-heavy. I feel as though this obscured many of the concepts I used to build that last project, so this documentation will focus more heavily on the conceptual side of the project rather than the code side.
 		</p>
-		
+		<p>
+			Finally, when designing the game layout, I wanted to mark everything such that no words outside the tutorial were used. For example, instead labelling "submit" on the submit button, I used a "&lt;&lt;" mark instead.
+		</p>
+		<hr>
 		<h2 id="interface">The Interface</h2><div class="totop"><a href="#backtotop">Back to top</a></div>
 		<p>
 			Throwing code everywhere is known as a "special organization scheme" for the programmer and "a huge mess" for everyone else. However, shoving all the necessary code to run a program in a single file can also lead to an organization fiasco: they should be partitioned in some way. In this project, I decided that the <b>index.html</b> should contain the GUI holders, <b>gameEngine.js</b> should contain the code that runs the programs, and that <b>assets</b> holds all non-code items such as images.
 		</p>
 		<p>
-			Here is a brief overview of the interface of Masteromino:
+			There are two "screens" in this application: the input menu and the game itself. I suppose we look at the first screen first:
 		</p>
 		<a href="#thumb1" class="thumbnail" id="#thumb1">
-			<img src="documentation_images/documentation1.png" alt="File structure of B&B" />
-		</a>
-		<a href="#thumb1" class="thumbnail" id="#thumb1">
-			<img src="documentation_images/documentation1.png" alt="File structure of B&B" />
+			<img src="documentation_images/image2.png" alt="First screen" style="height: 480px; width: auto;" />
+			<p class="caption">Diagram of the input menu</p>
 		</a>
 		<p>
-			Since there are effectively two "screens" in this application I suppose we look at the first one first. The initial input screen's layout looks something like this:
-		</p>
-		
-		
-		
-		<div class="well well-sm">
-&lt;div id="initial-input-wrapper" style="text-align: center"&gt;
-	&lt;div class="form-group"&gt;
-		&lt;label for="start-difficulty"&gt;Start Difficulty&lt;/label&gt;
-		&lt;select style="inline" class="form-control" id="start-difficulty"&gt;
-			&lt;option&gt;0 - Tutorial&lt;/option&gt;
-			&lt;option&gt;1 - Easy&lt;/option&gt;
-			&lt;option&gt;2 - Normal&lt;/option&gt;
-			&lt;option&gt;3 - Hard&lt;/option&gt;
-		&lt;/select&gt;
-		&lt;label for="userName"&gt;Summoner Name&lt;/label&gt;
-		&lt;input class="form-control" id="userName" placeholder="Name"/&gt;
-		&lt;label for="region"&gt;Region&lt;/label&gt;
-		&lt;select style="inline" class="form-control" id="region"&gt;
-			&lt;option&gt;br&lt;/option&gt;
-			&lt;option&gt;eune&lt;/option&gt;
-			&lt;option&gt;euw&lt;/option&gt;
-			&lt;option&gt;jp&lt;/option&gt;
-			&lt;option&gt;kr&lt;/option&gt;
-			&lt;option&gt;lan&lt;/option&gt;
-			&lt;option&gt;las&lt;/option&gt;
-			&lt;option&gt;na&lt;/option&gt;
-			&lt;option&gt;oce&lt;/option&gt;
-			&lt;option&gt;ru&lt;/option&gt;
-			&lt;option&gt;tr&lt;/option&gt;
-		&lt;/select&gt;
-	&lt;/div&gt;
-	&lt;input type="submit" class="btn btn-default" onclick="trigger(true);" value="Submit" /&gt;
-	&lt;br /&gt; 
-	Select your top champions if the API connection is broken (it probably is):
-	&lt;div class="form-group"&gt;
-		&lt;label for="champion0" id="forchamp0"&gt;&lt;/label&gt;
-		&lt;select style="inline" class="form-control" id="champion0"&gt;
-			&lt;option&gt;Aatrox&lt;/option&gt;
-			&lt;option&gt;Ahri&lt;/option&gt;
-			...
-			&lt;option&gt;Zyra&lt;/option&gt;
-		&lt;/select&gt;
-		&lt;label for="champion1" id="forchamp1"&gt;&lt;/label&gt;
-		&lt;select style="inline" class="form-control" id="champion1" disabled&gt;
-		&lt;/select&gt;
-		&lt;label for="champion2" id="forchamp2"&gt;&lt;/label&gt;
-		&lt;select style="inline" class="form-control" id="champion2" disabled&gt;
-		&lt;/select&gt;
-		&lt;label for="champion3" id="forchamp3"&gt;&lt;/label&gt;
-		&lt;select style="inline" class="form-control" id="champion3" disabled&gt;
-		&lt;/select&gt;
-		&lt;label for="champion4" id="forchamp4"&gt;&lt;/label&gt;
-		&lt;select style="inline" class="form-control" id="champion4" disabled&gt;
-		&lt;/select&gt;		
-		&lt;input type="submit" class="btn btn-default" onclick="trigger(false);" value="Submit" /&gt;		
-	&lt;/div&gt;			
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;script&gt;
-	for (var i = 0; i &lt; boardSize; i++){
-		document.getElementById("forchamp" + i).innerHTML = "Champion " + (i+1);
-	}
-	for (var i = 1; i &lt; boardSize; i++){
-		document.getElementById("champion" + i).innerHTML = document.getElementById("champion0").innerHTML; 
-		document.getElementById("champion" + i).disabled = false; 
-	}
-&lt;/script&gt;
-
-&lt;div id="loading" style="visibility: hidden;"&gt;
-	&lt;h1&gt;Loading Masteromino...&lt;/h1&gt;
-	&lt;h6&gt;while waiting feel free to read this legal stuff. also, if you get error 429 wait like 10 seconds or something then refresh&lt;/h6&gt;
-	&lt;p&gt;"Brains and Brawlers" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.&lt;/p&gt;&lt;br/&gt;
-&lt;/div&gt;
-		</div>
-		<p>
-			Notice how 
+			We can divide the first screen into two more parts: The top and bottom. The top part contains the difficulty options, a textfield to input the player's summoner name, a dropdown selector to choose the player's region, and a "submit" button that ties it together. This top section is linked to an API call. In other words, submitting the player's summoner name and region will make the game pull three champions from his or her top mastered champs list.
 		</p>
 		<p>
-			Inside <code>container</code> are the divisions <code>stickybar</code>, <code>loading</code>, <code>previous_guess</code>, and <code>current_guess</code>:
+			The bottom half is for manual champion mastery entry, and does not contact the API at all. This was set up as a fall back in case a summoner did not have enough champions mastered or in case the API calls fail. It consists of three usable dropdown selectors and a second submit button.
 		</p>
-		<ul>
-			<li><code>stickybar</code> holds the champion portrait data, and this bar never moves. Scrolling will have no effect on the position of the champion portraits relative to the window.</li>
-			<li>The <code>loading</code> container simply contains a loading message that eventually gets deleted.</li>
-			<li>The <code>previous_guess</code> container holds the "guess history" of the current game session. The images in <code>previous_guess</code> are unchangeable.</li>
-			<li><code>current_guess</code> holds the user's -- you guessed it -- current guess. Unlike <code>previous_guess</code>, the images in it are changeable on click, and the images cycle from Razorfion >> Ironback >> Plundercrab >> Ocklepod >> Razorfin. <code>current_guess</code> also contains the "Submit Guess" and "Clear Guess" buttons which do exactly as their name says.</li>
-		</ul>
 		<p>	
-			Here is a visual guide on which division relates to what game element:
+			Finally, a loading section is displayed when the player presses a submit button, and it is re-hidden when the game finishes loading.
+		</p>		
+		<p>
+			The game interface is more complicated than the input menu:
 		</p>
-		<a href="#thumb2" class="thumbnail" id="#thumb2">
-			<img src="documentation_images/documentation2.png" alt="Div ID to GUI guide" />
+		<a href="#thumb1" class="thumbnail" id="#thumb1">
+			<img src="documentation_images/image3.png" alt="Second screen" style="height: 480px; width: auto;" />
+			<p class="caption">Diagram of the game interface</p>
 		</a>
 		<p>
-			Note that <code>stickybar</code> has the <code>position:fixed</code> property. As a result, scrolling will not move the contents in the <code>stickybar</code> container.
+			The game interface is also divided into a "top" section and a "bottom" section. The division is marked with a horizontal line that divides the board and the brush.
 		</p>
 		<p>
-			<b>index.html</b> also initiates the code in <b>gameEngine2.js</b> by setting up several global variables, calling the initiate function, then clearing placeholders once loading is finished:
-		</p>
-		<div class="well well-sm">
-&lt;script&gt;
-	//formatting + utility
-	var w = window.innerWidth;
-	var imgborder = 2; //px
-	var imagewidth = (w * 9 / 100) - (imgborder * 2); //px
-	var ch = 10;
-	init();
-	var displayContainer2 = document.getElementById("loading");
-	displayContainer2.innerHTML='&lt;img src="filler.png" alt="" style="width:' + imagewidth + 'px;height:' + imagewidth + 'px" /&gt;';
-	document.getElementById("contains").style.marginLeft=(imagewidth/2)+"px";
-&lt;/script&gt;
-		</div>
-		<p>
-			The variables <code>w</code>, <code>imgborder</code>, and <code>imagewidth</code> are used to format the game. I soft-split the interface into eleven vertical columns. Each column, except for the last, is 9/100 of the total screen width (The final column is sized at 10/100, or 1/10, of the total screen width). Except for the eleventh column, every column holds a champion and the user's guess on the brawler that said champion bought. <code>ch</code> is a constant to keep track of the number of champions in an average game of Summoner's Rift. The <code>init();</code> function loads the game.
+			The top section contains two items: the hints button array and the board. Clicking on a hint button draws a hint on the board, and clicking on the board again changes it back into "paint mode" instead of "hint mode". In this sense the hint buttons basically override the actual board temporarily in order to display their information.
 		</p>
 		<p>
-			The final three lines of code completes the alignment of the game elements. The <code>loading</code> container's contents is replaced with an image behind the <code>stickybar</code> header so that the first guess isn't hidden. Then, the game container is center-aligned. The eleventh column is split into two columns of 5/100 (or 1/20) each, and these columns are softly placed on the left and right sides of the interface.
+			The construction of the board itself is more complex. Looking closely, the board is not one nor nine images, but eighteen images neatly organized in a 3-by-3 grid. The mastery images have transparency data so they can be laid on top of the champion portraits without completely obscuring them. When in paint mode, each image is coded as a button that copies the current brush data to the tile that was clicked. When in hint mode, the image is still coded as a button, but clicking on it will simply revert the board back into paint mode.
 		</p>
-		
-		
-		
+		<p>
+			Although the bottom section contains more items, the implementation is surprisingly simple. Clicking on a portrait from the champion selection item changes the current brush to the corresponding value, and a similar action occurs for the mastery medals. Clicking on the current brush icon resets it to the default value. The submit button, when clicked, triggers a check of the paint mode board. If the board satisfies every hint, then the game declares the puzzle solved.
+		</p>
+		<hr>
 		<h2 id="initialize">Initializing the Game</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			Now we move on to the real meat of the game. Opening <b>gameEngine2.js</b>, you'll see a lot of commented-out <code>console.log</code>s, a huge block of commented-out functions, and various comments that aren't exactly the best explanations for the code they pertain to.
+			Initializing the game is the setup. It means declaring variables and functions, making an API call and drawing the items you need onto the interface. Think of it as the computer equivalent of dealing a deck of cards and making room for snacks.
 		</p>
 		<p>
-			To begin, let's first look at the old and new variables and their purpose:
+			Although I did mention that I did not want to hang a spotlight over the code, I feel that breaking down the individual components of the game greatly clarifies exactly how the game is run behind the scenes. 
 		</p>
 		<div class="well well-sm">
-	//formatting + utility 
-	var w = window.innerWidth; 
-	var imgborder = 2; //px 
-	var imagewidth = (w * 9 / 100) - (imgborder * 2); //px 
-	var ch = 10;
-	
-	//output variables
-	var previousGuessHtml = '';
-	var currentGuessHtml = '';
-	var navbarHtml = ''; //technically it isn't a navbar but ok
-
-	//gameplay handlers
-	var champs = []; //random top jug mid sup adc top jug mid sup adc
-	var currentGuess = ["3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611", "3611"];
-	var answer = [];
-	var noOfGuesses = 0;
+	//Gameplay handlers
+	var boardSize = 3;
+	var board = [];
+	var champs = [];
+	var hints = [];
+	var currentDifficulty = 0;
+	var currentBrush = [];
 	var win = false;
 
-	//item ID
-	var razorfin = "3611";
-	var ironback = "3612";
-	var pluncrab = "3613";
-	var ocklepod = "3614";
+	//Formatting
+	var windowWidth = window.innerWidth;
+	var imageWidth = windowWidth/(boardSize + 4);
+	var masteryOpacity = 0.7;
+	
+	//Output variables 
+	var boardHtml;
+	var infoHtml;
+	var cbHtml;
+	var hintsHtml;
 		</div>		
 		<p>
-			The group of variables labelled "formatting + utility" should already be familiar to you. Although these variables are not defined in <b>gameEngine2.js</b>, they are notable global variables that are heavily utilized in the dynamic formatting.
+			The names of the variables are self explanatory, but I will elaborate anyways:
+		</p>
+		<table class="table table-hover">
+			<thead>
+			  <tr>
+				<th>Variable Name</th>
+				<th>Description</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td>boardSize</td>
+				<td>Defines the side length of the board</td>
+			  </tr>
+			  <tr>
+				<td>board</td>
+				<td>Holds data for the board in paint mode</td>
+			  </tr>
+			  <tr>
+				<td>champs</td>
+				<td>Holds data for the three champions chosen to participate in the game</td>
+			  </tr>
+			  <tr>
+				<td>hints</td>
+				<td>Holds data for the hints on the left side of the screen</td>
+			  </tr>
+			  <tr>
+				<td>currentDifficulty</td>
+				<td>Affects several settings that increases or decreases difficulty</td>
+			  </tr>
+			  <tr>
+				<td>currentBrush</td>
+				<td>Holds data for the current brush</td>
+			  </tr>
+			  <tr>
+				<td>win</td>
+				<td>Determines whether the game has been won or not</td>
+			  </tr>
+			  <tr>
+				<td>windowWidth</td>
+				<td>Gets the width of the screen, in pixels</td>
+			  </tr>
+			  <tr>
+				<td>imageWidth</td>
+				<td>Defines the size of an image, in pixels</td>
+			  </tr>
+			  <tr>
+				<td>masteryOpacity</td>
+				<td>Defines the opacity for the mastery medals. 1 = completely opaque. 0 = completely transparent.</td>
+			  </tr>
+			  <tr>
+				<td>boardHtml</td>
+				<td>Organizes the output for the board</td>
+			  </tr>
+			  <tr>
+				<td>infoHtml</td>
+				<td>Organizes the output for the selector board</td>
+			  </tr>
+			  <tr>
+				<td>cbHtml</td>
+				<td>Organizes the output for the <b>c</b>urrent <b>b</b>rush</td>
+			  </tr>
+			  <tr>
+				<td>hintsHtml</td>
+				<td>Organizes the output for hints</td>
+			  </tr>
+			</tbody>
+		  </table>
+		<p>
+			Note for anyone browsing the Github repo: <code>hints</code> and <code>currentDifficulty</code> are not their actual names, which are <code>polyominos</code> and <code>curDifficulty</code> respectively. They have been renamed here to make their function clearer.
 		</p>
 		<p>
-			The next group of variables (labelled "output variables") are strings that are assigned to the relevant division. <code>previousGuessHtml</code> is assigned to the <code>previous_guess</code> element, <code>currentGuessHtml</code> is assigned to the <code>current_guess</code> element, and <code>navbarHtml</code> is assigned to the <code>stickybar</code> element. Also, as my comment states, the <code>navbarHtml</code> technically isn't a navigation bar. It originally was, but halfway through the project I changed it to the current <code>stickybar</code> holder.
+			An astute reader may notice that out of all the variables listed, the values of <code>boardSize</code> and <code>masteryOpacity</code> do not depend on anything variable nor change. Why do I take an extra step to create a special variable specifically for them? It's important to never disregard the habits of a veteran. The reason for using constants is to eliminate the use of <a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29#Unnamed_numerical_constants">magic numbers</a>. The Wikipedia article explains the issue well, but the general gist of it is that using a constant instead of a hard value means that the code is both more human-readable and easily changable. When I was originally coding the game, the board was 5-by-5. Imagine how annoying it would be to replace every "3" with a "5"!
 		</p>
 		<p>
-			Thirdly, we come to the "gameplay handlers". The <code>champs</code> array holds the IDs of the champions in the <code>stickybar</code> in order. <code>currentGuess</code> holds the brawler IDs of the <code>current_guess</code> element. <code>answer</code> contains the correct brawlers in order. If <code>currentGuess</code> and <code>answer</code> match, the user wins. <code>noOfGuesses</code> counts the number of guesses that the player has made, and <code>win</code> is a boolean (true/false) flag to see whether the player has won or not.
- 		</p>
+			Several other astute readers may now point out the reason I used a magic number when defining <code>imageWidth</code>. Firstly, I wanted the board to have margins on both the left and right side of the screen, as I felt that it made the game look pretty. Secondly, I hand-picked a two-image margin on both sides, which, after a simple calculation, means that I need to divide the image by the board width plus four more image widths. Thirdly, I felt that defining two extra variables to make a simple calculation obscured the reason I was making the calculations to begin with. And lastly, the ambiguity that the <code>4</code> may introduce can be alleviated by a comment.
+		</p>
+		<p>~~</p>
 		<p>
-			The final set of variables are the item IDs of the brawlers except they are stored as strings. Actually, I think these variables are unused.
+			After the variables are declared, the puzzle is generated and the game is set up. The process is simple:
+		</p>
+		<ol>
+			<li>A random, valid board is generated.</li>
+			<li>A random amount of randomized hints is generated from the answer board.</li>
+			<li>The board, current brush, selector board, submit button, and hints buttons are drawn on the screen.</li>
+		</ol>
+		<p>
+			The first step has a simple implementation. A list containing all champion/mastery combinations is generated, then the values in the list are randomly assigned to a 3-by-3 coordinate grid. This way, we can easily remove the possibility of a duplicate tile, which would otherwise cause an invalid board.
 		</p>
 		<p>
-			Anyways, enough with variables; now it's time to look at the actual initiation functions. The game begins with a call to <code>init();</code>; however, the funny thing is <code>init();</code> is simply a redirection to other functions.
+			Let's go through an example setup. Initially, we generate the list:
 		</p>
 		<div class="well well-sm">		
-function init(){
-	//generateTeams();
-	//generateAnswer();
-	setUp();
-	drawStickyHeader();
-	drawCurrentGuesses();
-}
-		</div>
+	var listOfCombos = [];
+	Iterate (i through 0 to 2) {
+		Iterate (j through 0 to 2) {
+			Add the ith champion and the jth mastery to listOfCombos;
+		}
+	}
+		</div>	
+		<div class="well well-sm">		
+	OUTPUT: 
+		listOfCombos: [00, 01, 02, 10, 11, 12, 20, 21, 22];
+		</div>				
 		<p>
-			<code>setUp();</code> generates both the champion and answer data to be used during a game session. <code>champs</code> and <code>answer</code> used to be created separately, which is why <code>generateTeams();</code> and <code>generateAnswer();</code> are commented out. <code>setUp();</code> combines those two functions together. Then, the sticky header and the current guess UI is drawn.
+			Wait, why are we starting at 0? Shouldn't we go from 1 to 3 instead of 0 to 2? It's because array indices <a href="http://www.cs.utexas.edu/users/EWD/transcriptions/EWD08xx/EWD831.html">start at 0</a> so iterating through a list of length <code>N</code> means the programmer goes from <code>0</code> to <code>N</code> rather than <code>1</code> to <code>(N+1)</code>. The champions in <code>champs</code> correspond with the indices <code>0 1 2</code>, and so their ID is used like so. Mastery medals are not stored in an array and do not need to be, but their indices are <code>0 1 2</code> as well for consistency.  
 		</p>
 		<p>
-			Speaking of <code>setUp();</code>, that function uses <b>champ-data.js</b> to pick a random champion/brawler pair. In the data set, every position contains a list of champions and the amount of times said champion has purchased X brawler. For example, if <b>champ-data.js</b> contained the following data:
+			Anyways, after we generate the list of combinations, we place each item into the board using a simple process:
 		</p>
 		<div class="well well-sm">		
-"adc": {
-	Ashe:[1, 2, 3, 4],
-	Vayne:[5, 6, 7, 8],
-	Malzahar:[0, 0, 0, 1],
-}
-		</div>
-		<p>
-			then the game engine would know that Ashe has bought a Razorfin once, an Ironback twice, a Plundercrab three times, and an Ocklepod four times. Vayne has bought a Razorfin five times, etc. 
-		</p>
-		<p>
-			Note that <code>setUp();</code> random champ/brawler picker is weighted: using the above data set, Vayne would be the most likely ADC that the computer will pick, followed by Ashe. Champion weights are determined by the sum of their brawlers; Ashe would have a weight of 10, while Vayne would have a weight of 26. 
-		</p>
-		<p>
-			<code>setUp();</code> also does not first find the champion, then the brawler; the implementation finds both at the same time. A random number is uniformly chosen between 0 (inclusive) and the sum of all weights, exclusive (in this case, 0 &lt;= random number &lt; 37). Let's say the number chosen is 21. Then, the weights are gradually added in order until the sum is strictly greater than the random number:
-		</p>
+	Iterate (i through 0 to 2) {
+		Iterate (j through 0 to 2) {
+			Pick a random number N between 0 and the length of listOfCombos
+			Add N to location (i, j) on the board
+			Remove N from listOfCombos
+		}
+	}
+		</div>	
 		<div class="well well-sm">		
-Current sum: 0; 
-Add [0][0] (1); Current sum: 1; 
-Add [0][1] (2); Current sum: 3; 
-Add [0][2] (3); Current sum: 6; 
-Add [0][3] (4); Current sum: 10; 
-Add [1][0] (5); Current sum: 15; 
-Add [1][1] (6); Current sum: 21; 
-Add [1][2] (7); Current sum: 28 STOP
-		</div>		
+	EXAMPLE OUTPUT:
+		[10, 22, 11]
+		[12, 00, 21]
+		[01, 20, 02]
+	When the board is finished, listOfCombos is empty
+		</div>	
 		<p>
-			In my example, the chosen index would be [1][2], or Vayne/Plundercrab.
+			Next, we generate the hints. This part was the most fun to program.
 		</p>
 		<p>
-			You can also visualize my random weighted champ/brawler picker as a large scale (god bless my MSPaint skills):
+			Firstly, however, I have to define some notation so that the explanation is not too confusing. 
 		</p>
-		<a href="#thumb3" class="thumbnail" id="#thumb3">
-			<img src="documentation_images/documentation3.png" alt="Weighted random number generator visualized" />
-		</a>
-		
-		
-		
+		<table class="table table-hover">
+			<thead>
+			  <tr>
+				<th>Mark</th>
+				<th>Description</th>
+				<th>Example</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+				<td>ij</td>
+				<td>The ith champion with the jth mastery.</td>
+				<td>"12" means "Shaco, mastery 3"</td>
+			  </tr>
+			  <tr>
+				<td>iX</td>
+				<td>The ith champion with no mastery.</td>
+				<td>"1X" means "Shaco, no mastery"</td>
+			  </tr>
+			  <tr>
+				<td>Xj</td>
+				<td>No champion but the jth mastery is given</td>
+				<td>"X2" means "No champion, mastery 3"</td>
+			  </tr>
+			  <tr>
+				<td>XX</td>
+				<td>Both champion and mastery data is not given.</td>
+				<td>"XX" means "No champion, no mastery"</td>
+			  </tr>
+			  <tr>
+				<td>--</td>
+				<td>The tile does not exist.</td>
+				<td>-- means a blank tile.</td>
+			  </tr>
+			</tbody>
+		</table>		
+		<p>
+			Generation of hints is as follows:
+		</p>
+		<ol>
+			<li>Create an empty 3x3 board.</li>
+			<li>Select a random tile as the seed.</li>
+			<li>Select a random, unselected tile that is adjacent to a selected tile. Corners don't count.</li>
+			<li>Repeat step 3 a random amount. The amount is related to the difficulty.</li>
+			<li>Copy the corresponding tiles from the answer board to the hint.</li>
+			<li>Trim the hint so it only takes up as much room as it needs to.</li>
+			<li>Randomly obscure data. The weight of the randomization is related to the difficulty.</li>
+			<li>Repeat steps 1-7 a random amount. The amount is related to the difficulty.</li>
+		</ol>
+		<p>
+			I soon found out that while generating hints is easy, generating <i>good</i> hints is difficult. 
+		</p>
+		<p>
+			A significant problem I ran across was that hints overlapped too much. In other words, a small hint could be included in a large hint, effectively making the smaller hint useless. To combat this, I considered making sure that every single tile was selected at least once, but the best and most difficult puzzles are solved through process of elimination. Using that implementation would destroy any possibility of that perfect puzzle dream. Instead, I decided to check to see if a generated hint was useless or made another hint useless. If it did, I threw that polyomino out. In order to optimize the process, I also discouraged the hint generator to use tiles that were already used before. Now, the generator only throws out fifteen or so polyominos instead of fifty.
+		</p>
+		<p>
+			The issue of the hint size and the number of hints also threatened to disrupt the difficulty level of a puzzle. If a puzzle had too few hints that were too small, the puzzle could hold up to ten or more different solutions. If a puzzle had too many hints that were too large, the puzzle became mindlessly easy. Eventually, after writing down a list of favorable and unfavorable combinations, I came to the constrant <code>(Sum of the squares of the size of the hints) &lt; (boardSize)<sup>4</sup></code>. Although it is an arbitrary limit, I feel that it is sufficient.
+		</p>
+		<p>
+			Fun fact: There are eighteen functions in Masteromino with an average length of roughly 40 lines of code. Generating hints takes almost 250.
+		</p>
+		<p>
+		~~
+		</p>
+		<p>
+			Third and lastly, the board, current brush, selector board, submit button, and hints buttons are drawn on the screen. Outside of using a handful of CSS tricks, this last step is sadly not as impressive as the other two, and there is not much to talk about. 
+		</p>
 		<h2 id="ingine">The Game Engine</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			Alright, the game has just finished setting up, the <code>current_guess</code> array has been drawn, and now it's time to get to the meat of this game. Unfortunately, the mechanics of the game is surprisingly simple. (I still can't show off all my sorting algorithms; I'm so sad) In fact, the game engine mostly revolves around the <code>makeGuess();</code> function.
-		</p>
-		<p>
-			Predictably, the <code>makeGuess();</code> function is called when the button labelled "Submit Guess" is pressed. First, the variable <code>noOfGuesses</code> is increased by one. Then, the current guess is "solidified"; in other words, the content in <code>current_guess</code> is passed to <code>previous_guess</code>. Note that when the data has been solidified, the cycle functionality of the buttons is removed. Finally, the number of correct and incorrect entries is calculated and presented. If the number of correct entries is equal to ten, then the game is won, and <code>win</code> is set to <code>true</code>. The next buttons presented is determined whether the player has won yet: if the player has not won yet, then "Submit Guess" and "Clear Guess" are re-presented. If the player has won, then "Reset Game" and "View Dossier" appears. The HTML is updated, and the windows will automatically scroll to the bottom of the page. 
-		</p>
-		<p>
-			And that's pretty much it. No fancy concepts are involved, everything is boringly simple.
-		</p>
-		<p>
-			The theory behind the engine is fairly straightforward, but when coding this I realized that checking a guess for correctness is actually slightly more complicated than I originally thought. So of course, I have to devote a few paragraphs elaborating it.
-		</p>
-		<p>
-			When calculating the number of correct, misplaced, and incorrect guess keys, the game first fills a temporary variable <code>answerCount</code> which keeps track of the number of Razorfins, Ironbacks, Plundercrabs, and Ocklepods in the answer key:
-		</p>
-		<div class="well well-sm">		
-//fill answerCount
-var answerCount = [0, 0, 0, 0];
-var usedAnswer = [];
-for (var i = 0; i &lt; ch; i++){
-	answerCount[answer[i]-3611]++; //"3611" is an adjustment to start the answerCount index at 0. also, beware the magic number!
-}		
-//sample result: answerCount = [3, 2, 4, 1] (3 Razorfins, 2 Ironbacks, 4 Plundercrabs, and 1 Ocklepod in the answer key)
-		</div>			
-		<p>
-			You may have noticed that another variable called <code>usedAnswer</code> is declared. This helps count the number of misplaced brawlers.
-		</p>
-		<p>
-			The game first finds the number of correct answers by simply comparing <code>answer</code> to <code>currentGuess</code>. It accumulates the number in a counter variable. When it finds a match, it also fills <code>usedAnswer</code> with a value of <code>true</code> and depletes the relevant <code>answerCount</code> value by one.
-		</p>
-		<a href="#thumb5" class="thumbnail" id="#thumb5">
-			<img src="documentation_images/documentation5.png" alt="Visualization of finding correct guesses" />
-		</a>
-		<p>
-			Then, the game engine moves on to calculate the number of misplaced elements. The engine no longer relies on <code>answer</code> directly but instead on <code>answerCount</code>: It cycles through the <code>currentGuess</code> array again, but ignores entries marked by <code>usedAnswer[]</code> and brawlers when its relevant <code>answerCount</code> stack is empty. In the example used above, the first and fourth brawlers will be ignored because <code>usedAnswer[]</code> has marked them while the second and fifth brawlers will be ignored because the <code>answerCount</code> stack is empty; only the 3rd brawler is misplaced.
-		</p>
-		<a href="#thumb6" class="thumbnail" id="#thumb6">
-			<img src="documentation_images/documentation6.png" alt="Visualization of finding misplaced guesses" />
-		</a>
-		<p>
-			Finally, the number of incorrect brawler keys is calculated using the simple formula:
-		</p>
-		<div class="well well-sm">		
-incorrect = 10 - (correct + misplaced);
-		</div>
+			A lot of programmers like to make lists, and I am no exception. 
+		</p>	
 		
-		<h2 id="idataprocessing">Data Processing</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
+		<h2 id="iapirequests">API Requests</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			While technically not part of the code, the <b>champ-data.js</b> took about 1000 games from NA to fill the data set. Obviously, filling <b>champ-data.js</b> by hand is not a feasible option; instead, I wrote the program <b>RiotApiBMBHelper.java</b> in Java to do it for me. You can find the program's source inside the <b>test</b> folder. The program relies on <a href="https://github.com/rithms/riot-api-java">rithms's Riot API Java wrapper</a>, <a href="https://github.com/google/gson">google-gson</a>, and <a href="https://github.com/fangyidong/json-simple">json-simple</a>. (Yes, I used two different JSON libraries; bite me.)
+			
 		</p>
 		<p>
-			I would have ran the program overnight for five hours to analyze all 10,000 matches from NA had the Riot API server not randomly return a 429 error. Additionally, because the Riot API library would terminate the program on a RiotApiException, and because I had no patience to implement exception handling (hehe), I could not automatically run it again. Therefore, I quickly coded two scripts to assist in the collection of data:
+			
 		</p>
 		<a href="#thumb4" class="thumbnail" id="#thumb4">
 			<img src="documentation_images/documentation4.png" alt="Test files" />
 		</a>
 		<p>
-			I would take the raw data that I already had and stored it in the file <b>merge1.js</b>. Then, I would run <b>RiotApiBMBHelper.java</b> and let it grab as much match data as it could. After it crashed, the program would spit out the information it managed to get. I stored this second data set in <b>merge2.js</b>. Finally, I would open <b>merge.html</b> in my web browser. The script merged the data from <b>merge1.js</b> and <b>merge2.js</b>, then format the data so I could copy/paste the output back into <b>merge1.js</b>. I repeated this process until I crunched through enough matches. Currently, the count is 1504.
+			
 		</p>
 		<p>
-			You may have noticed another file unfortunately misspelled as "<b>finilize.html</b>". The function of this script is simple: it takes <b>merge1.js</b> and reformats the data so it can be easily copy/pasted into <b>champ-data.js</b>. This was mainly done for convenience; every time I wanted to add more match data, I did not want to reformat everything from my match cruncher by hand.
-		</p>
-		<p>
-			To rephrase: <b>RiotApiBMBHelper</b> would accumulate data and store it in <b>merge1.js</b> with the help of <b>merge2.js</b>. After enough data has been gathered, <b>finilize.html</b> would export it to <b>champ-data.js</b> in the parent directory.
+			
 		</p>
 		
 	</div>

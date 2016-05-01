@@ -10,14 +10,13 @@ var board = [];
 var champs = [];
 var polyominos = [];
 var champImages = [];
-var limitPolyomino = 4;
 var curDifficulty = 0;
 var currentBrush = [-1, -1];
 var win = false;
 
 //Formatting things
 var windowWidth = window.innerWidth;
-var imageWidth = windowWidth/7;
+var imageWidth = windowWidth/(boardSize + 4); //The board has 2-image-width margins on both the left and right side.
 var masteryOpacity = 0.7;
 
 //tutorialHandlers
@@ -161,8 +160,8 @@ function buildPolyominos(){
 	//WAIT! Are we in the tutorial?
 	if (curDifficulty < 0){
 		var polyomino1 = {"size":9, monominos:[['1x','xx','0x'],['1x','xx','0x'],['1x','xx','0x']]};
-		var polyomino2 = {"size":9, monominos:[['--','--','x0'],['--','x2','--'],['x1','--','--']]};
-		var polyomino3 = {"size":9, monominos:[['--','x1','--'],['x0','--','x2']]};
+		var polyomino2 = {"size":9, monominos:[['--','xx','x0'],['xx','x2','--'],['x1','--','--']]};
+		var polyomino3 = {"size":9, monominos:[['--','x1','--'],['x0','xx','x2']]};
 		polyominos.push(polyomino1);
 		polyominos.push(polyomino2);
 		polyominos.push(polyomino3);
@@ -195,6 +194,9 @@ function buildPolyominos(){
 		//Choose number of tiles to be in polyomino. A non-uniform distribution is intentional.
 		//Math.min is included to assert that a valid amount will be chosen every time, regardless of the distribution chosen
 		var randAmount = randomAmountDistrubution();
+		if (curDifficulty >= 2){
+			randAmount = Math.min(3, randAmount);
+		}
 		var ITried = 30;
 		
 		//alert('Debug 4');
@@ -254,7 +256,6 @@ function buildPolyominos(){
 			continue;
 		}
 		newPolyomino.size = sizee;
-		sumSquares += newPolyomino.size * newPolyomino.size;
 		
 		//Clean the polyomino so the hints aren't a dead giveaway
 		//First: check the topmost array (x=0). If it's blank, shift it up and check again.
@@ -324,6 +325,8 @@ function buildPolyominos(){
 			console.log(newPolyomino.monominos[i]);
 		}		*/
 		
+		//sumsquare penalty for blank hint
+		var penalty = 0;
 		//Now look at each monomino and obsfucate some of the hints
 		for (var i = 0; i < newPolyomino.monominos.length; i++){
 			for (var j = 0; j < newPolyomino.monominos[i].length; j++){
@@ -332,11 +335,12 @@ function buildPolyominos(){
 					continue;
 				}
 				
-				//Threshhold: the more monominos that a polyomino owns, the more likely that it would be obsfucated
+				//Threshhold: The chance, out of 1, that a char will be eliminated
+				//At difficulty 2, the more monominos that a polyomino owns, the more likely that it would be obsfucated
 				//At difficulties 0 and 1, this is a flat value
 				var threshHold;
 				if (curDifficulty >= 2) {
-					threshHold = (newPolyomino.size / (boardSize*boardSize));
+					threshHold = 0.3 + (newPolyomino.size / (boardSize*boardSize*3));
 				} else if (curDifficulty >= 1) {
 					threshHold = 0.4;
 				} else {
@@ -355,12 +359,37 @@ function buildPolyominos(){
 				
 				//alleviate in the case of a useless or almost useless hint, such as 8 squares with 0 data
 				if (char1 && char2){
-					sumSquares-=boardSize*boardSize;
+					penalty+=9;
 				}
 			}
 		}
+		
+		//Check if the polyomino isn't useless (overlap)
+		var badPolyomino = false;
+		for (var i = 0; i < polyominos.length; i++){
+			if (findIn(newPolyomino, polyominos[i]) || findIn(polyominos[i], newPolyomino)){
+				badPolyomino = true;
+				break;
+			}
+		}
+		//Continuing uselessness checks (all blank)
+		var completelyEmpty = true;
+		for (var i = 0; i < newPolyomino.monominos.length; i++){
+			for (var j = 0; j < newPolyomino.monominos[0].length; j++){
+				completelyEmpty = completelyEmpty && (newPolyomino.monominos[i][j] == 'xx' || newPolyomino.monominos[i][j] == '--');
+			}
+		}
+		badPolyomino = badPolyomino || completelyEmpty;
+		if (badPolyomino){
+			continue;
+		}
+		
+		//Assuming now that badPolyomino is false
+		
 		//Finally append this polyomino to the polomono array
 		polyominos.push(newPolyomino);
+		sumSquares += newPolyomino.size * newPolyomino.size - penalty;
+		
 		
 		//Check if sumSquares reaches a certain threshhold. If so, finish
 		if (sumSquares > boardSize * boardSize * boardSize * boardSize){
@@ -387,51 +416,6 @@ function drawBoard(){
 		$('#tutorial').modal('show');
 		tutorialStep = 3;
 	}	
-	
-	//DEBUG
-	//console.log('champImages: ' + champImages);
-	
-	/*boardHtml = '';
-	for (var i = 0; i < boardSize; i++){
-		for (var j = 0; j < boardSize; j++){
-			var champImageId = parseInt(board[i][j].charAt(0));
-			var masteryImageId = parseInt(board[i][j].charAt(1));
-			
-			boardHtml += '<div style="position: relative; left: 0; top: 0; display: inline-block">';
-			
-			var champImageSrc = '';
-			var masteryImageSrc = '';
-			
-			//DEBUG
-			//console.log('i: ' + i + '; j: ' + j + '; champImageId: ' + champImageId + '; masteryImageId: ' + masteryImageId);
-			
-			if (isNaN(champImageId)){
-				champImageSrc = 'assets/VizObscure.png';
-			} else {
-				champImageSrc = champImages[champImageId];
-			}
-			
-			if (isNaN(masteryImageId)){
-				masteryImageSrc = 'assets/norank.png';
-			} else {
-				masteryImageSrc = 'assets/rank' + (5 - masteryImageId) + '.png';
-			}
-			
-			boardHtml += '<img src="' + champImageSrc + '" style="position: relative; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
-			
-			boardHtml += '<input type="image" src="' + masteryImageSrc + '" style="position: absolute; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; opacity: ' + masteryOpacity + ';" onclick = "applyBrush(' + i + ', ' + j + ')" />';
-			//boardHtml += '<img src="' + masteryImageSrc + '" style="position: absolute; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px; opacity: ' + masteryOpacity + ';"/>';
-			
-			boardHtml += '</div>';
-			
-		}
-		boardHtml += '<br />';
-	}
-	
-	//DEBUG
-	//console.log('drawBoard results: ' + boardHtml);
-	
-	document.getElementById("board").innerHTML = boardHtml;*/
 	
 	drawOnBoard(board, 'applyBrush');
 	
@@ -485,7 +469,7 @@ function drawInfo(){
 	if (!win){
 		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; font-size: ' + (imageWidth/2) + 'px; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; line-height: ' + imageWidth + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="makeGuess();" value="&gt;&gt;" />';
 	} else {
-		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="reset();" value="Play again" /><input type="submit" class="btn btn-info" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth) + 'px; left: 0px;" onclick="redirect();" value="Read the Dossier" />';
+		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="reset();" value="↺" /><input type="submit" class="btn btn-info" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth) + 'px; left: 0px;" onclick="redirect();" value="Read the Dossier" />';
 		
 	}
 	
@@ -517,44 +501,6 @@ function drawPolyomino(n){
 		$('#tutorial').modal('show');
 		tutorialStep = 2;
 	}	
-	
-	/*boardHtml = '';
-	var getPolyomino = polyominos[n];
-	for (var i = 0; i < getPolyomino.monominos.length; i++){
-		for (var j = 0; j < getPolyomino.monominos[i].length; j++){
-			var champImageId = parseInt(getPolyomino.monominos[i][j].charAt(0));
-			var masteryImageId = parseInt(getPolyomino.monominos[i][j].charAt(1));
-			
-			boardHtml += '<div style="position: relative; left: 0; top: 0; display: inline-block">';
-			
-			var champImageSrc = '';
-			var masteryImageSrc = '';
-			
-			//DEBUG
-			//console.log('i: ' + i + '; j: ' + j + '; champImageId: ' + champImageId + '; masteryImageId: ' + masteryImageId);
-			
-			if (isNaN(champImageId)){
-				champImageSrc = 'assets/VizObscure.png';
-			} else {
-				champImageSrc = champImages[champImageId];
-			}
-			
-			if (isNaN(masteryImageId)){
-				masteryImageSrc = 'assets/norank.png';
-			} else {
-				masteryImageSrc = 'assets/rank' + (5 - masteryImageId) + '.png';
-			}
-			
-			boardHtml += '<img src="' + champImageSrc + '" style="position: relative; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
-			
-			boardHtml += '<input type="image" src="' + masteryImageSrc + '" style="position: absolute; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; opacity: ' + masteryOpacity + ';" onclick = "drawBoard();" />';
-			
-			boardHtml += '</div>';
-			
-		}
-		boardHtml += '<br />';
-	}
-	document.getElementById("board").innerHTML = boardHtml;*/
 	
 	drawOnBoard(polyominos[n].monominos, 'drawBoard');
 	
@@ -595,18 +541,6 @@ function drawOnBoard(array, clickMode){
 			} else {
 				masteryImageSrc = 'assets/rank' + (5 - parseInt(masteryImageId)) + '.png';
 			}
-			/*
-			if (isNaN(champImageId)){
-				champImageSrc = 'assets/VizObscure.png';
-			} else {
-				champImageSrc = champImages[champImageId];
-			}
-			
-			if (isNaN(masteryImageId)){
-				masteryImageSrc = 'assets/norank.png';
-			} else {
-				masteryImageSrc = 'assets/rank' + (5 - masteryImageId) + '.png';
-			}*/
 			
 			boardHtml += '<img src="' + champImageSrc + '" style="position: relative; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
 			
@@ -627,21 +561,10 @@ function drawOnBoard(array, clickMode){
 //I think I made the applyBrush algorithm way too complicated
 function applyBrush(x, y){
 	if (!win){
-	/*var left = 'x';
-	var right = 'x';
-	if (currentBrush[0] >= 0){
-		left = currentBrush[0];
-	}
-	if (currentBrush[1] >= 0){
-		right = currentBrush[1];
-	}
-	board[x][y] = left + '' + right;*/
 	var oldLeft = board[x][y].charAt(0);
 	var oldRight = board[x][y].charAt(1);
 	var newLeft = currentBrush[0];
 	var newRight = currentBrush[1];
-	
-	//var construct = '';
 	
 	if (newLeft < 0){
 		newLeft = 'x';
@@ -664,23 +587,13 @@ function applyBrush(x, y){
 	}
 	board[x][y] = oldLeft + '' + oldRight;
 	
-	/*if ((newLeft < 0 && newRight < 0) || (oldLeft == newLeft && oldRight == newRight)){
-		construct = 'xx';
-	} else if (newLeft < 0){
-		construct = oldLeft + '' + newRight;
-	} else if (newRight < 0){
-		construct = newLeft + '' + oldRight;
-	} else {
-		construct = newLeft + '' + newRight;
-	}*/
-	//board[x][y] = construct;
-	
 	drawBoard();
 	}
 }
 
 function changeBrush(type, id){
 	if (type == 'champion'){
+		//Only change the brush if it's different
 		if (currentBrush[0] != id){
 			currentBrush[0] = id;
 		} else {
@@ -735,51 +648,7 @@ function makeGuess(){
 	//Now check if every single polyomino fits
 	//LMAO O(n^5) OP
 	for (var i = 0; i < polyominos.length; i++){
-		var found = false;
-		
-		//with every single possible starting position
-		for (var x = 0; x < boardSize - polyominos[i].monominos.length + 1; x++){
-			for (var y = 0; y < boardSize - polyominos[i].monominos[0].length + 1; y++){
-				
-				//for every single monomino in the polyomino
-				var correctPosition = true;
-				
-				for (var mx = 0; mx < polyominos[i].monominos.length; mx++){
-					for (var my = 0; my < polyominos[i].monominos[mx].length; my++){
-						
-						//check if board piece matches mono piece
-						var monoPiece = polyominos[i].monominos[mx][my];
-						if (monoPiece == '--' || monoPiece == 'xx'){
-							//accept it and move on
-							continue;
-						}
-						
-						var boardPiece = board[x + mx][y + my];
-						//mismatch
-						if ((monoPiece.charAt(0) != boardPiece.charAt(0)) && monoPiece.charAt(0) != 'x' || ((monoPiece.charAt(1) != boardPiece.charAt(1)) && monoPiece.charAt(1) != 'x')){
-							//DEBUG
-							/*console.log('failed');
-							console.log('polyomino ' + i);
-							console.log('board position (' + x + ', ' + y + ') value: ' + boardPiece);
-							console.log('polyomino position (' + mx + ', ' + my + ') value: ' + monoPiece);*/
-							correctPosition = false;
-						}
-					}
-				}
-				
-				//omg we found it
-				if (correctPosition){
-					found = true;
-					break;
-				}
-				
-			}
-			
-			if (found){
-				break;
-			}
-			
-		}
+		var found = findIn(polyominos[i], {'monominos': board, 'size': boardSize*boardSize});
 		
 		if (!found){
 			correct = false;
@@ -813,6 +682,51 @@ function makeGuess(){
 		drawInfo();
 	}
 	
+}
+
+function findIn(polyomino1, polyomino2){
+	//Check if polyomino1 can be found in polyomino2
+	
+	//Check if 1 is bigger than 2
+	if (polyomino1.size > polyomino2.size || polyomino1.monominos.length > polyomino2.monominos.length || polyomino1.monominos[0].length > polyomino2.monominos[0].length){
+		return false;
+	}
+	
+	//LMAO O(n^4)
+	//with every single possible starting position
+	for (var x = 0; x < polyomino2.monominos.length - polyomino1.monominos.length + 1; x++){
+		for (var y = 0; y < polyomino2.monominos[0].length - polyomino1.monominos[0].length + 1; y++){
+			
+			var correctPosition = true;
+			
+			//for every single monomino in the smaller polyomino1		
+			for (var mx = 0; mx < polyomino1.monominos.length; mx++){
+				for (var my = 0; my < polyomino1.monominos[mx].length; my++){
+					
+					//check if board piece matches mono piece
+					var monoPiece = polyomino1.monominos[mx][my];
+					if (monoPiece == '--' || monoPiece == 'xx'){
+						//accept it and move on
+						continue;
+					}
+					
+					var bigPolyPiece = polyomino2.monominos[x + mx][y + my];
+					//mismatch
+					if ((monoPiece.charAt(0) != bigPolyPiece.charAt(0)) && monoPiece.charAt(0) != 'x' || ((monoPiece.charAt(1) != bigPolyPiece.charAt(1)) && monoPiece.charAt(1) != 'x')){
+						//DEBUG
+						//console.log('failed');
+						//console.log('polyomino2 position (' + x + ', ' + y + ') value: ' + bigPolyPiece);
+						//console.log('polyomino1 position (' + mx + ', ' + my + ') value: ' + monoPiece);
+						correctPosition = false;
+					}
+				}
+			}
+			if (correctPosition){
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 //I overcomplicated this, I think
