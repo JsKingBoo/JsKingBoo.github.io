@@ -105,7 +105,7 @@
 			The top section contains two items: the hints button array and the board. Clicking on a hint button draws a hint on the board, and clicking on the board again changes it back into "paint mode" instead of "hint mode". In this sense the hint buttons basically override the actual board temporarily in order to display their information.
 		</p>
 		<p>
-			The construction of the board itself is more complex. Looking closely, the board is not one nor nine images, but eighteen images neatly organized in a 3-by-3 grid. The mastery images have transparency data so they can be laid on top of the champion portraits without completely obscuring them. When in paint mode, each image is coded as a button that copies the current brush data to the tile that was clicked. When in hint mode, the image is still coded as a button, but clicking on it will simply revert the board back into paint mode.
+			The construction of the board itself is more complex. Looking closely, the board is not one nor nine images, but eighteen images neatly organized in a 3-by-3 grid. The mastery images have transparency data so they can be laid on top of the champion portraits without completely obscuring them. When the player can edit the board ("paint mode"), each image is coded as a button that copies the current brush data to the tile that was clicked. When the player is viewing the hints ("hint mode"), the image is still coded as a button, but clicking on it will simply revert the board back into paint mode.
 		</p>
 		<p>
 			Although the bottom section contains more items, the implementation is surprisingly simple. Clicking on a portrait from the champion selection item changes the current brush to the corresponding value, and a similar action occurs for the mastery medals. Clicking on the current brush icon resets it to the default value. The submit button, when clicked, triggers a check of the paint mode board. If the board satisfies every hint, then the game declares the puzzle solved.
@@ -341,9 +341,33 @@
 		</p>
 		<h2 id="ingine">The Game Engine</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			A lot of programmers like to make lists, and I am no exception. 
+			A lot of programmers (and the people who write Wikipedia articles) like to make lists and tables, and I am no exception. The game processes can be broken down into several individual components:
 		</p>	
-		
+		<ul>
+			<li>Board display</li>
+			<li>Hints</li>
+			<li>Brush selector</li>
+			<li>Brush</li>
+			<li>Validation of board</li>
+		</ul>
+		<p>
+			The board display is controlled by the user when painting a guess (this will be referred to as "paint mode") and by the hints when the player is viewing the hints (this will be referred to as "hint mode"). There is actually not a variable that keeps track of the current mode of the board. Instead, careful setup ensures that when in paint mode, there is an option to go to hint mode at any time, and when in hint mode, there is an option to go into paint mode at any time.
+		</p>
+		<p>
+			When in paint mode, clicking on a tile changes the clicked tile to the current brush. To go from paint mode to hint mode, the player clicks on one of the blue buttons on the left side of the screen. When in hint mode, clicking on the board reverts the board back into paint mode. 
+		</p>
+		<p>
+			Hints are static data; once generated they do not change. Clicking on a hint button basically overrides the board with the hint data.
+		</p>
+		<p>
+			The brush selectors are large buttons that edit the brush. The brush is basically the setting the player chooses when painting the board.
+		</p>
+		<p>
+			Validation of the board is one of those things that's simple on paper, but complex in code. On paper, you look at the board and see whether or not a hint matches at a single glance. In code, the board is assumed to be validated unless proof is presented otherwise. Every hint has to overlay itself on top of the board in every possible position until it can find itself on the board. If the polyomino cannot find itself, then the board is invalidated.
+		</p>
+		<a href="#thumb4" class="thumbnail" id="#thumb4">
+			<img src="documentation_images/documentation4.png" alt="Validation" />
+		</a>
 		<h2 id="iapirequests">API Requests</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
 			
