@@ -68,7 +68,7 @@ tempText = '';
 
 //2	Go back to board	
 tempText += 'In order to paint the board, customize your brush to the tile you want to paint with, then click on any of the board tiles to paint that tile.<br/><br/>';
-tempText += 'If you make a mistake, click on the current brush icon to reset your brush, then click on the board tile that you want to clear.<br/><br/>';
+tempText += 'If you make a mistake, click on the red X underneath the brush icon, then click on the board tile that you want to clear.<br/><br/>';
 tempText += 'Go back and forth between the hints and the board until every single hint can be found on the board. Additionally, remember that the board should contain three of each champion, and that each champion should have one of each mastery medal.<br/><br/>';
 tempText += 'When you are completely finished, click the submit button on the bottom right of the screen.';
 tutorialText.push(tempText);
@@ -470,7 +470,7 @@ function drawInfo(){
 	if (!win){
 		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; font-size: ' + (imageWidth/2) + 'px; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; line-height: ' + imageWidth + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="makeGuess();" value="&gt;&gt;" />';
 	} else {
-		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="reset();" value="↺" /><br /><input type="submit" class="btn btn-info" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="redirect();" value="Read the Dossier" />';
+		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="reset();" value="↺" /><br /><input type="submit" class="btn btn-info" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="redirect();" value="🕮" />';
 		
 	}
 	
