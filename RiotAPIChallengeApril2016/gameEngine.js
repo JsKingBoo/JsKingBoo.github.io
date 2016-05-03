@@ -439,10 +439,6 @@ function drawInfo(){
 	
 	document.getElementById("info").innerHTML = infoHtml;
 	
-	//Draw current brush
-	cbHtml = '';
-	cbHtml += '<div style="position: relative; left: 0px; top: 0px; display: inline-block">'
-	
 	var champSrc = '';
 	var masterySrc = '';
 	
@@ -458,10 +454,15 @@ function drawInfo(){
 		masterySrc = 'assets/rank' + (5 - currentBrush[1]) + '.png';
 	}
 	
+	//Draw current brush
+	cbHtml = '';
+	cbHtml += '<div style="position: relative; left: 0px; top: 0px; display: inline-block; text-align: center;">'
 	cbHtml += '<img src="' + champSrc + '" style="position: relative; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
 	//cbHtml += '<img src="' + masterySrc + '" style="position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
 	cbHtml += '<input type="image" src="' + masterySrc + '" style="position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px; width:' + imageWidth + 'px;height:' + imageWidth + 'px;" onclick="changeBrush(\'mastery\', -1); changeBrush(\'champion\', -1);"/>';
 	
+	cbHtml += '<br />';
+	cbHtml += '<input type="submit" class="btn btn-danger" style="text-align: center; position: relative; top: ' + (imageWidth/2) + 'px;" onclick="changeBrush(\'mastery\', -1); changeBrush(\'champion\', -1);" value="✖" />';
 	cbHtml += '</div>';
 	
 	document.getElementById("current-brush").innerHTML = cbHtml;
@@ -469,7 +470,7 @@ function drawInfo(){
 	if (!win){
 		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; font-size: ' + (imageWidth/2) + 'px; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; line-height: ' + imageWidth + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="makeGuess();" value="&gt;&gt;" />';
 	} else {
-		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="reset();" value="↺" /><input type="submit" class="btn btn-info" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: absolute; top: ' + (imageWidth) + 'px; left: 0px;" onclick="redirect();" value="Read the Dossier" />';
+		document.getElementById("submit-button").innerHTML = '<input type="submit" class="btn btn-primary" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="reset();" value="↺" /><br /><input type="submit" class="btn btn-info" style="text-align: center; width: ' + imageWidth + 'px; height: ' + (imageWidth/2) + 'px; line-height: ' + (imageWidth/2) + 'px; position: relative; top: ' + (imageWidth/2) + 'px; left: 0px;" onclick="redirect();" value="Read the Dossier" />';
 		
 	}
 	

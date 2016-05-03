@@ -20,6 +20,12 @@
 		
 		<div id="initial-input-wrapper" style="text-align: center">
 		<div id="initial-input" style="display: inline-block;">
+			<p>
+				Welcome to <b>Masteromino!</b> To start, please input the difficulty of the puzzles and your summoner information.
+			</p>
+			<p>
+				<b>Masteromino</b> is a puzzle game where you must fill in a 3-by-3 board with the correct champion and mastery medal that correspond to the hints provided. 
+			</p>
 			<div class="form-group">
 				<label for="start-difficulty">Start Difficulty</label>
 				<select style="inline" class="form-control" id="start-difficulty">
@@ -210,7 +216,7 @@
 	
 		<div id="loading" style="visibility: hidden;">
 			<h1>Loading Masteromino...</h1>
-			<p>"Brains and Brawlers" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p><br/>
+			<p>"Masteromino" isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</p><br/>
 		</div>
 		<noscript>ERROR: Javascript does not seem to be enabled. You need Javascript to play this game!</noscript>
 		
@@ -245,42 +251,34 @@
 			</div>
 		</div>
 		<hr>
-		<div class="row">
-			<div class="col-xs-2 col-md-3">
-				<div id="current-brush"></div>
-			</div>
-			<div class="col-xs-8 col-md-6">
-				<div id="info"></div>
-			</div>
-			<div class="col-xs-2 col-md-3">
-				<div id="submit-button"></div>
-			</div>
 		</div>
-			
-		</div>
-		
-		
-
-		
-		</div>
-		
-		<hr>
-		
-		<div class="container">
+	<div id="info-holder" style="width:100%; text-align: justify">
+		<div id="current-brush" style="position: absolute; display: inline-block;"></div>
+		<div id="info" style="position: absolute; display: inline-block;"></div>
+		<div id="submit-button" style="position: absolute; display: inline-block;"></div>
+	</div>
 	
+		
+		
+		<br />
+		<div id="bottom-of-page" class="container" style="position: relative; display: inline-block;">
+		<hr>
 		<footer>
-			<br/><br/><br/><br/>
 			<div id="disclaimer" style="font-size:10px">
 			"Masteromino" isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
 			</div>
 		</footer>
 		</div>
+		
+		</div>
+		
+
 	
 		<script>
-			/*document.getElementById("disclaimer").style.marginLeft=(imagewidth/2)+"px";
-			document.getElementById("disclaimer").style.fontSize="10px";
-			document.getElementById("howplay").style.marginLeft=(imagewidth/2)+"px";
-			document.getElementById("collapsing").style.marginLeft=(imagewidth/2)+"px";*/
+			document.getElementById("current-brush").style.left=(imageWidth/2)+"px";
+			document.getElementById("info").style.left=(imageWidth * 2)+"px";
+			document.getElementById("submit-button").style.left=(imageWidth * 11/2)+"px";
+			document.getElementById("bottom-of-page").style.top=(imageWidth*2)+"px";
 		</script>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
