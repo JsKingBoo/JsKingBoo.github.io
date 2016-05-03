@@ -1,0 +1,13 @@
+{
+  "name": "JsKingBoo RiotAPI Challenge",
+  "description": "Server for Riot API Challenge - April 2016",
+  "repository": "",
+  "logo": "",
+  "keywords": [],
+  "image": "",
+  "buildpacks": [
+	{
+		"url": "heroku/nodejs"
+	}
+  ],
+}

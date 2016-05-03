@@ -38,7 +38,7 @@ function trigger(usingApi){
 		document.getElementById("loading").style.visibility='visible';
 		document.getElementById("initial-input").style.visibility = 'hidden';
 
-		summonerName = $("#userName").val();
+		summonerName = $("#userName").val().split(' ').join('');
 		region = $("#region").val().toLowerCase().trim();
 		
 		var gotImages = 0;
@@ -52,11 +52,17 @@ function trigger(usingApi){
 			
 			callAjax(summonerName, region, 1, function(json){	
 				console.log(json.data[0]);
+				if (champImages.indexOf(json.data[0]) >= 0){
+					gotImages = -99;
+				}
 				champImages.push(json.data[0]);
 				gotImages++;
 				
 				callAjax(summonerName, region, 2, function(json){	
 					console.log(json.data[0]);
+					if (champImages.indexOf(json.data[0]) >= 0){
+						gotImages = -99;
+					}
 					champImages.push(json.data[0]);
 					gotImages++;
 				});
@@ -78,6 +84,12 @@ function trigger(usingApi){
 				
 				init();
 				
+			} else if (gotImages < 0){
+				alert("Error: data retrieved was corrupted");
+				champImages = [];
+				gotImages = 0;
+				document.getElementById("loading").style.visibility='hidden';
+				document.getElementById("initial-input").style.visibility = 'visible';
 			} else {
 				setTimeout(function(){finishInitialization();}, 1000);
 			}
@@ -94,7 +106,7 @@ function trigger(usingApi){
 function callAjax(summname, reg, num, callback){
 
 	$.ajax({
-		url: 'http://infinite-ocean-43224.herokuapp.com:8811/getData/' + reg + '/' + summname + '/' + num,
+		url: 'http://infinite-ocean-43224.herokuapp.com/getData/' + reg + '/' + summname + '/' + num,
 		//url: 'http://127.0.0.1:8811/getData/' + reg + '/' + summname + '/' + num,
 		type: 'GET',
 		contentType: "application/json; charset=utf-8",
@@ -104,7 +116,11 @@ function callAjax(summname, reg, num, callback){
 		//jsonpCallback: "callback",
 		error: function (XMLHttpRequest, textStatus, errorThrown) {
 			if (textStatus == 'timeout'){
-				alert("Error: request timed out. The server is down and hopefully will be back up soon?");
+				alert("Error: request timed out. Either the server is down and hopefully will be back up soon, or you have a connectivity issue.");
+			} else if (errorThrown.status == 429) {
+				alert("Error: the server is being overloaded. Try again in ten minutes or so.");
+			} else if (errorThrown.status == 503) {
+				alert("Error: the server is being overloaded. Try again in an hour or so.");
 			} else {
 				alert("Error " + JSON.stringify(XMLHttpRequest) + ", " + textStatus + ", " + errorThrown);
 			}

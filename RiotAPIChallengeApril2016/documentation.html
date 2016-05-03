@@ -55,7 +55,7 @@
 			If you've played this game already (you probably have; winning gives you a link here) you may or may not have noticed that "Masteromino" is similar to another game known as <a href="http://www.jellyneo.net/?go=mysterious_negg_cave">Mysterious Negg Cave</a>. (You need a Neopets account to play.) I swear that I didn't completely rip the concept from Mysterious Negg Cave; I did a similar puzzle when I was in third grade, but trying to figure out the name of the original puzzle just led me to Neopets. 
 		</p>
 		<p>
-			The concept is somewhat straightforwards. You have a 3x3 board that has to be filled by unique champion/mastery pairs. The final layout of the board should contain all the hints, which are in the shape of a <a href="https://en.wikipedia.org/wiki/Polyomino">polyomino</a>. In a way you can think of this game as "advanced tetris", to an extent.
+			The concept is somewhat straightforwards. The player is given a 3x3 board that has to be filled by unique champion/mastery pairs. The final layout of the board should contain all the hints, which are in the shape of a <a href="https://en.wikipedia.org/wiki/Polyomino">polyomino</a>. In a way you can think of this game as "advanced tetris", to an extent.
 		</p>
 		<p>
 			Playing this game with pencil and paper is very easy, but constantly designing new puzzles and solutions gets somewhat repetative and even downright boring at times. Wouldn't it be nice if you could solve ten of them in a single sitting? (And without logging in and feeling the guilt of leaving your Neopet for the last six years, you sick monster.)
@@ -113,7 +113,7 @@
 		<hr>
 		<h2 id="initialize">Initializing the Game</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			Initializing the game is the setup. It means declaring variables and functions, making an API call and drawing the items you need onto the interface. Think of it as the computer equivalent of dealing a deck of cards and making room for snacks.
+			Initializing the game is the setup. It means declaring variables and functions, making an API call and drawing the items the player needs onto the interface. Think of it as the computer equivalent of dealing a deck of cards and making room for snacks.
 		</p>
 		<p>
 			Although I did mention that I did not want to hang a spotlight over the code, I feel that breaking down the individual components of the game greatly clarifies exactly how the game is run behind the scenes. 
@@ -339,9 +339,10 @@
 		<p>
 			Third and lastly, the board, current brush, selector board, submit button, and hints buttons are drawn on the screen. Outside of using a handful of CSS tricks, this last step is sadly not as impressive as the other two, and there is not much to talk about. 
 		</p>
+		<hr>
 		<h2 id="ingine">The Game Engine</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			A lot of programmers (and the people who write Wikipedia articles) like to make lists and tables, and I am no exception. The game processes can be broken down into several individual components:
+			As you may have guessed already, I love making lists to organize my thoughts, such as how this game would be run through code. The game processes can be broken down into several individual components:
 		</p>	
 		<ul>
 			<li>Board display</li>
@@ -363,28 +364,45 @@
 			The brush selectors are large buttons that edit the brush. The brush is basically the setting the player chooses when painting the board.
 		</p>
 		<p>
-			Validation of the board is one of those things that's simple on paper, but complex in code. On paper, you look at the board and see whether or not a hint matches at a single glance. In code, the board is assumed to be validated unless proof is presented otherwise. Every hint has to overlay itself on top of the board in every possible position until it can find itself on the board. If the polyomino cannot find itself, then the board is invalidated.
+			Validation of the board is one of those things that's simple on paper, but complex in code. On paper, the player simply looks at the board and see whether or not a hint matches at a single glance. In code, the board is assumed to be validated unless proof is presented otherwise. Every hint has to overlay itself on top of the board in every possible position until it can find itself on the board. If the polyomino cannot find itself, then the board is invalidated.
 		</p>
 		<a href="#thumb4" class="thumbnail" id="#thumb4">
-			<img src="documentation_images/documentation4.png" alt="Validation" />
+			<img src="documentation_images/gif1.gif" alt="Validation" />
+			<p class="caption">Visual demonstration of the validation process.</p>
 		</a>
+		<p>
+			Because nearly every button or image click triggers a function, it is somewhat easy to track the player's progression throughout the game. Knowing such details such as the player's mouse position is unnecessary, however, so the player is only tracked during the tutorial.
+		</p>
+		<hr>
 		<h2 id="iapirequests">API Requests</h2><div class="totop"><a href="#backtotop">Back to top</a></div>	
 		<p>
-			
+			Nearly every developer who works with League of Legends data is granted an API key associated with their account. The API key allows them to use the Riot API, and Riot can track every developer's API usage. Because the API key is tied to each account, it's important that the key is secure. Because of this, directly embedding a key in a distributed client application (such as a webpage) is careless. The average Joe can right click, "Inspect Element" on the page and easily grab the key. 
 		</p>
 		<p>
-			
+			To combat this, I set up a <a href="https://nodejs.org/en/">Nodejs</a> server to handle all API requests to act as a proxy between the player and Riot.
 		</p>
 		<a href="#thumb4" class="thumbnail" id="#thumb4">
-			<img src="documentation_images/documentation4.png" alt="Test files" />
+			<img src="documentation_images/image4.png" alt="Package movement" style="height: 480px; width: auto;" />
+			<p class="caption">Diagram of how API requests are trafficked.</p>
 		</a>
 		<p>
-			
+			The red arrows indicate an incoming request, while the blue arrows indicate an outgoing request.
 		</p>
 		<p>
-			
+			Making API requests relies on two plugins to function: <a href="https://www.npmjs.com/package/express">express</a>, the easiest, if not one of the easiest, framework to set up and use, and <a href="https://www.npmjs.com/package/limiter">limiter</a>, a simple rate limiter.
 		</p>
-		
+		<p>
+			The server hosting site I use is <a href="https://www.heroku.com/">Heroku</a>, a cloud platform that boasts its easy and detailed setup for applications. 
+		</p>
+		<p>
+			Because of my inexperience with networking, the server was definitely the most difficult part of this project. I constantly ran into Cross-Origin-Resource-Sharing (CORS) errors, timeout crashes, badly formatted inputs creating a server crash, permission issues, 444 No Response errors, and other frustrations. Every issue needed its individual solution: CORS required an AJAX call using a special varient of JSON known as JSONP. (AJAX is a script method to communicate with server-side code, and JSON is a standard for formatting data.) It was originally set up with a CORS header that allowed all sources to be accepted, but Firefox didn't like that and threw an error anyways. The timeout errors usually meant faulty callback structures, and I was forced to rebuild the request structures several times as other solutions sometimes broke my timeout solution. I could go on and on about this.
+		</p>
+		<p>
+			But at the end of the day, it's important that you try learn something new every day. This project was extremely fun to build, and even the most frustrating aspects of this could never overcome the euphoric feeling of seeing everything run clean as a whistle. I learned a lot about AJAX functions and server hosting coding this, as well as extra experience in pinpointing the weirdest and most frustrating bugs and errors.
+		</p>
+		<p>
+			League of Legends is a fun, engaging, and resourceful way to pass the time, but work and school come first. I truly wish I could polish this into something big and beautiful, but I have an AP exam to study for.
+		</p>
 	</div>
 	
 	<footer>
