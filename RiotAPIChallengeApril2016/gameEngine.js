@@ -34,49 +34,9 @@ x, x: Blank tile. Example: "xx" indicates a blank tile
 
 */
 
-/*
-Here is what the tutorial should look like:
-*/
-//0	Launch				
-var tempText = ''; 
-tempText += 'Hello, welcome to Masteromino! Here is a brief run-down of the rules of the game:<br/><br/>';
-tempText += '<ul>';
-tempText += '<li>The aim of the game is to correctly fill the board according to the hints given.</li>';
-tempText += '<li>Every valid solution to the puzzle holds three of each symbol, with each holding a different mastery medal.</li>';
-tempText += '<li>On the left side, you have a series of hints. Click on the light blue buttons to view the hints. Click the board to stop viewing the hints.</li>';
-tempText += '<li>Hints show where colors and symbols should be placed in relation to the grid and each other.<br/>';
-tempText += '<li>The hints may contain tiles with only a champion, only a mastery medal, or neither. The solution will not contain these types of tiles.</li>';
-tempText += '<li>Hints cannot rotate, flip, nor cycle back to the other side of the board.</li>';
-tempText += '<li>Select your brush using the panel below the board. Click on the board to apply the brush to the board. Click on the brush to clear the brush.</li>';
-tempText += '<li>Submit your guess by clicking "Submit Guess".</li>';
-tempText += '<li>There may be more than one possible answer.</li>';
-tempText += '</ul>';
-tempText += 'This may seem complicated, but the rules are actually fairly straightfowards. Let\'s continue.<br/><br/>';
-						
-tempText += 'To begin, click on one of the blue buttons on the left side of the screen.';
-tutorialText.push(tempText);
-tempText = '';			
-			
-//1	Click hint			
-tempText += 'As you can see, clicking on the blue buttons displays a hint. In this tutorial, there are three hints. Each one is unique.<br/><br/>';
-
-tempText += 'Click on the first hint. You will see that your hint will appear on screen. In order to apply this hint, click on the champions on the bottom of the screen. This will change your brush.<br/><br/>';
-						
-tempText += 'Change your current brush into one of the tiles on the hint, then click on the hint board (not the hint buttons!) to go back to the regular board.';
-tutorialText.push(tempText);
-tempText = '';			
-
-//2	Go back to board	
-tempText += 'In order to paint the board, customize your brush to the tile you want to paint with, then click on any of the board tiles to paint that tile.<br/><br/>';
-tempText += 'If you make a mistake, click on the red X underneath the brush icon, then click on the board tile that you want to clear.<br/><br/>';
-tempText += 'Go back and forth between the hints and the board until every single hint can be found on the board. Additionally, remember that the board should contain three of each champion, and that each champion should have one of each mastery medal.<br/><br/>';
-tempText += 'When you are completely finished, click the submit button on the bottom right of the screen.';
-tutorialText.push(tempText);
-tempText = '';			
-
-
 //Initialize the game
 function init(){
+	fillTutorial();
 	createBoard();
 	buildPolyominos();
 	clearBoard();
@@ -84,7 +44,7 @@ function init(){
 	drawInfo();
 	drawHints();
 	if (tutorialStep == 0 && curDifficulty < 0){
-		$('#tutorial').find('.modal-body').html(tutorialText[0]);
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
 		$('#tutorial').modal('show');
 		tutorialStep = 1;
 	}	
@@ -193,9 +153,14 @@ function buildPolyominos(){
 		
 		//Choose number of tiles to be in polyomino. A non-uniform distribution is intentional.
 		//Math.min is included to assert that a valid amount will be chosen every time, regardless of the distribution chosen
+		//Difficulty 3 - limit to 3 extra tiles (4 total)
+		//Difficulty 2 - limit to 5 extra tiles (6 total)
 		var randAmount = randomAmountDistrubution();
 		if (curDifficulty >= 2){
 			randAmount = Math.min(3, randAmount);
+		}
+		if (curDifficulty >= 1){
+			randAmount = Math.min(5, randAmount);
 		}
 		var ITried = 30;
 		
@@ -412,11 +377,44 @@ function drawBoard(){
 	
 	//tutorial
 	if (tutorialStep == 2 && curDifficulty < 0){
-		$('#tutorial').find('.modal-body').html(tutorialText[2]);
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
 		$('#tutorial').modal('show');
 		tutorialStep = 3;
+	}
+	if (tutorialStep == 3 && curDifficulty < 0 && findIn({"monominos":[['1x','--','0x'],['1x','--','0x'],['1x','--','0x']]}, {"monominos":board})){
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+		$('#tutorial').modal('show');
+		tutorialStep = 4;
 	}	
+	if (tutorialStep == 4 && curDifficulty < 0 && findIn({"monominos":[['1x','2x','0x'],['1x','2x','0x'],['1x','2x','0x']]}, {"monominos":board})){
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+		$('#tutorial').modal('show');
+		tutorialStep = 5;
+	}
+	if (tutorialStep == 5 && curDifficulty < 0 && findIn({"monominos":[['1x','2x','00'],['1x','22','0x'],['11','2x','0x']]}, {"monominos":board})){
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+		$('#tutorial').modal('show');
+		tutorialStep = 6;
+	}		
+	if (tutorialStep == 7 && curDifficulty < 0){
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+		$('#tutorial').modal('show');
+		tutorialStep = 8;
+	}		
+	if (tutorialStep == 8 && curDifficulty < 0 && findIn({"monominos":[['1x','21','00'],['10','22','02'],['11','2x','0x']]}, {"monominos":board})){
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+		$('#tutorial').modal('show');
+		tutorialStep = 9;
+	}	
+	if (tutorialStep == 9 && curDifficulty < 0 && findIn({"monominos":[['12','21','00'],['10','22','02'],['11','20','01']]}, {"monominos":board})){
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+		$('#tutorial').modal('show');
+		tutorialStep = 10;
+	}				
 	
+	if (document.getElementById("hintsBack") != null){
+		document.getElementById("hintsBack").disabled = true;
+	}
 	drawOnBoard(board, 'applyBrush');
 	
 }
@@ -427,7 +425,7 @@ function drawInfo(){
 	
 	//Draw all champions
 	for (var i = 0; i < boardSize; i++){
-		infoHtml += '<input type="image" src="' + champImages[i] + '" style="width:' + imageWidth + 'px;height:' + imageWidth + 'px;" onclick="changeBrush(\'champion\', ' + i + ')"/>';
+		infoHtml += '<input type="image" src="' + champImages[i] + '" style="width:' + imageWidth + 'px;height:' + imageWidth + 'px;" onclick="changeBrush(\'champion\', ' + i + ')" alt="' + toName(champImages[i]) + '" />';
 	}
 	
 	infoHtml += '<br /><br />'
@@ -441,11 +439,13 @@ function drawInfo(){
 	
 	var champSrc = '';
 	var masterySrc = '';
+	var altText = 'No champion selected';
 	
 	if (currentBrush[0] < 0){
 		champSrc = 'assets/VizObscure.png';
 	} else {
 		champSrc = champImages[currentBrush[0]];
+		altText = toName(champImages[currentBrush[0]]);
 	}
 	
 	if (currentBrush[1] < 0){
@@ -457,7 +457,7 @@ function drawInfo(){
 	//Draw current brush
 	cbHtml = '';
 	cbHtml += '<div style="position: relative; left: 0px; top: 0px; display: inline-block; text-align: center;">'
-	cbHtml += '<img src="' + champSrc + '" style="position: relative; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
+	cbHtml += '<img src="' + champSrc + '" style="position: relative; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px" alt="' + altText + '" />';
 	//cbHtml += '<img src="' + masterySrc + '" style="position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
 	cbHtml += '<input type="image" src="' + masterySrc + '" style="position: absolute; top: ' + (imageWidth/2) + 'px; left: 0px; width:' + imageWidth + 'px;height:' + imageWidth + 'px;" onclick="changeBrush(\'mastery\', -1); changeBrush(\'champion\', -1);"/>';
 	
@@ -487,6 +487,8 @@ function drawHints(){
 		hintsHtml += '<input type="submit" class="btn btn-info" style="" onclick="drawPolyomino(' + i + ');" value="' + romanize(i+1) + '" />';
 	}
 	
+	hintsHtml += '<input id="hintsBack" type="submit" class="btn btn-danger" style="" onclick="drawBoard();" value="✖" disabled />';
+	
 	hintsHtml += '</div>';
 	hintsHtml += '</div>';
 	
@@ -495,14 +497,21 @@ function drawHints(){
 
 
 function drawPolyomino(n){
-	
 	//tutorial
 	if (tutorialStep == 1 && curDifficulty < 0){
-		$('#tutorial').find('.modal-body').html(tutorialText[1]);
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
 		$('#tutorial').modal('show');
 		tutorialStep = 2;
+	}
+	if (tutorialStep == 6 && curDifficulty < 0){
+		$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+		$('#tutorial').modal('show');
+		tutorialStep = 7;
 	}	
 	
+	if (document.getElementById("hintsBack") != null){
+		document.getElementById("hintsBack").disabled = false;
+	}
 	drawOnBoard(polyominos[n].monominos, 'drawBoard');
 	
 }
@@ -526,12 +535,15 @@ function drawOnBoard(array, clickMode){
 			
 			var champImageSrc = '';
 			var masteryImageSrc = '';
+			var altText = 'No champion';
 			
 			if (champImageId == 'x'){
 				champImageSrc = 'assets/VizObscure.png';
 			} else if (champImageId == '-'){
+				altText = '';
 				champImageSrc = 'assets/emptyTile.png';
 			} else {
+				altText = toName(champImages[parseInt(champImageId)]);
 				champImageSrc = champImages[parseInt(champImageId)];
 			}
 			
@@ -546,9 +558,9 @@ function drawOnBoard(array, clickMode){
 			boardHtml += '<img src="' + champImageSrc + '" style="position: relative; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' +imageWidth + 'px"/>';
 			
 			if (clickMode == 'applyBrush'){
-				boardHtml += '<input type="image" src="' + masteryImageSrc + '" style="position: absolute; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; opacity: ' + masteryOpacity + ';" onclick = "applyBrush(' + i + ', ' + j + ')" />';
+				boardHtml += '<input type="image" src="' + masteryImageSrc + '" style="position: absolute; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; opacity: ' + masteryOpacity + ';" onclick = "applyBrush(' + i + ', ' + j + ')" alt="' + altText + '"/>';
 			} else if (clickMode == 'drawBoard'){
-				boardHtml += '<input type="image" src="' + masteryImageSrc + '" style="position: absolute; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; opacity: ' + masteryOpacity + ';" onclick = "drawBoard();" />';
+				boardHtml += '<input type="image" src="' + masteryImageSrc + '" style="position: absolute; top: 0; left: 0; width: ' + imageWidth + 'px; height: ' + imageWidth + 'px; opacity: ' + masteryOpacity + ';" onclick = "drawBoard();" alt="' + altText + '" />';
 			}
 			
 			boardHtml += '</div>';
@@ -562,8 +574,8 @@ function drawOnBoard(array, clickMode){
 //I think I made the applyBrush algorithm way too complicated
 function applyBrush(x, y){
 	if (!win){
-	var oldLeft = board[x][y].charAt(0);
-	var oldRight = board[x][y].charAt(1);
+	var oldLeft = checkBoardValue(x, y, 'champion');
+	var oldRight = checkBoardValue(x, y, 'mastery');
 	var newLeft = currentBrush[0];
 	var newRight = currentBrush[1];
 	
@@ -647,7 +659,7 @@ function makeGuess(){
 	}
 	
 	//Now check if every single polyomino fits
-	//LMAO O(n^5) OP
+	//O(n^5) tho
 	for (var i = 0; i < polyominos.length; i++){
 		var found = findIn(polyominos[i], {'monominos': board, 'size': boardSize*boardSize});
 		
@@ -673,6 +685,13 @@ function makeGuess(){
 	
 	//the things I do to myself
 	if (win){
+		//tutorial
+		if (tutorialStep == 10 && curDifficulty < 0){
+			$('#tutorial').find('.modal-body').html(tutorialText[tutorialStep]);
+			$('#tutorial').modal('show');
+			tutorialStep = 11;
+		}
+		
 		curDifficulty++;
 		var alertHtml = '';
 		alertHtml += '<div class="alert alert-success alert-dismissible" role="alert">';
@@ -682,7 +701,6 @@ function makeGuess(){
 		document.getElementById("alert-holder").innerHTML = alertHtml;
 		drawInfo();
 	}
-	
 }
 
 function findIn(polyomino1, polyomino2){
@@ -728,6 +746,16 @@ function findIn(polyomino1, polyomino2){
 		}
 	}
 	return false;
+}
+
+function checkBoardValue(xcor, ycor, type){
+	if (type == 'champion'){
+		return board[xcor][ycor].charAt(0);
+	} else if (type == 'mastery'){
+		return board[xcor][ycor].charAt(1);
+	} else {
+		return board[xcor][ycor];
+	}
 }
 
 //I overcomplicated this, I think
@@ -798,3 +826,113 @@ function getBoardSizeBoard(fill){
 function redirect(){
 	window.location.href = "documentation.html";
 }
+
+function fillTutorial(){
+/*
+Here is what the tutorial should look like:
+*/
+//0	Launch				
+var tempText = ''; 
+tempText += 'Hello, welcome to Masteromino! Here is a brief run-down of the rules of the game:<br/><br/>';
+tempText += '<ul>';
+tempText += '<li>The aim of the game is to correctly fill the board according to the hints given.</li>';
+tempText += '<li>Every valid solution to the puzzle holds three of each champion, with each holding a different mastery medal.</li>';
+tempText += '<li>On the left side, you have a series of hints. Click on the light blue buttons to view the hints. Click the board to stop viewing the hints.</li>';
+tempText += '<li>Hints show where colors and symbols should be placed in relation to the grid and each other.<br/>';
+tempText += '<li>The hints may contain tiles with only a champion, only a mastery medal, or neither. The solution will not contain these types of tiles.</li>';
+tempText += '<li>Hints cannot rotate, flip, nor cycle back to the other side of the board.</li>';
+tempText += '<li>Select your brush using the panel below the board. Click on the board to apply the brush to the board. Click on the brush to clear the brush.</li>';
+tempText += '<li>Submit your guess by clicking "Submit Guess".</li>';
+tempText += '<li>There may be more than one possible answer.</li>';
+tempText += '</ul>';
+tempText += 'This may seem complicated, but the rules are actually fairly straightfowards. Let\'s continue.<br/><br/>';
+						
+tempText += 'To begin, click on one of the blue buttons on the left side of the screen.';
+tutorialText.push(tempText);
+tempText = '';			
+			
+//1	Click hint			
+tempText += 'As you can see, clicking on the blue buttons displays a hint. In this tutorial, there are three hints. Each one is unique.<br/><br/>';
+
+tempText += 'Click on the first hint. You will see that your hint will appear on screen. In order to apply this hint, click on the champions on the bottom of the screen. This will change your brush.<br/><br/>';
+						
+tempText += 'Change your current brush into one of the tiles on the hint, then click on the hint board (not the hint buttons!) to go back to the regular board.';
+tutorialText.push(tempText);
+tempText = '';			
+
+//2	Go back to board	
+tempText += 'In order to paint the board, customize your brush to the tile you want to paint with, then click on any of the board tiles to paint that tile.<br/><br/>';
+tempText += 'If you make a mistake, click on the red X underneath the brush icon, then click on the board tile that you want to clear.<br/><br/>';
+//tempText += 'Go back and forth between the hints and the board until every single hint can be found on the board. Additionally, remember that the board should contain three of each champion, and that each champion should have one of each mastery medal.<br/><br/>';
+tempText += 'Remember, hint 1 is "three ' + toName(champImages[1]) + ' on the left and three ' + toName(champImages[0]) + ' on the right"';
+tutorialText.push(tempText);
+tempText = '';			
+
+//3 Complete the first hint
+tempText += 'Congratulations! You successfully placed the first hint down!<br /><br />';
+tempText += 'Remember that you need three of each champion on the board. What spaces can you fill in the middle column?';
+tutorialText.push(tempText);
+tempText = '';
+
+//4 After filling the board with valid champs
+tempText += 'Nice! Now it\'s time to move on to hint 2.<br /><br />';
+tempText += 'Click on the second hint to view it, then copy it to the game board. Do not remove any of the champions you already placed on the board--the champion and mastery can be on the same tile at the same time. Try it.';
+tutorialText.push(tempText);
+tempText = '';
+
+//5 Finish second hint
+tempText += 'We\'re almost there! Now let\'s go to the final step.<br /><br />';
+tempText += 'Go to the third and final hint.';
+tutorialText.push(tempText);
+tempText = '';
+
+//6 Go to third hint
+tempText += 'Hmmm, this is unusual. This is smaller than a 3x3 board.<br /><br />';
+tempText += 'Hints are relatively positioned. It does not matter where the hint can be found on your answer. So long as they fit on the board, the hint still counts. Let\'s try to figure out where the position of this hint is.<br /><br />';
+tutorialText.push(tempText);
+tempText = '';
+
+//7 Go back to board
+tempText += 'If we place the hint at the top, it seems like it can fit. There does not seem to be any conflict between what we have on the board and what the hint tells us. However, we should also check what happens if we try to place the board at the bottom.<br /><br />';
+tempText += 'If we try to put the hint at the bottom, we run into an issue: the left tile on the hint is telling us that a mastery 5 tile should go here, but a mastery 4 tile already exists on the board! A conflict exists if we try to put the piece at the bottom of the board, so the correct solution is that the hint is positioned at the top.<br /><br />';
+tempText += 'Place the hint in the correct position.';
+tutorialText.push(tempText);
+tempText = '';
+
+//8 Place the third hint
+tempText += 'We have all the hint on the board, but it looks like we still have some missing values...<br /><br />';
+tempText += 'Hey, remember one of the first rules of the game? The one that goes "every valid solution to the puzzle holds three of each champion, with each holding a different mastery medal?"<br /><br />';
+tempText += 'Notice how we only have two filled mastery medals for each champion we have so far. Using process of elimination, I\'m sure you can figure out what the remaining medals are.';
+tutorialText.push(tempText);
+tempText = '';
+
+//9 Complete the board
+tempText += 'Looks good. Smells good. Even <i>tastes</i> good.<br /><br />';
+tempText += 'How about we get it checked? Click the big blue submit button on the bottom right.';
+tutorialText.push(tempText);
+tempText = '';
+
+//10 Win game
+tempText += 'There you have it. You can play again (upper button) or you can read the documentation (lower button).<br /><br />';
+tempText += 'In any case, I hope you had fun!';
+tutorialText.push(tempText);
+tempText = '';
+
+}
+
+function toName(img){
+	return img.substring('http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/'.length, img.length - '.png'.length);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
