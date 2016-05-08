@@ -120,6 +120,7 @@
 		</p>
 		<div class="well well-sm">
 	//Gameplay handlers
+	var imported = false;
 	var boardSize = 3;
 	var board = [];
 	var champs = [];
@@ -149,7 +150,10 @@
 				<th>Description</th>
 			  </tr>
 			</thead>
-			<tbody>
+			  <tr>
+				<td>imported</td>
+				<td>Determines whether the puzzle was imported or generated</td>
+			  </tr>			  
 			  <tr>
 				<td>boardSize</td>
 				<td>Defines the side length of the board</td>
@@ -219,7 +223,7 @@
 		</p>
 		<p>~~</p>
 		<p>
-			After the variables are declared, the puzzle is generated and the game is set up. The process is simple:
+			After the variables are declared, the puzzle is generated (assuming that <code>imported</code> is false) and the game is set up. The process is simple:
 		</p>
 		<ol>
 			<li>A random, valid board is generated.</li>
@@ -401,7 +405,7 @@
 			But at the end of the day, it's important that you try learn something new every day. This project was extremely fun to build, and even the most frustrating aspects of this could never overcome the euphoric feeling of seeing everything run clean as a whistle. I learned a lot about AJAX functions and server hosting coding this, as well as extra experience in pinpointing the weirdest and most frustrating bugs and errors.
 		</p>
 		<p>
-			League of Legends is a fun, engaging, and resourceful way to pass the time, but work and school come first. I truly wish I could polish this into something big and beautiful, but I have an AP exam to study for.
+			League of Legends is a fun, engaging, and resourceful way to pass the time, but work and school come first. I truly wish I could polish this into something big and beautiful, but <strike>I'm a really lazy person</strike> I have exams to study for.
 		</p>
 		<p>
 			<i>A more technical explanation can be found <a href="https://github.com/JsKingBoo/JsKingBoo.github.io/blob/master/RiotAPIChallengeApril2016/README.md">here</a></i>

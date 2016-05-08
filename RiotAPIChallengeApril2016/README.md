@@ -16,7 +16,7 @@ This is a brief explanation of the functions in the game engine and how they wor
  - `reset`: Helper function to reset the game
  - `createBoard`: Generates a valid board using the `board` variable. Called directly before `buildPolyominos`
  - `buildPolyominos`: Generates hints from a valid board. Called directly after `createBoard`, and calls `clearBoard` directly afterwards
- - `clearBoard`: Empties the board.
+ - `clearBoard`: Helper function that empties the board.
  - `drawBoard`: Draws the board on the screen
  - `drawInfo`: Draws the current brush, the brush selector, and the submit button
  - `drawHints`: Draws the hints button panel on the left side of the screen
@@ -30,6 +30,7 @@ This is a brief explanation of the functions in the game engine and how they wor
  - `randomAmountDistribution`: Helper function for `buildPolyominos`
  - `romanize`: Converts a numeral to Roman numerals. [Code by Steven Levithan](http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter)
  - `getBoardSizeBoard`: Helper function that generates an empty 2D array. Used in `createBoard`, `clearBoard`, and `buildPolyominos`
+ - `exportPuzzle`: Export the puzzle
  - `redirect`: Helper function which links to the documentation
  - `toName`: Helper function which converts champion ID into a human-readable name.
 

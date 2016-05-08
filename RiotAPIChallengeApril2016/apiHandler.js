@@ -13,8 +13,7 @@ var champIds = [];
 var done = false;
 
 function trigger(usingApi){
-
-	curDifficulty = parseInt(document.getElementById("start-difficulty").value.charAt(0)) - 1;
+	
 	if (!usingApi){
 		var tempArray = [];
 		for (var i = 0; i < boardSize; i++){
@@ -26,10 +25,12 @@ function trigger(usingApi){
 			champImages[i] = 'http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/' + document.getElementById("champion" + i).value + '.png';
 		}
 		
+		
+		init();	
+		
 		document.getElementById("loading").innerHTML = '';
 		document.getElementById("initial-input").innerHTML = '';
 		
-		init();	
 	}
 
 	if (usingApi) {
@@ -78,10 +79,9 @@ function trigger(usingApi){
 			if (gotImages == boardSize){
 				//console.log('done is true');
 				
+				init();
 				document.getElementById("loading").innerHTML = '';
 				document.getElementById("initial-input").innerHTML = '';
-				
-				init();
 				
 			} else if (gotImages < 0){
 				alert("Error: data retrieved was corrupted");

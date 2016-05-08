@@ -5,6 +5,7 @@ var cbHtml = '';
 var hintsHtml = '';
 
 //Gameplay handlers
+var imported = false;
 var boardSize = 3; //limit = 5
 var board = [];
 var champs = [];
@@ -36,9 +37,22 @@ x, x: Blank tile. Example: "xx" indicates a blank tile
 
 //Initialize the game
 function init(){
-	fillTutorial();
-	createBoard();
-	buildPolyominos();
+	value = document.getElementById("start-difficulty").value.charAt(0)
+	
+	if (value != 'I'){
+		curDifficulty = parseInt(document.getElementById("start-difficulty").value.charAt(0)) - 1;
+	} else {
+		curDifficulty = 3;
+		polyominos = JSON.parse(document.getElementById("import-puzzle").value);
+		imported = true;
+	}
+	
+	if (!imported){
+		fillTutorial();
+		createBoard();
+		buildPolyominos();
+	}
+	imported = false;
 	clearBoard();
 	drawBoard();
 	drawInfo();
@@ -488,13 +502,13 @@ function drawHints(){
 	}
 	
 	hintsHtml += '<input id="hintsBack" type="submit" class="btn btn-danger" style="" onclick="drawBoard();" value="✖" disabled />';
+	hintsHtml += '<input id="export" type="submit" class="btn btn-warning" style="" onclick="exportPuzzle();" value="⇒" />';
 	
 	hintsHtml += '</div>';
 	hintsHtml += '</div>';
 	
 	document.getElementById("hints").innerHTML = hintsHtml;
 }
-
 
 function drawPolyomino(n){
 	//tutorial
@@ -822,6 +836,27 @@ function getBoardSizeBoard(fill){
 		
 }
 
+function exportPuzzle(){
+	var alertHtml = '';
+	var polyominosToString = '[';
+	
+	for (var i = 0; i < polyominos.length; i++){
+		polyominosToString += JSON.stringify(polyominos[i]);
+		if (i < polyominos.length - 1){
+			polyominosToString += ',';
+		}
+	}
+	polyominosToString += ']';
+	
+	alertHtml += '<div class="alert alert-warning alert-dismissible" role="alert">';
+	alertHtml += '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+	alertHtml += '<strong>Share this puzzle with friends! Copy paste this code to share it with others:  </strong>';
+	alertHtml += polyominosToString;
+	alertHtml += '</div>';
+	document.getElementById("alert-holder").innerHTML = alertHtml;
+	
+}
+
 //Go to the documentation page
 function redirect(){
 	window.location.href = "documentation.html";
@@ -843,7 +878,7 @@ tempText += '<li>The hints may contain tiles with only a champion, only a master
 tempText += '<li>Hints cannot rotate, flip, nor cycle back to the other side of the board.</li>';
 tempText += '<li>Select your brush using the panel below the board. Click on the board to apply the brush to the board. Click on the brush to clear the brush.</li>';
 tempText += '<li>Submit your guess by clicking "Submit Guess".</li>';
-tempText += '<li>There may be more than one possible answer.</li>';
+tempText += '<li>Every puzzle as at least one solution. Some puzzles may have several solutions. You only need to submit one of them.</li>';
 tempText += '</ul>';
 tempText += 'This may seem complicated, but the rules are actually fairly straightfowards. Let\'s continue.<br/><br/>';
 						

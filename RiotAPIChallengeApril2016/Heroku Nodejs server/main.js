@@ -61,7 +61,7 @@ limiter.removeTokens(1, function(err, remainingRequests){
 			apiHandler.call.convertChampIDToName(apiHandler.champIds[apiHandler.champRank], function(err, data){
 				//console.log('===================CHAMP NAME ' + apiHandler.champRank);
 				//console.log('callback\nerror:' + err + '\ndata: ' + JSON.stringify(data));
-				apiHandler.champImages.push('http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + data.key + '.png');
+				apiHandler.champImages.push('http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/' + data.key + '.png');
 				//console.log('champ image url: ' + apiHandler.champImages);
 				done = apiHandler.champImages;
 				done = {'data': done};
