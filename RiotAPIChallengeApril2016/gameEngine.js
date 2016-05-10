@@ -37,15 +37,26 @@ x, x: Blank tile. Example: "xx" indicates a blank tile
 
 //Initialize the game
 function init(){
-	value = document.getElementById("start-difficulty").value.charAt(0)
+	if (document.getElementById("start-difficulty") != null){
+		value = document.getElementById("start-difficulty").value.charAt(0)
 	
-	if (value != 'I'){
-		curDifficulty = parseInt(document.getElementById("start-difficulty").value.charAt(0)) - 1;
+		if (value != 'I'){
+			curDifficulty = parseInt(document.getElementById("start-difficulty").value.charAt(0)) - 1;
+		} else {
+			curDifficulty = 3;
+			try{
+			polyominos = JSON.parse(document.getElementById("import-puzzle").value);
+			}catch(e){
+				alert("error: bad import data");
+				return;
+			}
+			imported = true;
+		}
+	
 	} else {
-		curDifficulty = 3;
-		polyominos = JSON.parse(document.getElementById("import-puzzle").value);
-		imported = true;
+		value = 3;
 	}
+	
 	
 	if (!imported){
 		fillTutorial();
@@ -62,6 +73,10 @@ function init(){
 		$('#tutorial').modal('show');
 		tutorialStep = 1;
 	}	
+	
+	document.getElementById("loading").innerHTML = '';
+	document.getElementById("initial-input").innerHTML = '';
+	
 }
 
 //Resets the game

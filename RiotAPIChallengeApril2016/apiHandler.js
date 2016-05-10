@@ -28,8 +28,6 @@ function trigger(usingApi){
 		
 		init();	
 		
-		document.getElementById("loading").innerHTML = '';
-		document.getElementById("initial-input").innerHTML = '';
 		
 	}
 
@@ -80,8 +78,6 @@ function trigger(usingApi){
 				//console.log('done is true');
 				
 				init();
-				document.getElementById("loading").innerHTML = '';
-				document.getElementById("initial-input").innerHTML = '';
 				
 			} else if (gotImages < 0){
 				alert("Error: data retrieved was corrupted");
