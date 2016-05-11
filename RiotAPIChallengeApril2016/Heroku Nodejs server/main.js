@@ -17,6 +17,7 @@ app.get('/getData/:region/:summonerName/:number', function (req, res) {
 	apiHandler.region = req.params.region;
 	apiHandler.summonerName = req.params.summonerName;
 	apiHandler.champRank = req.params.number;
+	apiHandler.key = (process.env.APIKEY);
 	apiHandler.champIds = [];
 	apiHandler.champImages = [];
 	console.log('region:' + apiHandler.region + '\nsummonerName:'+apiHandler.summonerName+'\nchampRank:'+apiHandler.champRank);
@@ -44,23 +45,40 @@ limiter.removeTokens(1, function(err, remainingRequests){
 	apiHandler.call.getSummonerID(function(err, data){
 		//console.log('===================SUMMONER ID');
 		//console.log('callback\nerror:' + err + '\ndata: ' + JSON.stringify(data));
-		apiHandler.summonerId = data[apiHandler.summonerName.replace(" ", "").toLowerCase().trim()].id;
+		apiHandler.summonerId = data[apiHandler.summonerName.replace(" ", "").toLowerCase().trim()]
+		
+		if (apiHandler.summonerId == null){
+			res.status(500).send({'data': 'error - summoner does not exist'});
+			return;
+		}
+		
+		apiHandler.summonerId = apiHandler.summonerId.id;
 		//console.log('summoner id: ' + apiHandler.summonerId);
 		
 		//lol async hell
 		//get top champs (step 3)
 		apiHandler.call.getTopChamps(function(err, data){
-			//console.log('===================TOP CHAMPS');
-			//console.log('callback\nerror:' + err + '\ndata: ' + JSON.stringify(data));
+			console.log('===================TOP CHAMPS');
+			console.log('callback\nerror:' + err + '\ndata: ' + JSON.stringify(data));	
+			if (data[2] == null){
+				res.status(500).send({'data': 'error - summoner does not have enough mastered champs'});
+				return;
+			}
+			
 			for (var i = 0; i < numChamps; i++){
 				apiHandler.champIds.push(data[i].championId);
 			}
-			//console.log('champ ids: ' + apiHandler.champIds);
+			console.log('champ ids: ' + apiHandler.champIds);
 			
 			//convert champ ids into champ names (step 4)
 			apiHandler.call.convertChampIDToName(apiHandler.champIds[apiHandler.champRank], function(err, data){
-				//console.log('===================CHAMP NAME ' + apiHandler.champRank);
-				//console.log('callback\nerror:' + err + '\ndata: ' + JSON.stringify(data));
+				console.log('===================CHAMP NAME ' + apiHandler.champRank);
+				console.log('callback\nerror:' + err + '\ndata: ' + JSON.stringify(data));
+				if (data.key == 'undefined'){
+					res.status(500).send({'data': 'error - corrupted champion data'});
+					return;
+				}
+				
 				apiHandler.champImages.push('http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/' + data.key + '.png');
 				//console.log('champ image url: ' + apiHandler.champImages);
 				done = apiHandler.champImages;

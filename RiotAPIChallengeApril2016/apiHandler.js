@@ -50,7 +50,7 @@ function trigger(usingApi){
 			
 			callAjax(summonerName, region, 1, function(json){	
 				console.log(json.data[0]);
-				if (champImages.indexOf(json.data[0]) >= 0){
+				if (champImages.indexOf(json.data[0]) >= 0 || json.data[0] == 'error'){
 					gotImages = -99;
 				}
 				champImages.push(json.data[0]);
@@ -58,7 +58,7 @@ function trigger(usingApi){
 				
 				callAjax(summonerName, region, 2, function(json){	
 					console.log(json.data[0]);
-					if (champImages.indexOf(json.data[0]) >= 0){
+					if (champImages.indexOf(json.data[0]) >= 0 || json.data[0] == 'error'){
 						gotImages = -99;
 					}
 					champImages.push(json.data[0]);
@@ -111,7 +111,7 @@ function callAjax(summname, reg, num, callback){
 		//jsonpCallback: "callback",
 		error: function (XMLHttpRequest, textStatus, errorThrown) {
 			if (textStatus == 'timeout'){
-				alert("Error: request timed out. Either the server is down and hopefully will be back up soon, or you have a connectivity issue.");
+				alert("Error: request timed out. Either the server is down (partially or fully) and hopefully will be back up soon, or you have a connectivity issue.");
 			} else if (errorThrown.status == 429) {
 				alert("Error: the server is being overloaded. Try again in ten minutes or so.");
 			} else if (errorThrown.status == 503) {

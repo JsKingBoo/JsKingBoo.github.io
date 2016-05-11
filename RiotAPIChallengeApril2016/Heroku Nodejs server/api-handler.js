@@ -17,7 +17,7 @@ var app = {
 	champIds: [],
 	champImages: [],
 	champRank: 0,
-	key: 'key',
+	key: '',
 	
 }
 
@@ -37,78 +37,11 @@ app.call = {
 	},
 
 	convertChampIDToName: function(champId, callback){
-		app.apiRequest(app.region + '.api.pvp.net', '/api/lol/static-data/' + app.region + '/v1.2/champion/' + champId + '?api_key=' + app.key, callback);
+		app.apiRequest('global.api.pvp.net', '/api/lol/static-data/' + app.region + '/v1.2/champion/' + champId + '?api_key=' + app.key, callback);
 	}
 }
 
-//I'm just following a tutorial, dude
-/*app.apiRequest = function(hostUrl, optionsUrl, callback){
-	var complete = false;
-	
-	console.log('\n\nI gotchu man\n\n');
-	
-	var options = {
-		host: hostUrl,
-		path: optionsUrl,
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	}
-	
-	var req = https.request(options, function(res) {
-		console.log('STATUS: ' + res.statusCode);
-		console.log('HEADERS: ' + JSON.stringify(res.headers));
-		res.setEncoding('utf8');
-		
-		//var data=[];
-		//var size=0;
-		
-		//
-		// On each chunk
-		//
-		res.on('data', function (chunk)
-		{
-			console.log('\n\ndata!');
-			req.write(chunk);
-			//data.push(chunk);
-			//size += chunk.length;
-			console.log('\n\n===========CHUNK===============')
-			console.log(chunk);
-		});
-
-		//
-		// On End
-		//
-		res.on('end', function(res)
-		{
-			if (complete) {
-				console.log('\n\ncompleted!');
-				return;
-			} else {
-				console.log('\n\nok');
-				complete = true;
-			}
-			console.log('\n\n=========RESPONSE END===============');
-			req.end();
-		});
-	});
-
-	//
-	// On Error
-	//
-	req.on('error', function(e)
-	{
-		console.log('\n\n==========ERROR==============')
-		console.log('problem with request: ' + e.message);
-	});
-
-	// write data to request body
-	console.log('\n\n=========REQUEST END===============');
-	req.end();
-
-}*/
-
+//tutorial time
 app.apiRequest = function(hostUrl, optionsUrl, cb) {
 
     var complete = false
