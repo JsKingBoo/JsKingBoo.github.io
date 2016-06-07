@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MonoColorify</title>
+    <link href="..//bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  </head>
+  
+  <body>
+    <div id="navbar-holder"></div>
+    <script src="../template/navbar.js"></script>	
+    <script>
+	  drawNavbar();
+	  var obj;
+    </script>	
+	
+	<div class="container">
+		<div class="jumbotron" id="holder">
+
+			<img id="blah" alt="your image" />
+			<input type="file" onchange="
+				//lol spaghetti code
+				
+				obj = new Image();
+				
+				obj.src = window.URL.createObjectURL(this.files[0]);
+				//obj.src = 'lux-emiliu.jpg'; //http://emi-liu.deviantart.com/art/Star-Guardian-Lux-VIDEO-AVAILABLE-612801296
+				
+				//console.log('trying to upload');
+				
+				obj.onload = function(){
+					drawEdittedImage();
+				}
+			
+			" \>
+			Contrast (-255 to +255): <input type="range" min="-255" max="255" id="contrastValue" onchange="drawEdittedImage();"><div id="contrastOutput">0</div><br/>
+			Brightness (-255 to +255): <input type="range" min="-255" max="255" id="brightnessValue" onchange="drawEdittedImage();"><div id="brightnessOutput">0</div><br/>
+			Red (0 to 255): <input type="range" min="0" max="255" id="redValue" onchange="drawEdittedImage();"><div id="redOutput">0</div><br/>
+			Blue (0 to 255): <input type="range" min="0" max="255" id="blueValue" onchange="drawEdittedImage();"><div id="blueOutput">0</div><br/>
+			Green (0 to 255): <input type="range" min="0" max="255" id="greenValue" onchange="drawEdittedImage();"><div id="greenOutput">0</div><br/>
+			
+			
+		</div>
+		
+	</div>
+  
+	<script>
+	    function drawEdittedImage(){
+			document.getElementById("contrastOutput").innerHTML = document.getElementById("contrastValue").value;
+			document.getElementById("brightnessOutput").innerHTML = document.getElementById("brightnessValue").value;
+			document.getElementById("redOutput").innerHTML = document.getElementById("redValue").value;
+			document.getElementById("blueOutput").innerHTML = document.getElementById("blueValue").value;
+			document.getElementById("greenOutput").innerHTML = document.getElementById("greenValue").value;
+		
+			if (typeof obj !== 'undefined'){
+					var canvas = document.createElement("canvas");
+					var canvasContext = canvas.getContext("2d");
+					
+					var imgWidth = obj.width;
+					var imgHeight = obj.height;
+					canvas.width = imgWidth;
+					canvas.height = imgHeight;
+					
+				
+					//console.log('imgWidth: ' + imgWidth);
+					//console.log('imgHeight: ' + imgHeight);
+					
+					canvasContext.drawImage(obj, 0, 0);
+					var imgPixels = canvasContext.getImageData(0, 0, imgWidth, imgHeight);
+					
+					var contrast = parseInt(document.getElementById("contrastValue").value); //-30;
+					var darken = parseInt(document.getElementById("brightnessValue").value); //-60;
+					var red = parseInt(document.getElementById("redValue").value);
+					var blue = parseInt(document.getElementById("blueValue").value);
+					var green = parseInt(document.getElementById("greenValue").value);
+					
+					
+					for (var y = 0; y < imgPixels.height; y++){
+						for (var x = 0; x < imgPixels.width; x++){
+							var i = (y * 4) * imgPixels.width + x * 4;
+							var grey = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]);
+							
+							//first contrast it
+							var factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+							imgPixels.data[i] = factor * (imgPixels.data[i] - 128) + 128;
+							imgPixels.data[i + 1] = factor * (imgPixels.data[i + 1] - 128) + 128;
+							imgPixels.data[i + 2] = factor * (imgPixels.data[i + 2] - 128) + 128;
+						
+							//then brightness it
+							imgPixels.data[i] = imgPixels.data[i] + darken;
+							imgPixels.data[i + 1] = imgPixels.data[i + 1] + darken;
+							imgPixels.data[i + 2] = imgPixels.data[i + 2] + darken;
+						
+							//then greyscale it
+							grey = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]);
+
+							imgPixels.data[i] = grey;
+							imgPixels.data[i + 1] = grey;
+							imgPixels.data[i + 2] = grey;
+
+							//TEST - INVERT
+							/*imgPixels.data[i] = 255 - imgPixels.data[i];
+							imgPixels.data[i + 1] = 255 - imgPixels.data[i + 1];
+							imgPixels.data[i + 2] = 255 - imgPixels.data[i + 2];*/
+							
+							
+							//now colorize it
+							imgPixels.data[i] = parseInt(imgPixels.data[i] * 1.0 * red / 255);
+							imgPixels.data[i + 1] = parseInt(imgPixels.data[i + 1] * 1.0 * blue / 255);
+							imgPixels.data[i + 2] = parseInt(imgPixels.data[i + 2] * 1.0 * green / 255);
+							
+							
+							
+						}
+					}
+					
+					canvasContext.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+				
+					//console.log(canvas.toDataURL());
+				
+					document.getElementById('blah').src = canvas.toDataURL();
+					//document.getElementById('blah').src = obj.src;			
+			}
+		}
+		
+		
+	</script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>

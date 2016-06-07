@@ -12,7 +12,11 @@ var replayMetadata = [
 {filename:"OU-2016-03-14-azingu-rea736",tier:"OU",date:"2016/03/14",battlers:["Azingu", "rea736"],turns:24,description:"Outplaying Sceptile's Bisharp, plus a lucky 3-turn Outrage",victor:0,elo:1400},
 {filename:"OU-2016-03-16-azingu-notcute",tier:"OU",date:"2016/03/16",battlers:["Azingu", "Not Cute"],turns:30,description:"Close game between two hyper offensive teams. Also Not Cute is actually a pretty cute guy",victor:0,elo:1500},
 {filename:"OUsuspecttest-2016-04-04-jskingboo-christou",tier:"OU Suspect Test (Hoopa-U)",date:"2016/04/04",battlers:["JsKingBoo", "christou"],turns:33,description:"Hilarious Talonflame predictions",victor:0,elo:1350},
+{filename:"OU-2016-05-10-notdfficult-jskingboo",tier:"OU",date:"2016/05/10",battlers:["notdfficuLt", "JsKingBoo"],turns:41,description:"Celebrating 1800 Elo featuring a win off hax",victor:1,elo:1800},
+{filename:"OU-2016-05-11-ktutverde-jskingboo",tier:"OU",date:"2016/05/11",battlers:["Ktutverde", "JsKingBoo"],turns:2,description:"JsKingBoo tilts to oblivion shortly after reaching 1800 Elo",victor:0,elo:1700},
+{filename:"OU-2016-05-14-jskingboo-ultair",tier:"OU",date:"2016/05/14",battlers:["JsKingBoo", "Ultair"],turns:8,description:"A \"friendly\" match featuring madness and stupidity",victor:0,elo:1500},
 
 ];
+
 
 
