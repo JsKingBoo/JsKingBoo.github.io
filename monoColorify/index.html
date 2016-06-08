@@ -41,7 +41,10 @@
 			Red (0 to 255): <input type="range" min="0" max="255" id="redValue" onchange="drawEdittedImage();"><div id="redOutput">0</div><br/>
 			Blue (0 to 255): <input type="range" min="0" max="255" id="blueValue" onchange="drawEdittedImage();"><div id="blueOutput">0</div><br/>
 			Green (0 to 255): <input type="range" min="0" max="255" id="greenValue" onchange="drawEdittedImage();"><div id="greenOutput">0</div><br/>
-			
+			Coloring option:<select name="coloring" id="coloringValue" onchange="drawEdittedImage();">
+								<option value="shade">Shade</option>
+								<option value="tint">Tint</option>
+							</select>
 			
 		</div>
 		
@@ -76,7 +79,10 @@
 					var red = parseInt(document.getElementById("redValue").value);
 					var blue = parseInt(document.getElementById("blueValue").value);
 					var green = parseInt(document.getElementById("greenValue").value);
-					
+					var coloring = document.getElementById("coloringValue").value;
+					if (coloring === ""){
+						coloring = "shade";
+					}
 					
 					for (var y = 0; y < imgPixels.height; y++){
 						for (var x = 0; x < imgPixels.width; x++){
@@ -108,10 +114,15 @@
 							
 							
 							//now colorize it
-							imgPixels.data[i] = parseInt(imgPixels.data[i] * 1.0 * red / 255);
-							imgPixels.data[i + 1] = parseInt(imgPixels.data[i + 1] * 1.0 * blue / 255);
-							imgPixels.data[i + 2] = parseInt(imgPixels.data[i + 2] * 1.0 * green / 255);
-							
+							if (coloring === "shade"){
+								imgPixels.data[i] = parseInt(imgPixels.data[i] * 1.0 * red / 255);
+								imgPixels.data[i + 1] = parseInt(imgPixels.data[i + 1] * 1.0 * blue / 255);
+								imgPixels.data[i + 2] = parseInt(imgPixels.data[i + 2] * 1.0 * green / 255);
+							} else if (coloring === "tint"){
+								imgPixels.data[i] = Math.max(Math.min(imgPixels.data[i] + red, 255), 0);
+								imgPixels.data[i + 1] = Math.max(Math.min(imgPixels.data[i + 1] + blue, 255), 0);
+								imgPixels.data[i + 2] = Math.max(Math.min(imgPixels.data[i + 2] + green, 255), 0);
+							}
 							
 							
 						}
