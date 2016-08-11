@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kancolle quick stats table</title>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="table.css">
+  </head>
+  
+  <body> <!-- le copy paste -->
+
+    <div id="navbar-holder"></div>
+    <script src="../template/navbar.js"></script>
+    <script>
+	  drawNavbar();
+    </script>	
+	
+<!-- DO STUFF HERE -->	
+	
+	<!-- sorting -->
+	<div class="container">
+		<div class="form-group row">
+			<label for="sel1" class="col-xs-1 control-label">Sort by:</label>
+			<span class="col-xs-6">
+				<select class="form-control" id="sel1">
+					<option>Number</option>
+					<option>Name</option>
+					<option>Type</option>
+					<option>Class</option>
+					<option>Equipment Slots</option>
+					<option>Firepower</option>
+					<option>Torpedo</option>
+					<option>Antiair</option>
+					<option>Antisub</option>
+					<option>View range (LOS)</option>
+					<option>Luck</option>
+					<option>Health</option>
+					<option>Armor</option>
+					<option>Evasion</option>
+					<option>Speed</option>
+					<option>Range</option>
+					<option>Fuel</option>
+					<option>Ammunition</option>
+					<option>BST</option>
+				</select>
+			</span>
+			<span class="col-xs-2">
+				<div class="checkbox">
+					<label><input id="ascend" type="checkbox" value="">Ascending</label>
+				</div>
+			</span>
+			<span class="col-xs-1">
+				<button type="button" class="btn btn-primary" onclick="inputSort(document.getElementById('sel1').options[sel1.selectedIndex].text.toLowerCase());">Sort</button>			
+			</span>
+		</div>
+	</div>
+
+	<hr />
+	<!-- filtering -->
+	<div class="container">
+		<div class="checkbox" id="shipclasslist">
+				<label>
+					<input type="checkbox" id="DD" checked> 駆逐艦 (Destroyer; DD)
+				</label>
+				<label>
+					<input type="checkbox" id="AS" checked> 潜水母艦 (Submarine Tender; AS)
+				</label>
+				<label>
+					<input type="checkbox" id="SS" checked> 潜水艦 (Submarine; SS)
+				</label>
+				<label>
+					<input type="checkbox" id="SSV" checked> 潜水空母 (Submarine Aircraft Carrier; SSV)
+				</label>
+				<label>
+					<input type="checkbox" id="CL" checked> 軽巡洋艦 (Light Cruiser; CL)
+				</label>
+				<label>
+					<input type="checkbox" id="CLT" checked> 重雷装巡洋艦 (Torpedo Cruiser; CLT)
+				</label>
+				<label>
+					<input type="checkbox" id="CLp" checked> 練習巡洋艦 (Training Cruiser; CLp)	
+				</label>
+				<label>
+					<input type="checkbox" id="CA" checked> 重巡洋艦 (Heavy Cruiser; CA)
+				</label>
+				<label>
+					<input type="checkbox" id="CAV" checked> 航空巡洋艦 (Aviation Cruiser; CAV)
+				</label>
+				<label>
+					<input type="checkbox" id="AV" checked> 水上機母艦 (Seaplane Tender; AV)
+				</label>
+				<label>
+					<input type="checkbox" id="CVL" checked> 軽空母 (Light Aircraft Carrier; CVL)
+				</label>
+				<label>
+					<input type="checkbox" id="CV" checked> 航空母艦 (Aircraft Carrier; CV)
+				</label>
+				<label>
+					<input type="checkbox" id="BB" checked> 戦艦 (Battleship; BB)
+				</label>
+				<label>
+					<input type="checkbox" id="BBV" checked> 航空戦艦 (Aviation Battleship; BBV)
+				</label>
+				<label>
+					<input type="checkbox" id="LHA" checked> ドック型揚陸艦 (Amphibious Assault Ship; LHA)
+				</label>
+				<label>
+					<input type="checkbox" id="AR" checked> 工作艦 (Repair Ship; AR)
+				</label>
+				<!-- <label>
+					<input type="checkbox" id="AO" checked> 給油艦 (Fleet Oiler)
+				</label> -->
+			</div>
+		<div class="form-group row">
+			<span class="col-xs-1">
+				<button type="button" class="btn btn-primary" onclick="inputSort('filter');">Filter</button>			
+			</span>
+		</div>
+	</div>
+	
+	
+	<hr />
+	<!-- table -->
+	<div class="table-responsive">
+		<table class="table" id="kancolle">
+			<thead><tr><th>Order</th><th>#</th><th>Name</th><th>Romanized Name</th><th>Type</th><th>Subtype</th><th>Class</th><th>Remodel</th><th><img src="icons/equipment.png" alt="Equipment slots"></th><th><img src="icons/firepower.png" alt="Firepower"></th><th><img src="icons/torpedo.png" alt="Torpedo"></th><th><img src="icons/antiair.png" alt="Antiair"></th><th><img src="icons/antisub.png" alt="Antisub"></th><th><img src="icons/viewrange.png" alt="View range (LOS)"></th><th><img src="icons/luck.png" alt="Luck"></th><th><img src="icons/health.png" alt="Health"></th><th><img src="icons/armor.png" alt="Armor"></th><th><img src="icons/evasion.png" alt="Evasion"></th><th><img src="icons/speed.png" alt="Speed"></th><th><img src="icons/range.png" alt="Range"></th><th><img src="icons/fuel.png" alt="Fuel"></th><th><img src="icons/ammo.png" alt="Ammunition"></th><th>Requires Blueprint</th><th>Requires LSC</th><th>Is Buildable</th><th>Base stats total</th></tr></thead>
+		</table>
+	</div>
+		
+	<script src="shipgirl-data.js"></script>
+	<script>
+		function drawTable(){
+		
+			//get table
+			var table = document.getElementById("kancolle");
+			//clear all rows
+			for (var i = table.rows.length - 1; i > 0; i--){
+				table.deleteRow(i);
+			}
+			
+			//add ships
+			rank = 1;
+			for (i = 0; i < shipData.length; i++){
+			
+				//hold up, is this filtered?
+				var filter = shipData[i]['shiptype'].toUpperCase();;
+				switch (filter){
+					case "DD":
+						if (!document.getElementById("DD").checked){
+							continue;
+						}
+						break;
+					case "AS":
+						break;
+					case "SS":
+						break;
+					case "CL":
+						break;
+					case "CA":
+						break;
+					case "AV":
+						break;
+					case "BB":
+						break;
+					case "CV":
+						break;
+					case "CVL":
+						break;
+				}
+				
+				
+				//nah we all good
+				var row = table.insertRow();
+
+				//rank
+				row.insertCell().innerHTML = rank;
+				rank++;
+				
+				//number
+				row.insertCell().innerHTML = shipData[i]['no'];
+				
+				//name
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['name'];
+				tempcell.innerHTML = tempdata;
+				if (tempdata == "Median改"){
+					tempcell.id = "blue";
+				}
+				
+				//romanized name
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['roman'];
+				tempcell.innerHTML = tempdata;
+				if (tempdata == "Median Kai"){
+					tempcell.id = "blue";
+				}
+				
+				//type
+				row.insertCell().innerHTML = shipData[i]['shiptype'];
+				
+				//subtype
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['shipsubtype'];
+				if (tempdata != null){
+					tempcell.id = "blue";
+					tempcell.innerHTML = tempdata;
+				}
+				
+				//class
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['shipclass'];
+				tempcell.innerHTML = tempdata;
+				if (tempdata == "Median"){
+					tempcell.id = "blue";
+				}
+				
+				//remodel
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['remodel'];
+				if (tempdata < 0){
+					tempcell.id = "yellow";
+					tempcell.innerHTML = "N/A";
+				} else {
+					tempcell.innerHTML = tempdata;
+				}
+				
+				//slots
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['slots'];
+				tempput = "";
+				tempsum = 0;
+				for (j = 0; j < 4; j++){
+					if (tempdata[j] >= 0){
+						tempput += tempdata[j] + ",";
+						tempsum += tempdata[j];
+					}
+				}
+				tempput = tempsum + " [" + tempput.substring(0, tempput.length - 1) + "]";
+				tempcell.innerHTML = tempput;
+				
+				//stats
+				row.insertCell().innerHTML = shipData[i]['firepower'];
+				row.insertCell().innerHTML = shipData[i]['torpedo'];
+				row.insertCell().innerHTML = shipData[i]['antiair'];
+				row.insertCell().innerHTML = shipData[i]['antisub'];
+				row.insertCell().innerHTML = shipData[i]['viewrange'];
+				row.insertCell().innerHTML = shipData[i]['luck'];
+				row.insertCell().innerHTML = shipData[i]['health'];
+				row.insertCell().innerHTML = shipData[i]['armor'];
+				row.insertCell().innerHTML = shipData[i]['evasion'];
+				row.insertCell().innerHTML = shipData[i]['speed'];
+				row.insertCell().innerHTML = shipData[i]['range'];
+				row.insertCell().innerHTML = shipData[i]['fuel'];
+				row.insertCell().innerHTML = shipData[i]['ammo'];
+				
+				//blueprint
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['blueprint'];
+				if (tempdata){
+					tempcell.id = "green";
+				}
+				tempcell.innerHTML = tempdata;
+				
+				//lcs
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['lsc'];
+				if (tempdata){
+					tempcell.id = "green";
+				}
+				tempcell.innerHTML = tempdata;
+				
+				//buildable
+				tempcell = row.insertCell();
+				tempdata = shipData[i]['buildable'];
+				if (!tempdata){
+					tempcell.id = "red";
+				}
+				tempcell.innerHTML = tempdata;
+				
+				//base stats total
+				row.insertCell().innerHTML = shipData[i]['bst'];
+				
+			}
+		}
+		function calculateBST(){
+			for (i = 0; i < shipData.length; i++){
+				shipData[i].bst = shipData[i]['firepower'] + shipData[i]['torpedo'] + shipData[i]['antiair'] + shipData[i]['antisub'] + shipData[i]['viewrange'] + shipData[i]['luck'] + shipData[i]['health'] + shipData[i]['armor'] + shipData[i]['evasion'];
+			}
+		}
+		function inputSort(inSort){
+			ascend = document.getElementById('ascend').checked;
+			switch(inSort){
+				case "number":
+					shipData.sort(sortByField("no", ascend, parseInt));
+					break;
+				case "name":
+					shipData.sort(sortByField("roman", ascend, function(a){
+						return a.toLowerCase();
+					}));
+					break;
+				case "type":
+					shipData.sort(sortByField("shipsubtype", ascend, function(a){
+						if (a === null){
+							return '0';
+						}
+						return a.toLowerCase();
+					}));
+					shipData.sort(sortByField("shiptype", ascend, function(a){
+						return a.toLowerCase();
+					}));
+					break;
+				case "shipclass":
+					shipData.sort(sortByField("shipclass", ascend, function(a){
+						return a.toLowerCase();
+					}));
+					break;
+				case "equipment slots":
+					shipData.sort(sortByField("slots", ascend, function(a){
+						base = 0;
+						planes = 0;
+						for (i = 0; i < 4; i++){
+							if (a[i] >= 0){
+								base+=1000;
+								planes+=a[i];
+							}
+						}
+						return base+planes;
+					}));
+					break;
+				case "firepower":
+					shipData.sort(sortByField("firepower", ascend, parseInt));
+					break;
+				case "torpedo":
+					shipData.sort(sortByField("torpedo", ascend, parseInt));
+					break;
+				case "antiair":
+					shipData.sort(sortByField("antiair", ascend, parseInt));
+					break;
+				case "antisub":
+					shipData.sort(sortByField("antisub", ascend, parseInt));
+					break;
+				case "view range (los)":
+					shipData.sort(sortByField("viewrange", ascend, parseInt));
+					break;
+				case "luck":
+					shipData.sort(sortByField("luck", ascend, parseInt));
+					break;
+				case "health":
+					shipData.sort(sortByField("health", ascend, parseInt));
+					break;
+				case "armor":
+					shipData.sort(sortByField("armor", ascend, parseInt));
+					break;
+				case "evasion":
+					shipData.sort(sortByField("evasion", ascend, parseInt));
+					break;
+				case "speed":
+					shipData.sort(sortByField("speed", ascend, function(a){
+						if (a == "Slow"){
+							return 0;
+						}
+						if (a == "Fast"){
+							return 1;
+						}
+						return -1;
+					}));
+					break;
+				case "range":
+					shipData.sort(sortByField("range", ascend, function(a){
+						if (a == "Short"){
+							return 0;
+						}
+						if (a == "Medium"){
+							return 1;
+						}
+						if (a == "Long"){
+							return 2;
+						}
+						if (a == "Very Long"){
+							return 3;
+						}
+						return -1;
+					}));
+					break;
+				case "fuel":
+					shipData.sort(sortByField("fuel", ascend, parseInt));
+					break;
+				case "ammunition":
+					shipData.sort(sortByField("ammo", ascend, parseInt));
+					break;
+				case "bst":
+					shipData.sort(sortByField("bst", ascend, parseInt));
+					break;
+				case "filter":
+					//kinda feeling lazy rn
+
+					break;
+				default: break;
+			}
+			drawTable();
+		}
+		function sortByField(field, reverse, primer){
+			var key = function (x) {return primer ? primer(x[field]) : x[field]};
+
+			return function (a,b) {
+				var A = key(a), B = key(b);
+				return ( (A < B) ? -1 : ((A > B) ? 1 : 0) ) * [-1,1][+!!reverse];                  
+			}
+		}
+		function findMedianShip(){
+			var median = {"torpedo":[],"no":[],"luck":[],"ammo":[],"remodel":[],"fuel":[],"roman":"Median Kai","shipsubtype":null,"health":[],"range":[],"shiptype":[],"buildable":[],"antiair":[],"speed":[],"blueprint":[],"firepower":[],"slots":[],"armor":[],"shipclass":"Median","name":"Median改","viewrange":[],"antisub":[],"evasion":[],"lsc":[]};
+			sum = 0;
+			var measuredProperties = ["no", "shiptype", "remodel", "slots", "firepower", "torpedo", "antiair", "antisub", "viewrange", "luck", "health", "armor", "evasion", "speed", "range", "fuel", "ammo", "blueprint", "lsc", "buildable"];
+			//add everything to array
+			for (i = 0; i < shipData.length; i++){
+				for (j = 0; j < measuredProperties.length; j++){
+					median[measuredProperties[j]].push(shipData[i][measuredProperties[j]]);
+				}
+			}
+			//median array
+			for (i = 0; i < measuredProperties.length; i++){
+				median[measuredProperties[i]] = findMedian(median[measuredProperties[i]]);
+			}
+			//push to shipdata
+			shipData.push(median);
+			
+			function findMedian(values){
+				values.sort();
+
+				var half = Math.floor(values.length/2);
+
+				if (values.length % 2) {
+					return values[half];
+				} else if (typeof values[0] == "number"){
+					return (values[half-1] + values[half]) / 2.0;
+				} else {
+					return values[half-1];
+				}
+			}
+		}
+	</script>
+	<script>
+		findMedianShip();
+		calculateBST();
+		inputSort("type");
+		drawTable();
+	</script>
+<!-- STOP DOING STUFF HERE -->	
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
