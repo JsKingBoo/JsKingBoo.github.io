@@ -115,7 +115,7 @@
 			</div>
 		<div class="form-group row">
 			<span class="col-xs-1">
-				<button type="button" class="btn btn-primary" onclick="inputSort('filter');">Filter</button>			
+				<button type="button" class="btn btn-primary" onclick="drawTable();">Filter</button>			
 			</span>
 		</div>
 	</div>
@@ -145,8 +145,8 @@
 			for (i = 0; i < shipData.length; i++){
 			
 				//hold up, is this filtered?
-				var filter = shipData[i]['shiptype'].toUpperCase();;
-				switch (filter){
+				var filter = shipData[i]['shiptype'].toUpperCase();
+				/*switch (filter){
 					case "DD":
 						if (!document.getElementById("DD").checked){
 							continue;
@@ -168,6 +168,9 @@
 						break;
 					case "CVL":
 						break;
+				}*/
+				if (!document.getElementById(filter).checked){
+					continue;
 				}
 				
 				
@@ -393,10 +396,6 @@
 				case "bst":
 					shipData.sort(sortByField("bst", ascend, parseInt));
 					break;
-				case "filter":
-					//kinda feeling lazy rn
-
-					break;
 				default: break;
 			}
 			drawTable();
@@ -410,21 +409,27 @@
 			}
 		}
 		function findMedianShip(){
-			var median = {"torpedo":[],"no":[],"luck":[],"ammo":[],"remodel":[],"fuel":[],"roman":"Median Kai","shipsubtype":null,"health":[],"range":[],"shiptype":[],"buildable":[],"antiair":[],"speed":[],"blueprint":[],"firepower":[],"slots":[],"armor":[],"shipclass":"Median","name":"Median改","viewrange":[],"antisub":[],"evasion":[],"lsc":[]};
-			sum = 0;
-			var measuredProperties = ["no", "shiptype", "remodel", "slots", "firepower", "torpedo", "antiair", "antisub", "viewrange", "luck", "health", "armor", "evasion", "speed", "range", "fuel", "ammo", "blueprint", "lsc", "buildable"];
-			//add everything to array
-			for (i = 0; i < shipData.length; i++){
-				for (j = 0; j < measuredProperties.length; j++){
-					median[measuredProperties[j]].push(shipData[i][measuredProperties[j]]);
+			var deservesMedian = ["DD", "SS", "CL", "CA", "AV", "CVL", "CV", "BB"];
+			
+			deservesMedian.forEach((stype) => {
+				var median = {"torpedo":[],"no":[],"luck":[],"ammo":[],"remodel":[],"fuel":[],"roman":"Median Kai","shipsubtype":null,"health":[],"range":[],"shiptype":stype,"buildable":[],"antiair":[],"speed":[],"blueprint":[],"firepower":[],"slots":[],"armor":[],"shipclass":"Median","name":"Median改","viewrange":[],"antisub":[],"evasion":[],"lsc":[]};
+				sum = 0;
+				var measuredProperties = ["no", "remodel", "slots", "firepower", "torpedo", "antiair", "antisub", "viewrange", "luck", "health", "armor", "evasion", "speed", "range", "fuel", "ammo", "blueprint", "lsc", "buildable"];
+				//add everything to array
+				for (i = 0; i < shipData.length; i++){
+					if (shipData[i].shiptype === stype) {
+						for (j = 0; j < measuredProperties.length; j++){
+							median[measuredProperties[j]].push(shipData[i][measuredProperties[j]]);
+						}
+					}
 				}
-			}
-			//median array
-			for (i = 0; i < measuredProperties.length; i++){
-				median[measuredProperties[i]] = findMedian(median[measuredProperties[i]]);
-			}
-			//push to shipdata
-			shipData.push(median);
+				//median array
+				for (i = 0; i < measuredProperties.length; i++){
+					median[measuredProperties[i]] = findMedian(median[measuredProperties[i]]);
+				}
+				//push to shipdata
+				shipData.push(median);
+			});
 			
 			function findMedian(values){
 				values.sort();
