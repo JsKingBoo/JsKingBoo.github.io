@@ -36,6 +36,20 @@
 				}
 			
 			" \>
+			<!--<div class="input-group">
+				<input type="text" class="form-control" id="imageURL" placeholder="URL">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="
+						obj = new Image();
+						obj.src = document.getElementById('imageURL').value;
+						obj.onload = function() {
+							drawEdittedImage();
+						}
+					">Submit image</button>
+				</span>
+			</div>
+			//due to CORS limitations and the fact that I am willing to spend 0 monies on this, URL upload is unavailable
+			-->
 			Contrast (-255 to +255): <input type="range" min="-255" max="255" id="contrastValue" onchange="drawEdittedImage();"><div id="contrastOutput">0</div><br/>
 			Brightness (-255 to +255): <input type="range" min="-255" max="255" id="brightnessValue" onchange="drawEdittedImage();"><div id="brightnessOutput">0</div><br/>
 			Red (0 to 255): <input type="range" min="0" max="255" id="redValue" onchange="drawEdittedImage();"><div id="redOutput">0</div><br/>

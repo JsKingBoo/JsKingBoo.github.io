@@ -363,6 +363,8 @@ function submitAnswer(){
 		document.getElementById('error').innerHTML = '<h3 style="color:#990000">Error: empty answer</h3>';
 		return;
 	}
+	
+	answer = answer.toLowerCase();
 
 	var intInv = 1; //invert
 	if (invert){
