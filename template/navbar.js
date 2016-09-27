@@ -1,6 +1,9 @@
 function drawNavbar(){ 
 
 	//FUTURE ME: DON'T EDIT ANYTHING BETWEEN THIS AND THAT
+	
+	//past me: what the flying fuck made you think this was a good idea
+	//         now I have to work around your bullshit
 
 	////////////////////////////THIS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	
@@ -27,8 +30,8 @@ function drawNavbar(){
 
 	html += '        <li><a href="/index.html">Home</a></li>';		
 	html += '        <li><a href="/news/main.html">News</a></li>';			
-	html += '        <li><a href="/League of Legends Hide and Seek/main.html">LoL Hide and Seek</a></li>';
-	html += '        <li><a href="/Riot API Challenge 2.0/index.html">Brains and Brawlers</a></li>';		
+	//html += '        <li><a href="/League of Legends Hide and Seek/main.html">LoL Hide and Seek</a></li>';
+	//html += '        <li><a href="/Riot API Challenge 2.0/index.html">Brains and Brawlers</a></li>';		
 	html += '        <li><a href="/gallery.html">Misc Things</a></li>';	
 
 	///////////////////////////THIS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
