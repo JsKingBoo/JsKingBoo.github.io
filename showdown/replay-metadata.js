@@ -16,6 +16,7 @@ var replayMetadata = [
 {filename:"OU-2016-05-11-ktutverde-jskingboo",tier:"OU",date:"2016/05/11",battlers:["Ktutverde", "JsKingBoo"],turns:2,description:"JsKingBoo tilts to oblivion shortly after reaching 1800 Elo",victor:0,elo:1700},
 {filename:"OU-2016-05-14-jskingboo-ultair",tier:"OU",date:"2016/05/14",battlers:["JsKingBoo", "Ultair"],turns:8,description:"A \"friendly\" match featuring madness and stupidity",victor:0,elo:1500},
 {filename:"OU-2016-09-21-oumodsrfags-noobab",tier:"OU",date:"2016/09/21",battlers:["OUmodsRfags", "Noobab"],turns:371,description:"Stall versus stall, featuring King Zappy",victor:0,elo:1800},
+{filename:"OU-2016-10-06-abr-idmtubby",tier:"OU",date:"2016/10/06",battlers:["ABR", "idm tubby"],turns:1287,description:"ABR and Tele *really* hate each other. Like, a lot.",victor:0,elo:2000},
 ];
 
 
